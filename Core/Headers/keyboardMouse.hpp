@@ -1,3 +1,5 @@
+#ifndef KEYBOARDMOUSE_HPP
+#define KEYBOARDMOUSE_HPP
 #include "inputListener.hpp"
 
 ///@file
@@ -33,3 +35,4 @@ class KeyboardMouse : public InputListener {
   /*sf::vector2f*/
   sf::Vector2f getMousePos(sf::RenderWindow& window) override;
 };
+#endif  // KEYBOARDMOUSE_HPP

@@ -1,3 +1,5 @@
+#ifndef INPUTLISTENER_HPP
+#define INPUTLISTENER_HPP
 #include "../../SFML-master/include/SFML/Graphics.hpp"
 ///@file
 ///\brief
@@ -31,3 +33,4 @@ class InputListener {
   /*sf::Vector2f*/
   virtual sf::Vector2f getMousePos(sf::RenderWindow& window);
 };
+#endif  // INPUTLISTENER_HPP
