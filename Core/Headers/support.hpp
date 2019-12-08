@@ -2,7 +2,29 @@
 #define SUPPORT_HPP
 
 #include "../../SFML-master/include/SFML/Graphics.hpp"
+#include "inputHandler.hpp"
+
 #include <functional>
+
+///\brief
+/// Enum class that contains input types.
+enum class inputType { keyboard, controller };
+
+///\brief
+/// Enum class that contains keywords representing actions.
+enum class actionKeyword {
+    escape,
+    select,
+    left,
+    up,
+    right,
+    down,
+    // Reserved action keywords, usage depends on game state.
+    action1,
+    action2,
+    action3,
+    action4
+};
 
 ///@file
 ///\brief
@@ -29,6 +51,13 @@ class Action {
     Action(std::function<bool()> condition, std::function<void()> work)
       : condition(condition), 
      work(work) {};
+    ///\brief
+    ///Constructor that expects a actionKeyword and the work
+    ///\details
+    /*This constructor expects the custom actionKeywords to do the work.*/
+    Action(actionKeyword keyword, std::function<void()> work)
+      : condition([keyword]() -> bool {return inputHandler.checkInput(keyword);}),
+      work(work) {};
     ///\brief
     /// Constructor that expects a sf::Keyboard::Key as condition.
     ///@param key
@@ -67,26 +96,6 @@ class Action {
     /*When the class is "called" the condition will be checked,
     if the condition is true the "work" will be done.*/
     void operator()();
-};
-
-///\brief
-/// Enum class that contains input types.
-enum class inputType { keyboard, controller };
-
-///\brief
-/// Enum class that contains keywords representing actions.
-enum class actionKeyword {
-    escape,
-    select,
-    left,
-    up,
-    right,
-    down,
-    // Reserved action keywords, usage depends on game state.
-    action1,
-    action2,
-    action3,
-    action4
 };
 
 #endif
