@@ -8,5 +8,5 @@ The player can collect powerups, to make their journey easier.
 The user can make their own levels as well. 
 
 ## About the team
-We are just a group of students, trying to finish a college project. 
+We are just a group of students, trying to finish a college project.  
 Striving to make a scary, exciting game to scare the hell out of our teachers.
