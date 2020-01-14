@@ -1,0 +1,10 @@
+{AlwaysBreakBeforeMultilineStrings: false, 
+AlwaysBreakTemplateDeclarations: true, 
+IndentCaseLabels: true, 
+IndentPPDirectives: AfterHash, 
+IndentWidth: '4', 
+NamespaceIndentation: All,
+PointerAlignment: Middle, 
+ReflowComments: true, 
+SortIncludes: false, 
+SpaceAfterTemplateKeyword: false}
