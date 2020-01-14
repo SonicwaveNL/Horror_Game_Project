@@ -1,5 +1,6 @@
-# Horror Game Project
-#### By Team Booh
+Horror Game Project
+======
+###### By Team Booh
 
 ## About this game
 We are making an SFML top-down horror game, where the user has to navigate their way through a maze, finding multiple 'levers' and eventually opening the level's door.  
