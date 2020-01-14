@@ -7,6 +7,6 @@ bool KeyboardMouse::checkInput( sf::Keyboard::Key & input ){
     return false;
 }
 
-sf::Vector2f KeyboardMouse::getMousePos(){
+sf::Vector2f KeyboardMouse::getMousePos(sf::RenderWindow& window){
     return window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }

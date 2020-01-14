@@ -1,4 +1,4 @@
-#include "../SFML/Graphics.hpp"
+#include "../../SFML-master/include/SFML/Graphics.hpp"
 ///@file
 ///\brief
 /// Abstract class for hardware input.
@@ -25,7 +25,9 @@ class InputListener {
 
   ///\brief
   /// Abstract function that checks the position of the mouse and returns it.
+  ///@param window
+  /*sf::RenderWindow &*/
   ///@return
   /*sf::Vector2f*/
-  virtual sf::Vector2f getMousePos();
+  virtual sf::Vector2f getMousePos(sf::RenderWindow& window);
 };
