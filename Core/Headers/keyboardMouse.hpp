@@ -12,11 +12,13 @@ class KeyboardMouse : public inputListener {
   public:
     ///\brief
     /// checkInput( sf::Keyboard::Key & input ) function.
-    ///@param input
-    /*sf::Keyboard::Key &*/
     ///\details
     /*checkinput function that returns a bool that gives if the key was
      * pressed.*/
+    ///@param input
+    /*sf::Keyboard::Key &*/
+    ///@return
+    /*bool*/
     bool checkInput(sf::Keyboard::Key & input) override;
 
     // void checkInput(sf::Joystick::Axis & input) override;
@@ -26,5 +28,7 @@ class KeyboardMouse : public inputListener {
     ///\details
     /*getMousepos returns the current mouseposition on the screen in
      * sf::Vector2f format*/
+    ///@return
+    /*sf::vector2f*/
     sf::Vector2f getMousePos() override;
 };
