@@ -6,9 +6,11 @@
 
 class WindowHandler {
   private:
-    void draw(sf::RenderWindow & window, std::vector<object *> & objects);
+    void draw(std::vector<IObject *> & objects);
+    sf::RenderWindow & window;
 
   public:
-}
+    WindowHandler(sf::RenderWindow & window) : window(window) {}
+};
 
 #endif // WindowHandler_hpp

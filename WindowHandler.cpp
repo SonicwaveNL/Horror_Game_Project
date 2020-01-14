@@ -1,8 +1,8 @@
 #include "WindowHandler.hpp"
 
-void WindowHandler::draw(sf::RenderWindow & window, std::vector<object*> & objects){
+void WindowHandler::draw(std::vector<IObject*> & objects){
     window.clear();
-    for(object* obj : objects){
-        obj.draw(window);
+    for(IObject* obj : objects){
+        obj->draw(window);
     }
 }
