@@ -1,32 +1,34 @@
 #include "wall.hpp"
-//Todo - sprite has to become a rectngle
-//update sfml path to sfml-master
-//IObject sprite to rectangle
-//IObject interact to void
-//interact to the interact like we used here
-void Wall::move(sf::Vector2f direction) override {
+
+void Wall::moveIfPossible(sf::Vector2f direction) override {
+    prevPosition = position;
+
     position = position + direction * speed;
+    for (IObject * obj : objects) {
+        if (obj->intersect(this)) {
+            collision(obj);
+        }
+    }
 }
 
-void Wall::jump(sf::Vector2f target) override { position = target; }
-
-bool Wall::isColliding(IObject & obj) override {
-    return sprite.getGlobalBounds().intersects(obj.getBounds());
+void Wall::jump(sf::Vector2f target) override {
+    prev_position = position;
+    position = target;
 }
 
-// calls isColliding and does something if the user presses the interact button
-void interact(IObject & obj) override { 
-    if(isColliding(obj) == false){
-        return;
-    }
+bool Wall::intersect(IObject & obj) override {
+    return base.getGlobalBounds().intersects(obj.getBounds());
+}
 
-    return 
-    }
+void Wall::collision(IObject & obj) override {
+    position = prevPosition;
+    return;
+}
 
 void Wall::draw(sf::RenderWindow & window) override {
-    sprite.setTexture(texture);
-    sprite.setPosition(position);
-    window.draw(sprite);
+    base.setFillColor(color);
+    base.setPosition(position);
+    window.draw(base);
 }
 
-sf::FloatRect Wall::getBounds() override { return sprite.getGlobalBounds(); }
+sf::FloatRect Wall::getBounds() override { return base.getGlobalBounds(); }

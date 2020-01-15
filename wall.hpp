@@ -2,7 +2,7 @@
 #define Wall_hpp
 
 #include "IObject.hpp"
-#include <SFML/Graphics.hpp>
+#include "SFML-master/Graphics.hpp"
 
 ///@file
 ///\brief
@@ -16,25 +16,28 @@ class Wall : public IObject {
     ///\details
     /// It takes in a color, texture and position, to initialize the IObject
     /// instance.
-    ///@param color
-    /*An sfml colour, which the wall will be when the texture isn't loaded.*/
-    ///@param texture
-    /*The texture the wall will be.*/
+    ///@param size
+    /*The size the wall will be.*/
     ///@param position
     /*The location the top left corner of the wall will be on.*/
-    Wall(sf::Color & color, sf::Texture & texture, sf::Vector2f position)
-        : IObject(color, texture, position) {}
+    ///@param color
+    /*An sfml colour, which the wall will be when the texture isn't loaded.
+    Defaults to black.*/
+    Wall(sf::Vector2f size, sf::Vector2f position,
+         std::vector<IObject *> & objects, sf::Color color = sf::Color::Black)
+        : IObject(rect, position, objects, color), base(sf::RectangleShape(size)) {}
 
     ///\brief
-    /// Move the wall in a specific direction.
+    /// Move the wall in a specific direction, if it's possible
     ///\details
-    /// The direction gets multiplied by the 'speed' member.
-    /// If you move the wall 5 in the X direction, the wall moves 5*speed in the
-    /// X direction.
+    /// The wall gets moved, if and only if the location it moves to does NOT
+    /// contain any other IObjects. The direction gets multiplied by the 'speed'
+    /// member. If you move the wall 5 in the X direction, the wall moves
+    /// 5*speed in the X direction.
     ///@param direction
     /*The direction to move in, which will get multiplied by the object's speed
      * when it moves.*/
-    void move(sf::Vector2f direction) override;
+    void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
     ///'Teleport' the wall to a specific location.
@@ -49,19 +52,17 @@ class Wall : public IObject {
     /// Whether or not the wall collides with the object given in the
     /// parameters.
     ///@param obj
-    /*The object to check if it collides with the wall.*/
+    /*The object to check if the wall collides with it.*/
     ///@return
     /*Returns true if the user collides with the object and false if it
      * doesn't.*/
-    bool isColliding(IObject & obj) override;
+    bool intersect(IObject & obj) override;
 
     ///\brief
-    /// Interact with the wall, if you are colliding with it and are pressing
-    /// the interact button. \details
-    /*Currently, the wall can't be interacted with.*/
+    ///Moves the wall to its previous position, if it collides with anything. 
     ///@param obj
-    /*The object that interacts with the wall.*/
-    void interact(IObject & obj) override;
+    /*The object that is colliding with the wall.*/
+    void collision(IObject & obj) override;
 
     ///\brief
     /// Draws the wall to the window.
@@ -70,7 +71,7 @@ class Wall : public IObject {
     void draw(sf::RenderWindow & window) override;
 
     ///\brief
-    ///Return the boundaries of the wall object.
+    /// Return the boundaries of the wall object.
     ///\details
     /*Returns the rectangle the object is surrounded by.*/
     ///@return
