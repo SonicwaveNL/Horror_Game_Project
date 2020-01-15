@@ -34,7 +34,7 @@ support.o: support.cpp support.hpp actions.hpp
 	gcc -c support.cpp support.hpp actions.hpp -o support.o
 
 actions.o: actions.hpp
-	gcc -c actions.hpp -o actions.o
+	gcc -c actions.hpp $(LIBS) -o actions.o
 
 door.o: door.cpp door.hpp IObject.hpp 
 	gcc -c door.cpp door.hpp IObject.hpp -o door.o
