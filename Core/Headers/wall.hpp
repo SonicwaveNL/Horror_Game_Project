@@ -23,9 +23,9 @@ class Wall : public IObject {
     ///@param color
     /*An sfml colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(sf::Vector2f size, sf::Vector2f position,
+    Wall(sf::Vector2f position, sf::Vector2f size, 
          std::vector<IObject *> & objects, sf::Color color = sf::Color::White)
-        : IObject(rect, position, objects, color), base(sf::RectangleShape(size)) {}
+        : IObject(position, size, objects, color){}
 
     ///\brief
     /// Move the wall in a specific direction, if it's possible
