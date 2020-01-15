@@ -5,6 +5,7 @@
 #include "IObject.hpp"
 #include "door.hpp"
 #include "wall.hpp"
+
 ///@file
 ///\brief
 /// Player class.

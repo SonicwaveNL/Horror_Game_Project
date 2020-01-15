@@ -3,6 +3,10 @@ gcc := /usr/bin/g++
 ln := /usr/bin/g++
 rm := rm -f
 
+vpath %.cpp Core/Sources
+vpath %.hpp Core/Headers
+vpath main.cpp Core
+
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
 .PHONY: build clean run
@@ -13,9 +17,14 @@ build: main
 main: main.o game.o player.o IObjects.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
 	gcc -o Booh main.o game.o $(LIBS)
 
+game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp 
+
+%.o: %.cpp
+	gcc -c $< -o $@ -ICore/Headers -I
+
 # toevoegen van alle hpp's
-main.o: main.cpp game.hpp
-	gcc -c main.cpp game.hpp -o main.o
+#main.o: main.cpp game.hpp
+#	gcc -c main.cpp game.hpp -o main.o
 
 #Alle .o bestanden aanmaak
 game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp 
@@ -55,5 +64,5 @@ keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
 clean:
 	$(rm) main.o game.o player.o IObjects.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
 
-run:
-	make; ./Booh
+run: main
+	./Booh
