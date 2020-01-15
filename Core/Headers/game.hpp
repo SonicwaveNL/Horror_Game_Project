@@ -2,9 +2,7 @@
 #define GAME_HPP
 
 #include <../../SFML-master/include/SFML/Graphics.hpp>
-// #include <windowHandler.hpp>
-// #include <inputHandler.hpp>
-#include <iObject.hpp>
+#include <IObject.hpp>
 #include <support.hpp>
 
 #include "vector"
@@ -15,9 +13,7 @@
 ///Game class to present demo
 class Game {
 private:
-    // WindowHandler & windowHandler;
-    // InputHandler & inputHandler;
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "SFML window" };
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game" };
     std::vector<IObject *> drawables;
     Player & player;
 
