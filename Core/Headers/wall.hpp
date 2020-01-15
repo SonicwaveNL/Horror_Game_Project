@@ -24,7 +24,7 @@ class Wall : public IObject {
     /*An sfml colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
     Wall(sf::Vector2f size, sf::Vector2f position,
-         std::vector<IObject *> & objects, sf::Color color = sf::Color::Black)
+         std::vector<IObject *> & objects, sf::Color color = sf::Color::White)
         : IObject(rect, position, objects, color), base(sf::RectangleShape(size)) {}
 
     ///\brief
@@ -46,7 +46,7 @@ class Wall : public IObject {
      * the specific location.*/
     ///@param target
     /*The new position to put the wall.*/
-    void jump(sf::Vector2 target) override;
+    void jump(sf::Vector2f target) override;
 
     ///\brief
     /// Whether or not the wall collides with the object given in the

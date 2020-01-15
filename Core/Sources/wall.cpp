@@ -22,11 +22,9 @@ bool Wall::intersect(IObject & obj) override {
 
 void Wall::collision(IObject & obj) override {
     position = prevPosition;
-    return;
 }
 
 void Wall::draw(sf::RenderWindow & window) override {
-    base.setFillColor(color);
     base.setPosition(position);
     window.draw(base);
 }
