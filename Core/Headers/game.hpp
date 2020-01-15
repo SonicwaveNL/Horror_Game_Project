@@ -2,8 +2,8 @@
 #define GAME_HPP
 
 #include <../../SFML-master/include/SFML/Graphics.hpp>
-#include <windowHandler.hpp>
-#include <inputHandler.hpp>
+// #include <windowHandler.hpp>
+// #include <inputHandler.hpp>
 #include <iObject.hpp>
 #include <support.hpp>
 
@@ -16,7 +16,7 @@
 class Game {
 private:
     // WindowHandler & windowHandler;
-    InputHandler & inputHandler;
+    // InputHandler & inputHandler;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "SFML window" };
     std::vector<IObject *> drawables;
     Player & player;
@@ -33,11 +33,7 @@ public:
     ///Game constructor
     ///\details
     /*Creates the 4 walls, a door and a player*/
-    Game(
-        InputHandler & inputInputHandler
-    ):
-        inputHandler(inputInputHandler)
-    {
+    Game():{
         drawables.push_back(std::make_unique<Player>(sf::Vector2f(50.f,50.f),sf::Vector2f(25.f,25.f)    ,drawables));
         drawables.push_back(std::make_unique<Wall>(sf::Vector2f(0.f,0.f)    ,sf::Vector2f(20.f,1080.f)  ,drawables));
         drawables.push_back(std::make_unique<Wall>(sf::Vector2f(0.f,0.f)    ,sf::Vector2f(1920.f,20.f)  ,drawables));
