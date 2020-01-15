@@ -1,7 +1,7 @@
 #ifndef IOBJECT_HPP
 #define IOBJECT_HPP
 
-#include <SFML/Graphics.hpp>
+#include "../../SFML-master/include/SFML/Graphics.hpp"
 #include <iostream>
 #include <vector>
 
@@ -60,12 +60,12 @@ class IObject {
    * the game*/
   ///@param color
   /*a SFML sf::Color, this is the color of the texture.*/
-  IObject(sf::RectangleShape& base,
-          sf::Vector2f position,
+  IObject(sf::Vector2f position,
+          sf::Vector2f size,
           std::vector<IObject*>& objects,
           sf::Color color = sf::Color::White)
       : color(color),
-        base(base),
+        base(size),
         position(position),
         objects(objects)
 

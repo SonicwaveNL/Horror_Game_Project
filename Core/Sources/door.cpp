@@ -25,7 +25,6 @@ void Door::collision(IObject& obj) {
 }
 
 void Door::draw(sf::RenderWindow& window) {
-  base.setFillColor(color);
   base.setPosition(position);
   window.draw(base);
 }
