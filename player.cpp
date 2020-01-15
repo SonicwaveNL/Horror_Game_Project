@@ -1,25 +1,46 @@
 #include "player.hpp"
 
-void Player::move( sf::Vector2f direction ){
-    position = position + direction * speed;
+void Player::moveIfPossible(sf::Vector2f direction) {
+  prevPosition = position;
+  position = position + direction * speed;
+
+  for (IObject* obj : objects) {
+    if (obj->intersect(*this)) {
+      collision(*obj);
+    }
+  }
 }
 
-bool Player::isColliding( IObject & obj ){
-    auto playerBounds = sprite.getBounds();
-    auto targetBounds = obj.getBounds();
+bool Player::intersect(IObject& obj) {
+  return base.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Player::jump( sf::Vector2f target ){
-    position = target;
+void Player::jump(sf::Vector2f target) {
+  prevPosition = position;
+  position = target;
 }
 
-void Player::interact( IObject & obj ){
+void Player::collision(IObject& obj) {
+  if (dynamic_cast<Wall*>(obj) != nullptr) {
+    position = prevPosition;
+    return;
+  }
+
+  if (dynamic_cast<Door*>(obj) != nullptr) {
+    std::cout << "You won the game!" << std::endl;
+    position = prevPosition;
+    return;
+  }
+
+  return;
 }
 
-void Player::draw( sf::RenderWindow & window ){
-    sprite.setTexture(texture);
-    sprite.setPosition(position);
-    window.draw(sprite);
+void Player::draw(sf::RenderWindow& window) {
+  base.setFillColor(color);
+  base.setPosition(position);
+  window.draw(base);
 }
 
-sf::FloatRect Player::getBounds(){ return sprite.getGlobalBounds(); }
+sf::FloatRect Player::getBounds() {
+  return base.getGlobalBounds();
+}

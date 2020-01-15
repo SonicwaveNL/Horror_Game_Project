@@ -1,5 +1,5 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef DOOR_HPP
+#define DOOR_HPP
 
 #include <SFML/Graphics.hpp>
 #include "IObject.hpp"
@@ -8,15 +8,15 @@
 
 ///@file
 ///\brief
-/// Player class.
+/// Door class.
 ///\details
-/*A Player class, create a playable character*/
-class Player : public IObject {
+/*A Door class, create a door to interact with*/
+class Door : public IObject {
  public:
   ///\brief
-  /// Player object constructor.
+  /// Door object constructor.
   ///\details
-  /// The Player constructor parameters are used to create a IObject.
+  /// The Door constructor parameters are used to create a IObject.
   ///@param texture
   /*a SFML sf::Texture, this is the texture for the object*/
   ///@param position
@@ -26,18 +26,18 @@ class Player : public IObject {
    * within*/
   ///@param color
   /*a SFML sf::Color, this is the color of the texture.*/
-  Player(sf::Texture& texture,
-         sf::Vector2f position,
-         std::vector<IObject*>& objects,
-         sf::Color& color)
+  Door(sf::Texture& texture,
+       sf::Vector2f position,
+       std::vector<IObject*>& objects,
+       sf::Color color = sf::Color::Black)
       : IObject(texture, position, objects, color)
 
             {};
 
   ///\brief
-  /// Player object constructor.
+  /// Door object constructor.
   ///\details
-  /// The Player constructor parameters are used to create a IObject.
+  /// The Door constructor parameters are used to create a IObject.
   ///@param base
   /*a SFML sf::RectangleShape, this is a rectangle shaped object*/
   ///@param position
@@ -47,12 +47,11 @@ class Player : public IObject {
    * within*/
   ///@param color
   /*a SFML sf::Color, this is the color of the texture.*/
-  Player(sf::Vector2f size,
-         sf::Vector2f position,
-         std::vector<IObject*>& objects,
-         sf::Color& color)
-      : IObject(base, position, objects, color),
-        base(sf::RectangleShape(size))
+  Door(sf::RectangleShape& base,
+       sf::Vector2f position,
+       std::vector<IObject*>& objects,
+       sf::Color color = sf::Color::Black)
+      : IObject(base, position, objects, color)
 
             {};
 
@@ -65,17 +64,17 @@ class Player : public IObject {
   void draw(sf::RenderWindow& window) override;
 
   ///\brief
-  /// Move Player to direction, if possible.
+  /// Move Door to direction, if possible.
   ///\details
-  /*Move Player to given sf::Vector2f direction, if possible.*/
+  /*Move Door to given sf::Vector2f direction, if possible.*/
   ///@param direction
   /*sf::Vector2f*/
   void moveIfPossible(sf::Vector2f direction) override;
 
   ///\brief
-  /// Check if Player intersect.
+  /// Check if Door intersect.
   ///\details
-  /*Check if an Player intersect with given IObject.*/
+  /*Check if an Door intersect with given IObject.*/
   ///@param obj
   /*IObject*/
   ///@return
@@ -83,28 +82,28 @@ class Player : public IObject {
   bool intersect(IObject& obj) override;
 
   ///\brief
-  /// Jump Player object to given target
+  /// Jump Door object to given target
   ///\details
-  /*Jump Player object to given sf::Vector2f target.*/
+  /*Jump Door object to given sf::Vector2f target.*/
   ///@param obj
   /*sf::Vector2f*/
   void jump(sf::Vector2f target) override;
 
   ///\brief
-  /// Player collision.
+  /// Door collision.
   ///\details
-  /*Player collision.*/
+  /*Door collision.*/
   ///@param obj
   /*IObject*/
   void collision(IObject& obj) override;
 
   ///\brief
-  /// Get Player GlobalBounds.
+  /// Get Door GlobalBounds.
   ///\details
-  /*Get the GlobalBounds of the Player object.*/
+  /*Get the GlobalBounds of the Door object.*/
   ///@return
   /*sf::FloatRect*/
   sf::FloatRect getBounds() override;
 };
 
-#endif  // PLAYER_HPP
+#endif  // DOOR_HPP
