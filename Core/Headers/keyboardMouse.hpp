@@ -35,4 +35,4 @@ class KeyboardMouse : public InputListener {
   /*sf::vector2f*/
   sf::Vector2f getMousePos(sf::RenderWindow& window) override;
 };
-#endif //KEYBOARDMOUSE_HPP
+#endif  // KEYBOARDMOUSE_HPP

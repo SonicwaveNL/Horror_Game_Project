@@ -33,4 +33,4 @@ class InputListener {
   /*sf::Vector2f*/
   virtual sf::Vector2f getMousePos(sf::RenderWindow& window);
 };
-#endif //INPUTLISTENER_HPP
+#endif  // INPUTLISTENER_HPP

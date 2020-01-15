@@ -1,6 +1,6 @@
 #include "../Headers/inputHandler.hpp"
 
-InputHandler::InputHandler(InputListener& listener): listener(listener) {
+InputHandler::InputHandler(){
   keybMap[actionKeyword::escape] = sf::Keyboard::Escape;
   keybMap[actionKeyword::action1] = sf::Keyboard::H;
   keybMap[actionKeyword::action2] = sf::Keyboard::J;
@@ -16,6 +16,6 @@ void InputHandler::setInputType(inputType iType) { type = iType; };
 
 bool InputHandler::checkInput(actionKeyword aKey) {
   if (type == inputType::keyboard) {
-      return listener.checkInput(keybMap[aKey]);
+    return listener.checkInput(keybMap[aKey]);
   }
 }

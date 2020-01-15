@@ -2,6 +2,7 @@
 #define INPUTHANDLER_HPP
 #include <map>
 #include "inputListener.hpp"
+#include "keyboardMouse.hpp"
 #include "support.hpp"
 ///@file
 ///\brief
@@ -13,10 +14,8 @@ class InputHandler {
  private:
   ///\brief
   /// Constructor for inputHandler class.
-  ///@param listener
-  /*InputListener &*/
-  InputHandler(InputListener& listener);
-  InputListener& listener;
+  InputHandler();
+  KeyboardMouse listener;
   inputType type = inputType::keyboard;
   std::map<actionKeyword, sf::Keyboard::Key> keybMap;
   std::map<actionKeyword, sf::Joystick::Axis> contMap;
@@ -31,10 +30,12 @@ class InputHandler {
   /*enum class inputType*/
   void setInputType(inputType iType);
   ///\brief
-  ///Function used to check if a button is pressed.
+  /// Function used to check if a button is pressed.
   ///\details
-  /*This function is used for translating input from the enum class actionKeyword to the corresponding SFML button/key. When a
-  command like "up" is send. It finds the corresponding keyboard key and checks if that key/button is pressed.*/
+  /*This function is used for translating input from the enum class
+  actionKeyword to the corresponding SFML button/key. When a command like "up"
+  is send. It finds the corresponding keyboard key and checks if that key/button
+  is pressed.*/
   ///@param aKey
   /*enum class actionKeyword.*/
   ///@return
