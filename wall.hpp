@@ -2,7 +2,7 @@
 #define Wall_hpp
 
 #include "IObject.hpp"
-#include "SFML-master/Graphics.hpp"
+#include "../../SFML-master/include/SFML/Graphics.hpp"
 
 ///@file
 ///\brief

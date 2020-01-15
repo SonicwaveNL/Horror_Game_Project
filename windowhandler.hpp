@@ -1,7 +1,7 @@
 #ifndef WindowHandler_hpp
 #define WindowHandler_hpp
 
-#include "SFML-master/Graphics.hpp"
+#include "../../SFML-master/include/SFML/Graphics.hpp"
 #include "IObject.hpp"
 
 ///@file
@@ -14,8 +14,6 @@ class WindowHandler {
   public:
     ///\brief
     ///The WindowHandler constructor. 
-    ///\details
-    /*It takes in an sfml RenderWindow.*/
     ///@param window
     /*An sfml RenderWindow, which this class will draw the game objects on.*/
     WindowHandler(sf::RenderWindow & window) : window(window) {}
