@@ -21,6 +21,7 @@ class IObject {
   sf::Sprite sprite;
   std::vector<std::shared_ptr<IObject>> &  objects;
   float speed = 0;
+  const std::string type;
 
  public:
   ///\brief
@@ -38,10 +39,11 @@ class IObject {
   IObject(sf::Texture& texture,
           sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>> & objects,
-          sf::Color color = sf::Color::White)
+          std::string type = "IObject", sf::Color color = sf::Color::White)
       : texture(texture),
         position(position),
         objects(objects),
+        type(type),
         color(color)
 
   {
@@ -64,11 +66,13 @@ class IObject {
   IObject(sf::Vector2f position,
           sf::Vector2f size,
           std::vector<std::shared_ptr<IObject>> & objects,
+          std::string type = "IObject",
           sf::Color color = sf::Color::White)
       : color(color),
         base(size),
         position(position),
-        objects(objects)
+        objects(objects),
+        type(type)
 
   {
     base.setFillColor(color);
@@ -134,6 +138,8 @@ class IObject {
   ///@return
   /*sf::FloatRect*/
   virtual sf::FloatRect getBounds() = 0;
+
+  std::string getType();
 };
 
 #endif  // IOBJECT_HPP

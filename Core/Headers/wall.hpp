@@ -25,7 +25,7 @@ class Wall : public IObject {
     Defaults to black.*/
     Wall(sf::Vector2f position, sf::Vector2f size, 
          std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(position, size, objects, color){}
+        : IObject(position, size, objects, "Wall",color){}
 
     ///\brief
     /// Move the wall in a specific direction, if it's possible

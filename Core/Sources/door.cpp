@@ -5,7 +5,7 @@ void Door::moveIfPossible(sf::Vector2f direction) {
   position = position + direction * speed;
   base.setPosition(position);
 
-  for (IObject* obj : objects) {
+  for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
       collision(*obj);
     }

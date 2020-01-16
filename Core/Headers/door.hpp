@@ -26,7 +26,7 @@ class Door : public IObject {
     /*a SFML sf::Color, this is the color of the texture.*/
     Door(sf::Texture & texture, sf::Vector2f position,
          std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(texture, position, objects, color)
+        : IObject(texture, position, objects,"Door", color)
 
               {};
 
@@ -45,7 +45,7 @@ class Door : public IObject {
     /*a SFML sf::Color, this is the color of the texture.*/
     Door(sf::Vector2f position, sf::Vector2f size,
          std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(position,size, objects, color)
+        : IObject(position,size, objects,"Door", color)
 
                                                        {};
 

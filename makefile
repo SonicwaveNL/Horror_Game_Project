@@ -11,41 +11,41 @@ SFMLDIR = SFML-master/include
 
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
-.PHONY: build clean run
+.PHONY: build clean run main
 
 build: main
 
 # Dit word de game, alle .o bestanden toevoegen die nodig zijn. de game executible
 # main: 
 # 	gcc -o Booh main.o game.o $(LIBS)
-main: main.o game.o player.o IObjects.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
+
+main: main.o game.o player.o IObject.o wall.o door.o windowHandler.o inputHandler.o keyboardMouse.o action.o
 main.o: main.cpp game.hpp
-game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp action.cpp action.hpp
-player.o: player.cpp player.hpp IObjects.hpp door.hpp wall.hpp
-support.o: support.cpp support.hpp 
-door.o: door.cpp door.hpp IObject.hpp 
-IObjects.o: IObjects.cpp IObjects.hpp
-windowHandler.o: windowHandler.cpp windowHandler.hpp IObjects.hpp
-inputListener.o: inputListener.cpp inputListener.hpp
+game.o: game.cpp game.hpp IObject.hpp windowHandler.hpp inputHandler.hpp action.cpp action.hpp wall.hpp door.hpp
+player.o: player.cpp player.hpp IObject.hpp door.hpp wall.hpp
+door.o: door.cpp door.hpp IObject.hpp
+wall.o: IObject.hpp wall.hpp wall.cpp
+IObject.o: IObject.cpp IObject.hpp
+windowHandler.o: windowHandler.cpp windowHandler.hpp IObject.hpp
 inputHandler.o: inputHandler.cpp inputHandler.hpp inputListener.hpp keyboardMouse.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
 action.o: support.hpp inputHandler.hpp inputHandler.cpp
 %.o: %.cpp
-	gcc -c $< -o $@ -I$(SFMLDIR) $(LIBS) -ICore/Headers -ICore/Sources -ICore/
+	gcc -c $< -I$(SFMLDIR) $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
 # toevoegen van alle hpp's
 #main.o: main.cpp game.hpp
 #	gcc -c main.cpp game.hpp -o main.o
 
 # #Alle .o bestanden aanmaak
-# game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp 
-# 	gcc -c game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp game.o
+# game.o: game.cpp game.hpp IObject.hpp windowHandler.hpp inputHandler.hpp 
+# 	gcc -c game.cpp game.hpp IObject.hpp windowHandler.hpp inputHandler.hpp game.o
 
-# player.o: player.cpp player.hpp IObjects.hpp door.hpp wall.hpp
-# 	gcc -c player.cpp player.hpp IObjects.hpp door.hpp wall.hpp -o player.o
+# player.o: player.cpp player.hpp IObject.hpp door.hpp wall.hpp
+# 	gcc -c player.cpp player.hpp IObject.hpp door.hpp wall.hpp -o player.o
 
-# wall.o: wall.cpp wall.hpp IObjects.hpp
-# 	gcc -c wall.cpp wall.hpp IObjects.hpp -o wall.o
+# wall.o: wall.cpp wall.hpp IObject.hpp
+# 	gcc -c wall.cpp wall.hpp IObject.hpp -o wall.o
 
 # support.o: support.cpp support.hpp 
 # 	gcc -c support.cpp support.hpp -o support.o
@@ -54,10 +54,10 @@ action.o: support.hpp inputHandler.hpp inputHandler.cpp
 # 	gcc -c door.cpp door.hpp IObject.hpp -o door.o
 
 # #heeft SFML
-# IObjects.o: IObjects.cpp IObjects.hpp 
-# 	gcc -c IObjects.cpp IObjects.hpp $(LIBS) -o IObjects.o
+# IObject.o: IObject.cpp IObject.hpp 
+# 	gcc -c IObject.cpp IObject.hpp $(LIBS) -o IObject.o
 
-# windowHandler.o: windowHandler.cpp windowHandler.hpp IObjects.hpp
+# windowHandler.o: windowHandler.cpp windowHandler.hpp IObject.hpp
 # 	gcc -c windowHandler.cpp windowHandler.hpp $(LIBS) -o windowHandler.o
 
 # inputListener.o: inputListener.cpp inputListener.hpp
@@ -73,7 +73,7 @@ action.o: support.hpp inputHandler.hpp inputHandler.cpp
 
 # make clean en make run.
 clean:
-	$(rm) main.o game.o player.o IObjects.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
+	$(rm) main.o game.o player.o IObject.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
 
 run: main
 	./Booh

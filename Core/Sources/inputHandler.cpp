@@ -21,4 +21,5 @@ bool InputHandler::checkInput(actionKeyword aKey) {
   if (type == inputType::keyboard) {
     return listener.checkInput(keybMap[aKey]);
   }
+  return false;
 }

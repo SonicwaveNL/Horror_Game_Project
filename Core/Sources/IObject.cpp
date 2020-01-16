@@ -6,3 +6,8 @@ void IObject::move(sf::Vector2f direction) {
   position = position + direction * speed;
   base.setPosition(position);
 }
+
+
+std::string IObject::getType(){
+  return type;
+}

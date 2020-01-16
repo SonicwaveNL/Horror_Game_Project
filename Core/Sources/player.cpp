@@ -4,7 +4,7 @@ void Player::moveIfPossible(sf::Vector2f direction) {
     prevPosition = position;
     position = position + direction * speed;
     base.setPosition(position);
-    for (IObject * obj : objects) {
+    for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {
             collision(*obj);
         }
@@ -23,14 +23,14 @@ void Player::jump(sf::Vector2f target) {
 }
 
 void Player::collision(IObject & obj) {
-    if (dynamic_cast<Wall *>(obj) != nullptr) {
+    if (obj.getType() == "Wall") {
         position = prevPosition;
         base.setPosition(position);
 
         return;
     }
 
-    if (dynamic_cast<Door *>(obj) != nullptr) {
+    if (obj.getType() == "Door") {
         std::cout << "You won the game!" << std::endl;
         position = prevPosition;
         base.setPosition(position);
