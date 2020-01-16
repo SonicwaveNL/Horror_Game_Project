@@ -1,9 +1,9 @@
 #ifndef INPUTHANDLER_HPP
 #define INPUTHANDLER_HPP
 #include <map>
-#include "inputListener.hpp"
-#include "keyboardMouse.hpp"
 #include "support.hpp"
+#include "keyboardMouse.hpp"
+
 ///@file
 ///\brief
 /// Input handler class, used for translating input commands.
