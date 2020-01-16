@@ -12,15 +12,16 @@
 keys. It is used with the enum class actionKeyword for its input.*/
 class InputHandler {
  private:
-  ///\brief
-  /// Constructor for inputHandler class.
-  InputHandler();
   KeyboardMouse listener;
   inputType type = inputType::keyboard;
   std::map<actionKeyword, sf::Keyboard::Key> keybMap;
   std::map<actionKeyword, sf::Joystick::Axis> contMap;
 
  public:
+  ///\brief
+  /// Constructor for inputHandler class.
+  InputHandler();
+
   ///\brief
   /// Function to set the input type you're using (keyboard/Joystick).
   ///\details
