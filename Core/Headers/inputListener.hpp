@@ -17,7 +17,7 @@ class InputListener {
   /*sf::Keyboard::Key &*/
   ///@return
   /*bool*/
-  virtual bool checkInput(sf::Keyboard::Key& input){};
+  virtual bool checkInput(sf::Keyboard::Key& input);
 
   ///\brief
   /// Abstract function that checks for the axis (and buttons) of joysticks
@@ -25,7 +25,7 @@ class InputListener {
   /*sf::Joystick::Axis &*/
   ///@return
   /*bool*/
-  virtual bool checkInput(sf::Joystick::Axis& input) {};
+  virtual bool checkInput(sf::Joystick::Axis& input);
 
   ///\brief
   /// Abstract function that checks the position of the mouse and returns it.
@@ -33,6 +33,6 @@ class InputListener {
   /*sf::RenderWindow &*/
   ///@return
   /*sf::Vector2f*/
-  virtual sf::Vector2f getMousePos(sf::RenderWindow& window) = 0;
+  virtual sf::Vector2f getMousePos(sf::RenderWindow& window);
 };
 #endif  // INPUTLISTENER_HPP
