@@ -14,8 +14,8 @@
 class Game {
 private:
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game" };
-    std::vector<IObject *> drawables;
-    IObject* player;
+    std::vector<std::unique_ptr<IObject>> drawables;
+    std::unique_ptr<IObject> player;
 
     Action playingActions[4] = {
         Action(actionKeyword::up        ,[player](){player->moveIfPossible(sf::Vector2f(0.f,-1.f));}),
