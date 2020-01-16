@@ -36,7 +36,7 @@ class IObject {
   /*a SFML sf::Color, this is the color of the texture.*/
   IObject(sf::Texture& texture,
           sf::Vector2f position,
-          std::vector<IObject*>& objects,
+          std::vector<std::shared_ptr<IObject>> & objects,
           sf::Color color = sf::Color::White)
       : texture(texture),
         position(position),

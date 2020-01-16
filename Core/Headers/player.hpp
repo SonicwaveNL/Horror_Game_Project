@@ -27,7 +27,7 @@ class Player : public IObject {
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
     Player(sf::Texture & texture, sf::Vector2f position,
-           std::vector<IObject *> & objects, sf::Color color = sf::Color::White)
+           std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
         : IObject(texture, position, objects, color)
 
               {};

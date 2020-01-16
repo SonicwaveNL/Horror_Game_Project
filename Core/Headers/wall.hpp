@@ -24,7 +24,7 @@ class Wall : public IObject {
     /*An sfml colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
     Wall(sf::Vector2f position, sf::Vector2f size, 
-         std::vector<IObject *> & objects, sf::Color color = sf::Color::White)
+         std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
         : IObject(position, size, objects, color){}
 
     ///\brief
