@@ -31,13 +31,15 @@
 *.out
 *.app
 
-*/vscode
-*/.vscode
-*.vscode
+# VS Code
+.vscode
+.vscode/*
+
 
 # Doxygen
 doxygen
 doxygen/*
 
+# Executable
 Booh
 
