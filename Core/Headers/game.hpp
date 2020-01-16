@@ -17,7 +17,7 @@ private:
     std::vector<IObject *> drawables;
     IObject* player;
 
-    Action playingActions[] = {
+    Action playingActions[4] = {
         Action(actionKeyword::up        ,[player](){player->moveIfPossible(sf::Vector2f(0.f,-1.f));}),
         Action(actionKeyword::down      ,[player](){player->moveIfPossible(sf::Vector2f(0.f,1.f));}),
         Action(actionKeyword::left      ,[player](){player->moveIfPossible(sf::Vector2f(-1.f,0.f))};),
