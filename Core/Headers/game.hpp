@@ -4,7 +4,7 @@
 #include <../../SFML-master/include/SFML/Graphics.hpp>
 #include <IObject.hpp>
 #include <support.hpp>
-
+#include "player.hpp"
 #include "vector"
 #include "memory"
 
