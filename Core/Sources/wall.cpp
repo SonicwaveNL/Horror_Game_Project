@@ -1,4 +1,4 @@
-#include "wall.hpp"
+#include "../Headers/wall.hpp"
 
 void Wall::moveIfPossible(sf::Vector2f direction)  {
     prevPosition = position;

@@ -1,4 +1,4 @@
-#include "door.hpp"
+#include "../Headers/door.hpp"
 
 void Door::moveIfPossible(sf::Vector2f direction) {
   prevPosition = position;

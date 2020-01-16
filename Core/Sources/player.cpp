@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "../Headers/player.hpp"
 
 void Player::moveIfPossible(sf::Vector2f direction) {
     prevPosition = position;
