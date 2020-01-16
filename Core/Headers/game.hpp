@@ -14,7 +14,7 @@
 ///Game class to present demo
 class Game {
 private:
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game" };
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game", sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
     std::shared_ptr<IObject> player;
 
