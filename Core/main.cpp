@@ -1,4 +1,4 @@
-#include "Headers/game.hpp"
+#include <Headers/game.hpp>
 
 int main(){
     Game Booh;

@@ -1,9 +1,10 @@
 #ifndef Wall_hpp
 #define Wall_hpp
 
-#include "IObject.hpp"
 #include <SFML/Graphics.hpp>
+#include <iObject.hpp>
 ///@file
+
 ///\brief
 /// A wall object, through which a user can't move
 ///\details
@@ -20,11 +21,12 @@ class Wall : public IObject {
     ///@param position
     /*The location the top left corner of the wall will be on.*/
     ///@param color
-    /*An sfml colour, which the wall will be when the texture isn't loaded.
+    /*An SFML colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(sf::Vector2f position, sf::Vector2f size, 
-         std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(position, size, objects, "Wall",color){}
+    Wall(sf::Vector2f position, sf::Vector2f size,
+         std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White)
+        : IObject(position, size, objects, "Wall", color) {}
 
     ///\brief
     /// Move the wall in a specific direction, if it's possible
@@ -56,7 +58,7 @@ class Wall : public IObject {
     bool intersect(IObject & obj) override;
 
     ///\brief
-    ///Moves the wall to its previous position, if it collides with anything. 
+    /// Moves the wall to its previous position, if it collides with anything.
     ///@param obj
     /*The object that is colliding with the wall.*/
     void collision(IObject & obj) override;
@@ -64,7 +66,7 @@ class Wall : public IObject {
     ///\brief
     /// Draws the wall to the window.
     ///@param window
-    /*The sfml renderwindow to draw the object to.*/
+    /*The SFML renderwindow to draw the object to.*/
     void draw(sf::RenderWindow & window) override;
 
     ///\brief

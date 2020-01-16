@@ -2,9 +2,10 @@
 #define DOOR_HPP
 
 #include <SFML/Graphics.hpp>
-#include "IObject.hpp"
+#include <iObject.hpp>
 
 ///@file
+
 ///\brief
 /// Door class.
 ///\details
@@ -25,8 +26,9 @@ class Door : public IObject {
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
     Door(sf::Texture & texture, sf::Vector2f position,
-         std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(texture, position, objects,"Door", color)
+         std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White)
+        : IObject(texture, position, objects, "Door", color)
 
               {};
 
@@ -44,10 +46,11 @@ class Door : public IObject {
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
     Door(sf::Vector2f position, sf::Vector2f size,
-         std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(position,size, objects,"Door", color)
+         std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White)
+        : IObject(position, size, objects, "Door", color)
 
-                                                       {};
+              {};
 
     ///\brief
     /// Draw IObject on window
@@ -68,7 +71,7 @@ class Door : public IObject {
     ///\brief
     /// Check if Door intersect.
     ///\details
-    /*Check if an Door intersect with given IObject.*/
+    /*Check if an Door intersect with given iObject.*/
     ///@param obj
     /*IObject*/
     ///@return bool

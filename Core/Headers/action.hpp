@@ -1,11 +1,11 @@
 #ifndef ACTION_HPP
 #define ACTION_HPP
 
-#include "support.hpp"
 #include <functional>
-#include "inputHandler.hpp"
-#include <iostream>
+#include <support.hpp>
+#include <inputHandler.hpp>
 ///@file
+
 ///\brief
 /// Action class to assign a action (work) to a event (condition).
 ///\details
@@ -28,15 +28,19 @@ class Action {
     store a lambda with void return type or std::function<void()>
     when the condition is fullfilled the stored "work" will be done.*/
     Action(std::function<bool()> condition, std::function<void()> work)
-      : condition(condition), 
-     work(work) {};
+        : condition(condition), work(work){};
+
     ///\brief
-    ///Constructor that expects a actionKeyword and the work
+    /// Constructor that expects a actionKeyword and the work
     ///\details
     /*This constructor expects the custom actionKeywords to do the work.*/
     Action(actionKeyword keyword, std::function<void()> work)
-      : condition([keyword]() -> bool {InputHandler inputHandler;return inputHandler.checkInput(keyword);}),
-      work(work) {};
+        : condition([keyword]() -> bool {
+              InputHandler inputHandler;
+              return inputHandler.checkInput(keyword);
+          }),
+          work(work){};
+
     ///\brief
     /// Constructor that expects a sf::Keyboard::Key as condition.
     ///@param key
@@ -47,8 +51,10 @@ class Action {
     store a lambda with void return type or std::function<void()>
     when the condition is fullfilled the stored "work" will be done.*/
     Action(sf::Keyboard::Key key, std::function<void()> work)
-      : condition([key]() -> bool {return sf::Keyboard::isKeyPressed(key); }),
-      work(work) {};
+        : condition(
+              [key]() -> bool { return sf::Keyboard::isKeyPressed(key); }),
+          work(work){};
+
     ///\brief
     /// Constructor that expects a sf::Mouse::Button as condition.
     ///@param button
@@ -58,9 +64,12 @@ class Action {
     /*Second parameter work of type std::function<void()>,
     store a lambda with void return type or std::function<void()>
     when the condition is fullfilled the stored "work" will be done.*/
-    Action(sf::Mouse::Button button, std::function<void()> work) 
-      : condition([button]() -> bool { return sf::Mouse::isButtonPressed(button); }),
-      work(work) {};
+    Action(sf::Mouse::Button button, std::function<void()> work)
+        : condition([button]() -> bool {
+              return sf::Mouse::isButtonPressed(button);
+          }),
+          work(work){};
+
     ///\brief
     /// Constructor without a condition.
     ///@param work
@@ -68,7 +77,8 @@ class Action {
     store a lambda with void return type or std::function<void()>
     when the Action() is used the stored "work" will be done.*/
     Action(std::function<void()> work)
-      : condition([]() -> bool { return true; }), work(work) {};
+        : condition([]() -> bool { return true; }), work(work){};
+
     ///\brief
     /// Used to "call" the class.
     ///\details

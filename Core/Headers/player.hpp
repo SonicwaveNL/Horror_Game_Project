@@ -2,11 +2,12 @@
 #define PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
-#include "IObject.hpp"
-#include "door.hpp"
-#include "wall.hpp"
+#include <iObject.hpp>
+#include <door.hpp>
+#include <wall.hpp>
 
 ///@file
+
 ///\brief
 /// Player class.
 ///\details

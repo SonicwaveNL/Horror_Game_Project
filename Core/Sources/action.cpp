@@ -1,8 +1,7 @@
-#include "../Headers/action.hpp"
-
+#include <../Headers/action.hpp>
 
 void Action::operator()() {
-  if (condition()) {
-    work();
-  }
+    if (condition()) {
+        work();
+    }
 }

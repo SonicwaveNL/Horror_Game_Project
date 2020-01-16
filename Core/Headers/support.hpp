@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 ///@file
+
 ///\brief
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
@@ -22,6 +23,5 @@ enum class actionKeyword {
     action3,
     action4
 };
-
 
 #endif

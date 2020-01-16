@@ -1,5 +1,5 @@
-#include "../Headers/player.hpp"
 #include <iostream>
+#include <../Headers/player.hpp>
 void Player::moveIfPossible(sf::Vector2f direction) {
     prevPosition = position;
     position = position + direction * speed;
@@ -20,7 +20,6 @@ void Player::jump(sf::Vector2f target) {
     prevPosition = position;
     position = target;
     base.setPosition(position);
-
 }
 
 void Player::collision(IObject & obj) {
@@ -40,12 +39,8 @@ void Player::collision(IObject & obj) {
     }
 }
 
-void Player::draw(sf::RenderWindow & window) {
-    window.draw(base);
-}
+void Player::draw(sf::RenderWindow & window) { window.draw(base); }
 
 sf::FloatRect Player::getBounds() { return base.getGlobalBounds(); }
 
-bool Player::checkWin(){
-    return win;
-}
+bool Player::checkWin() { return win; }
