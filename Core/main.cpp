@@ -1,6 +1,6 @@
 #include "Headers/game.hpp"
 
 int main(){
-    game Booh;
-    game.run();
+    Game Booh;
+    Booh.run();
 }
