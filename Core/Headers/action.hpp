@@ -4,6 +4,7 @@
 #include "support.hpp"
 #include <functional>
 #include "inputHandler.hpp"
+#include <iostream>
 ///@file
 ///\brief
 /// Action class to assign a action (work) to a event (condition).
@@ -46,7 +47,7 @@ class Action {
     store a lambda with void return type or std::function<void()>
     when the condition is fullfilled the stored "work" will be done.*/
     Action(sf::Keyboard::Key key, std::function<void()> work)
-      : condition([key]() -> bool { return sf::Keyboard::isKeyPressed(key); }),
+      : condition([key]() -> bool {return sf::Keyboard::isKeyPressed(key); }),
       work(work) {};
     ///\brief
     /// Constructor that expects a sf::Mouse::Button as condition.

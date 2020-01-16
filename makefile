@@ -88,7 +88,7 @@ main: main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMous
 
 # make clean en make run.
 clean:
-	$(rm) main.o game.o player.o IObject.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
+	$(rm) main.o game.o player.o IObject.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o ./Booh
 
 run: main
 	./Booh
