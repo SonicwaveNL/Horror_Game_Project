@@ -35,7 +35,7 @@ void Player::collision(IObject & obj) {
         std::cout << "You won the game!" << std::endl;
         position = prevPosition;
         base.setPosition(position);
-        
+        win = true;
         return;
     }
 }
@@ -45,3 +45,7 @@ void Player::draw(sf::RenderWindow & window) {
 }
 
 sf::FloatRect Player::getBounds() { return base.getGlobalBounds(); }
+
+bool Player::checkWin(){
+    return win;
+}

@@ -12,6 +12,10 @@ void Game::run(){
         }
         window.display();
 
+        if(player->checkWin()){
+            window.close();
+        }
+
         sf::sleep( sf::milliseconds( 20 ));
 
         sf::Event event;		

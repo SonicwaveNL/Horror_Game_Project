@@ -12,6 +12,8 @@
 ///\details
 /*A Player class, create a playable character*/
 class Player : public IObject {
+  private:
+    bool win = false;
   public:
     ///\brief
     /// Player object constructor.
@@ -100,6 +102,12 @@ class Player : public IObject {
     ///@return
     /*sf::FloatRect*/
     sf::FloatRect getBounds() override;
+
+    ///\brief
+    ///Check the win variable.
+    ///@return
+    /*bool*/
+    bool checkWin();
 };
 
 #endif // PLAYER_HPP

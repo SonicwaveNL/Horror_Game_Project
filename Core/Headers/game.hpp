@@ -16,7 +16,7 @@ class Game {
 private:
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game", sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
-    std::shared_ptr<IObject> player;
+    std::shared_ptr<Player> player;
 
     Action playingActions[4] = {
         Action(actionKeyword::up        ,[=](){player->moveIfPossible(sf::Vector2f(0.f,-1.f));}),
@@ -37,7 +37,7 @@ public:
         drawables.push_back(std::make_shared<Wall>(sf::Vector2f(1900.f,0.f)     ,sf::Vector2f(20.f,1080.f)  ,drawables));
         drawables.push_back(std::make_shared<Wall>(sf::Vector2f(0.f,1060.f)     ,sf::Vector2f(1920.f,20.f)  ,drawables));
         drawables.push_back(std::make_shared<Door>(sf::Vector2f(1895.f,500.f)   ,sf::Vector2f(10.f,80.f)    ,drawables));
-        player = drawables[0];
+        player = std::static_pointer_cast<Player>(drawables[0]);
     };
     ///\brief
     ///Runs the game demo
