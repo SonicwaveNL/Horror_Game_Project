@@ -24,7 +24,7 @@ door.o: door.cpp door.hpp IObject.hpp
 wall.o: IObject.hpp wall.hpp wall.cpp
 IObject.o: IObject.cpp IObject.hpp
 # windowHandler.o: windowHandler.cpp windowHandler.hpp IObject.hpp
-inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp keyboardMouse.cpp inputListener.hpp
+inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp  inputListener.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
 action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 %.o: %.cpp
