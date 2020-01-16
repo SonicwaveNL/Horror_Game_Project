@@ -1,7 +1,7 @@
 #ifndef IOBJECT_HPP
 #define IOBJECT_HPP
 
-#include "../../SFML-master/include/SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <memory>

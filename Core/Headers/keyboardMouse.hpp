@@ -1,7 +1,7 @@
 #ifndef KEYBOARDMOUSE_HPP
 #define KEYBOARDMOUSE_HPP
 #include "inputListener.hpp"
-
+#include <SFML/Graphics.hpp>
 ///@file
 ///\brief
 /// KeyboardMouseclass for recording keyboardpresses and mouse position.

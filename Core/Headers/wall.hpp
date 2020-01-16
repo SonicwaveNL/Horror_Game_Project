@@ -2,8 +2,7 @@
 #define Wall_hpp
 
 #include "IObject.hpp"
-#include "../../SFML-master/include/SFML/Graphics.hpp"
-
+#include <SFML/Graphics.hpp>
 ///@file
 ///\brief
 /// A wall object, through which a user can't move

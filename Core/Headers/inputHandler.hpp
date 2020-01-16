@@ -3,7 +3,7 @@
 #include <map>
 #include "support.hpp"
 #include "keyboardMouse.hpp"
-
+#include "inputListener.hpp"
 ///@file
 ///\brief
 /// Input handler class, used for translating input commands.

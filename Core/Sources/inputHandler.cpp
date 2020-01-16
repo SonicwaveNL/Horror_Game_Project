@@ -1,8 +1,5 @@
 #include "../Headers/inputHandler.hpp"
 
-enum class inputType;
-enum class actionKeyword;
-
 InputHandler::InputHandler(){
   keybMap[actionKeyword::escape] = sf::Keyboard::Escape;
   keybMap[actionKeyword::action1] = sf::Keyboard::H;

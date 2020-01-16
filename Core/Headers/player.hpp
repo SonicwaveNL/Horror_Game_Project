@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "../../SFML-master/include/SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "IObject.hpp"
 #include "door.hpp"
 #include "wall.hpp"

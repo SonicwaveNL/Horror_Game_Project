@@ -1,8 +1,7 @@
 #ifndef SUPPORT_HPP
 #define SUPPORT_HPP
 
-#include "../../SFML-master/include/SFML/Graphics.hpp"
-
+#include <SFML/Graphics.hpp>
 ///\brief
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };

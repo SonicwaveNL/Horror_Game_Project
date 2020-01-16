@@ -1,7 +1,7 @@
 #ifndef DOOR_HPP
 #define DOOR_HPP
 
-#include "../../SFML-master/include/SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "IObject.hpp"
 
 ///@file

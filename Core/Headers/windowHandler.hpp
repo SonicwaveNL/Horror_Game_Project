@@ -1,7 +1,7 @@
 #ifndef WindowHandler_hpp
 #define WindowHandler_hpp
 
-#include "../../SFML-master/include/SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "IObject.hpp"
 
 ///@file

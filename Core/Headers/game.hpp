@@ -1,7 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <../../SFML-master/include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <IObject.hpp>
 #include <support.hpp>
 #include <action.hpp>

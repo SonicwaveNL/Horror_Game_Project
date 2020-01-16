@@ -7,11 +7,9 @@ vpath %.cpp Core/Sources
 vpath %.hpp Core/Headers
 vpath main.cpp Core
 
-SFMLDIR = SFML-master/include
-
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
-.PHONY: build clean run main
+.PHONY: build clean run
 
 build: main
 
@@ -19,19 +17,35 @@ build: main
 # main: 
 # 	gcc -o Booh main.o game.o $(LIBS)
 
-main: main.o game.o player.o IObject.o wall.o door.o windowHandler.o inputHandler.o keyboardMouse.o action.o
 main.o: main.cpp game.hpp
-game.o: game.cpp game.hpp IObject.hpp windowHandler.hpp inputHandler.hpp action.cpp action.hpp wall.hpp door.hpp
+game.o: game.cpp game.hpp IObject.hpp support.hpp action.hpp player.hpp
 player.o: player.cpp player.hpp IObject.hpp door.hpp wall.hpp
 door.o: door.cpp door.hpp IObject.hpp
 wall.o: IObject.hpp wall.hpp wall.cpp
 IObject.o: IObject.cpp IObject.hpp
-windowHandler.o: windowHandler.cpp windowHandler.hpp IObject.hpp
-inputHandler.o: inputHandler.cpp inputHandler.hpp inputListener.hpp keyboardMouse.hpp
+# windowHandler.o: windowHandler.cpp windowHandler.hpp IObject.hpp
+inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp keyboardMouse.cpp inputListener.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
-action.o: support.hpp inputHandler.hpp inputHandler.cpp
+action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 %.o: %.cpp
-	gcc -c $< -I$(SFMLDIR) $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
+	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
+
+main: main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o
+	$(gcc) $(LIBS) -o Booh main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o
+
+# main: main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o
+# 	$(gcc) -o Booh main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o -I$(LIBS)
+# main.o: main.cpp game.hpp
+# game.o: game.cpp game.hpp IObject.hpp support.hpp action.hpp player.hpp
+# IObject.o: IObject.cpp IObject.hpp
+# action.o: action.cpp action.hpp support.hpp inputHandler.hpp
+# inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp
+# keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
+# player.o: player.cpp player.hpp IObject.hpp door.hpp wall.hpp
+# door.o: door.cpp door.hpp IObject.hpp
+# wall.o: wall.hpp wall.cpp  IObject.hpp
+# %.o: %.cpp
+# 	$(gcc) -o $@ -c $< -I$(LIBS) -ICore/Headers -ICore/Sources -ICore/
 
 # toevoegen van alle hpp's
 #main.o: main.cpp game.hpp

@@ -1,6 +1,6 @@
 #ifndef INPUTLISTENER_HPP
 #define INPUTLISTENER_HPP
-#include "../../SFML-master/include/SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 ///@file
 ///\brief
 /// Abstract class for hardware input.
