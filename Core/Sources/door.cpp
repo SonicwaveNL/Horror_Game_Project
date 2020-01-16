@@ -3,6 +3,7 @@
 void Door::moveIfPossible(sf::Vector2f direction) {
   prevPosition = position;
   position = position + direction * speed;
+  base.setPosition(position);
 
   for (IObject* obj : objects) {
     if (obj->intersect(*this)) {
@@ -18,14 +19,15 @@ bool Door::intersect(IObject& obj) {
 void Door::jump(sf::Vector2f target) {
   prevPosition = position;
   position = target;
+  base.setPosition(position);
 }
 
 void Door::collision(IObject& obj) {
   position = prevPosition;
+  base.setPosition(position);
 }
 
 void Door::draw(sf::RenderWindow& window) {
-  base.setPosition(position);
   window.draw(base);
 }
 
