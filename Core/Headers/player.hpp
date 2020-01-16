@@ -75,8 +75,7 @@ class Player : public IObject {
     /*Check if an Player intersect with given IObject.*/
     ///@param obj
     /*IObject*/
-    ///@return
-    /*bool*/
+    ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
@@ -99,14 +98,12 @@ class Player : public IObject {
     /// Get Player GlobalBounds.
     ///\details
     /*Get the GlobalBounds of the Player object.*/
-    ///@return
-    /*sf::FloatRect*/
+    ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
 
     ///\brief
     ///Check the win variable.
-    ///@return
-    /*bool*/
+    ///@return bool
     bool checkWin();
 };
 

@@ -1,0 +1,197 @@
+\hypertarget{classDoor}{}\doxysection{Door Class Reference}
+\label{classDoor}\index{Door@{Door}}
+Inheritance diagram for Door\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classDoor}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDoor_a4ab1531d16e0a384781e1676cd224773}{Door}} (sf\+::\+Texture \&texture, sf\+::\+Vector2f position, std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIObject}{I\+Object}} $>$$>$ \&objects, sf\+::\+Color color=sf\+::\+Color\+::\+White)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classDoor}{Door}} object constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classDoor_a2bfb19f17f9cd90dee725a298a63eefe}{Door}} (sf\+::\+Vector2f position, sf\+::\+Vector2f size, std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIObject}{I\+Object}} $>$$>$ \&objects, sf\+::\+Color color=sf\+::\+Color\+::\+White)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classDoor}{Door}} object constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDoor_a22dd8e5d5aae9384842e457f0d516ce5}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em Draw \mbox{\hyperlink{classIObject}{I\+Object}} on window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDoor_ab32a6c21301fdcfbd32e026e1e4e6709}{move\+If\+Possible}} (sf\+::\+Vector2f direction) override
+\begin{DoxyCompactList}\small\item\em Move \mbox{\hyperlink{classDoor}{Door}} to direction, if possible. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classDoor_a8ca1740204eb1c880d2a5868d2dcc018}{intersect}} (\mbox{\hyperlink{classIObject}{I\+Object}} \&obj) override
+\begin{DoxyCompactList}\small\item\em Check if \mbox{\hyperlink{classDoor}{Door}} intersect. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDoor_a3d0b23de715d389fd1361f2300319b76}{jump}} (sf\+::\+Vector2f target) override
+\begin{DoxyCompactList}\small\item\em Jump \mbox{\hyperlink{classDoor}{Door}} object to given target. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDoor_a0edb94ac57e02f768f91773449677216}{collision}} (\mbox{\hyperlink{classIObject}{I\+Object}} \&obj) override
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classDoor}{Door}} collision. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{classDoor_a1ce7186d87d61f696e5a3b54d1c0f452}{get\+Bounds}} () override
+\begin{DoxyCompactList}\small\item\em Get \mbox{\hyperlink{classDoor}{Door}} Global\+Bounds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDoor_a4ab1531d16e0a384781e1676cd224773}\label{classDoor_a4ab1531d16e0a384781e1676cd224773}} 
+\index{Door@{Door}!Door@{Door}}
+\index{Door@{Door}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{Door()}{Door()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Door\+::\+Door (\begin{DoxyParamCaption}\item[{sf\+::\+Texture \&}]{texture,  }\item[{sf\+::\+Vector2f}]{position,  }\item[{std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIObject}{I\+Object}} $>$$>$ \&}]{objects,  }\item[{sf\+::\+Color}]{color = {\ttfamily sf\+:\+:Color\+:\+:White} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{classDoor}{Door}} object constructor. 
+
+The \mbox{\hyperlink{classDoor}{Door}} constructor parameters are used to create a \mbox{\hyperlink{classIObject}{I\+Object}}. 
+\begin{DoxyParams}{Parameters}
+{\em texture} & \\
+\hline
+{\em position} & \\
+\hline
+{\em objects} & \\
+\hline
+{\em color} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classDoor_a2bfb19f17f9cd90dee725a298a63eefe}\label{classDoor_a2bfb19f17f9cd90dee725a298a63eefe}} 
+\index{Door@{Door}!Door@{Door}}
+\index{Door@{Door}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{Door()}{Door()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Door\+::\+Door (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{position,  }\item[{sf\+::\+Vector2f}]{size,  }\item[{std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classIObject}{I\+Object}} $>$$>$ \&}]{objects,  }\item[{sf\+::\+Color}]{color = {\ttfamily sf\+:\+:Color\+:\+:White} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{classDoor}{Door}} object constructor. 
+
+The \mbox{\hyperlink{classDoor}{Door}} constructor parameters are used to create a \mbox{\hyperlink{classIObject}{I\+Object}}. 
+\begin{DoxyParams}{Parameters}
+{\em base} & \\
+\hline
+{\em position} & \\
+\hline
+{\em objects} & \\
+\hline
+{\em color} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDoor_a0edb94ac57e02f768f91773449677216}\label{classDoor_a0edb94ac57e02f768f91773449677216}} 
+\index{Door@{Door}!collision@{collision}}
+\index{collision@{collision}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{collision()}{collision()}}
+{\footnotesize\ttfamily void Door\+::collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classIObject}{I\+Object}} \&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classDoor}{Door}} collision. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classIObject_acc3c8cd26a84b344eccd9ce260c352d4}{I\+Object}}.
+
+\mbox{\Hypertarget{classDoor_a22dd8e5d5aae9384842e457f0d516ce5}\label{classDoor_a22dd8e5d5aae9384842e457f0d516ce5}} 
+\index{Door@{Door}!draw@{draw}}
+\index{draw@{draw}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Door\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Draw \mbox{\hyperlink{classIObject}{I\+Object}} on window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classIObject_afaf14dc0e8ccd58a8d7a21efb109b12b}{I\+Object}}.
+
+\mbox{\Hypertarget{classDoor_a1ce7186d87d61f696e5a3b54d1c0f452}\label{classDoor_a1ce7186d87d61f696e5a3b54d1c0f452}} 
+\index{Door@{Door}!getBounds@{getBounds}}
+\index{getBounds@{getBounds}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{getBounds()}{getBounds()}}
+{\footnotesize\ttfamily sf\+::\+Float\+Rect Door\+::get\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get \mbox{\hyperlink{classDoor}{Door}} Global\+Bounds. 
+
+\begin{DoxyReturn}{Returns}
+sf\+::\+Float\+Rect 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIObject_a261db687462559199c29b2de47330e62}{I\+Object}}.
+
+\mbox{\Hypertarget{classDoor_a8ca1740204eb1c880d2a5868d2dcc018}\label{classDoor_a8ca1740204eb1c880d2a5868d2dcc018}} 
+\index{Door@{Door}!intersect@{intersect}}
+\index{intersect@{intersect}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{intersect()}{intersect()}}
+{\footnotesize\ttfamily bool Door\+::intersect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classIObject}{I\+Object}} \&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if \mbox{\hyperlink{classDoor}{Door}} intersect. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classIObject_aeb4de4afb99f75ded08b08d4b0e89cc2}{I\+Object}}.
+
+\mbox{\Hypertarget{classDoor_a3d0b23de715d389fd1361f2300319b76}\label{classDoor_a3d0b23de715d389fd1361f2300319b76}} 
+\index{Door@{Door}!jump@{jump}}
+\index{jump@{jump}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{jump()}{jump()}}
+{\footnotesize\ttfamily void Door\+::jump (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{target }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Jump \mbox{\hyperlink{classDoor}{Door}} object to given target. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classIObject_a7a5894b2f6869345881e571a6b472e13}{I\+Object}}.
+
+\mbox{\Hypertarget{classDoor_ab32a6c21301fdcfbd32e026e1e4e6709}\label{classDoor_ab32a6c21301fdcfbd32e026e1e4e6709}} 
+\index{Door@{Door}!moveIfPossible@{moveIfPossible}}
+\index{moveIfPossible@{moveIfPossible}!Door@{Door}}
+\doxysubsubsection{\texorpdfstring{moveIfPossible()}{moveIfPossible()}}
+{\footnotesize\ttfamily void Door\+::move\+If\+Possible (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{direction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Move \mbox{\hyperlink{classDoor}{Door}} to direction, if possible. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direction} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classIObject_a13d7fecf93745e6d3d29c5181b561567}{I\+Object}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/\+Headers/\mbox{\hyperlink{door_8hpp}{door.\+hpp}}\item 
+Core/\+Sources/door.\+cpp\end{DoxyCompactItemize}

@@ -71,8 +71,7 @@ class Door : public IObject {
     /*Check if an Door intersect with given IObject.*/
     ///@param obj
     /*IObject*/
-    ///@return
-    /*bool*/
+    ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
@@ -95,8 +94,7 @@ class Door : public IObject {
     /// Get Door GlobalBounds.
     ///\details
     /*Get the GlobalBounds of the Door object.*/
-    ///@return
-    /*sf::FloatRect*/
+    ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
 };
 

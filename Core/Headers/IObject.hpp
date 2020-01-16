@@ -109,8 +109,7 @@ class IObject {
   /*Check if an IObject is colliding with given IObject.*/
   ///@param obj
   /*IObject*/
-  ///@return
-  /*bool*/
+  ///@return bool
   virtual bool intersect(IObject& obj) = 0;
 
   ///\brief
@@ -127,16 +126,14 @@ class IObject {
   /*Peform interaction with given IObject*/
   ///@param obj
   /*IObject*/
-  ///@return
-  /*void*/
+  ///@return void
   virtual void collision(IObject& obj) = 0;
 
   ///\brief
   /// Get IObject GlobalBounds.
   ///\details
-  /*Get the GlobalBounds of the IObject.*/
-  ///@return
-  /*sf::FloatRect*/
+  /*Get the GlobalBounds of the IObject.*/ 
+  ///@return sf::FloatRect
   virtual sf::FloatRect getBounds() = 0;
 
   std::string getType();

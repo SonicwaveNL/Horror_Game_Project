@@ -35,5 +35,8 @@
 */.vscode
 *.vscode
 
+# Doxygen
+*/doxygen
+
 Booh
 

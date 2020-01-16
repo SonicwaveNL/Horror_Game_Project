@@ -18,8 +18,7 @@ class KeyboardMouse : public InputListener {
    * pressed.*/
   ///@param input
   /*sf::Keyboard::Key &*/
-  ///@return
-  /*bool*/
+  ///@return bool
   bool checkInput(sf::Keyboard::Key& input) override;
 
   // void checkInput(sf::Joystick::Axis & input) override;
@@ -31,8 +30,7 @@ class KeyboardMouse : public InputListener {
    * sf::Vector2f format*/
   ///@param Name of parameter
   /*sf::RenderWindow& window*/
-  ///@return
-  /*sf::vector2f*/
+  ///@return sf::vector2f
   sf::Vector2f getMousePos(sf::RenderWindow& window) override;
 };
 #endif  // KEYBOARDMOUSE_HPP

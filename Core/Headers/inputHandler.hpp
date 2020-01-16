@@ -39,8 +39,7 @@ class InputHandler {
   is pressed.*/
   ///@param aKey
   /*enum class actionKeyword.*/
-  ///@return
-  /*bool, is a button pressed or not? true/false.*/
+  ///@return bool
   bool checkInput(actionKeyword aKey);
 };
 #endif  // INPUTHANDLER_HPP

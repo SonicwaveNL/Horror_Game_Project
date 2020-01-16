@@ -52,9 +52,7 @@ class Wall : public IObject {
     /// parameters.
     ///@param obj
     /*The object to check if the wall collides with it.*/
-    ///@return
-    /*Returns true if the user collides with the object and false if it
-     * doesn't.*/
+    ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
@@ -73,8 +71,7 @@ class Wall : public IObject {
     /// Return the boundaries of the wall object.
     ///\details
     /*Returns the rectangle the object is surrounded by.*/
-    ///@return
-    /*The floatRect the object is surrounded by.*/
+    ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
 };
 
