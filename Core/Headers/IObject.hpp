@@ -18,7 +18,7 @@ class IObject {
   sf::Vector2f prevPosition;
   sf::RectangleShape base;
   sf::Sprite sprite;
-  std::vector<IObject*>& objects;
+  std::vector<std::shared_ptr<IObject>> &  objects;
   float speed = 0;
 
  public:
@@ -62,7 +62,7 @@ class IObject {
   /*a SFML sf::Color, this is the color of the texture.*/
   IObject(sf::Vector2f position,
           sf::Vector2f size,
-          std::vector<IObject*>& objects,
+          std::vector<std::shared_ptr<IObject>> & objects,
           sf::Color color = sf::Color::White)
       : color(color),
         base(size),

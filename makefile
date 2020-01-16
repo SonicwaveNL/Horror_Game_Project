@@ -20,7 +20,7 @@ build: main
 # 	gcc -o Booh main.o game.o $(LIBS)
 main: main.o game.o player.o IObjects.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o
 main.o: main.cpp game.hpp
-game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp 
+game.o: game.cpp game.hpp IObjects.hpp windowHandler.hpp inputHandler.hpp action.cpp action.hpp
 player.o: player.cpp player.hpp IObjects.hpp door.hpp wall.hpp
 support.o: support.cpp support.hpp 
 door.o: door.cpp door.hpp IObject.hpp 
@@ -29,6 +29,7 @@ windowHandler.o: windowHandler.cpp windowHandler.hpp IObjects.hpp
 inputListener.o: inputListener.cpp inputListener.hpp
 inputHandler.o: inputHandler.cpp inputHandler.hpp inputListener.hpp keyboardMouse.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
+action.o: support.hpp inputHandler.hpp inputHandler.cpp
 %.o: %.cpp
 	gcc -c $< -o $@ -I$(SFMLDIR) $(LIBS) -ICore/Headers -ICore/Sources -ICore/
 
