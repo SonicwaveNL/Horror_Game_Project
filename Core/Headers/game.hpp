@@ -8,7 +8,7 @@
 #include "player.hpp"
 #include "vector"
 #include "memory"
-
+#include <iostream>
 ///@file
 ///\brief
 ///Game class to present demo

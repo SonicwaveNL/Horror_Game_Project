@@ -20,7 +20,7 @@ class IObject {
   sf::RectangleShape base;
   sf::Sprite sprite;
   std::vector<std::shared_ptr<IObject>> &  objects;
-  float speed = 0;
+  float speed = 5;
   const std::string type;
 
  public:
