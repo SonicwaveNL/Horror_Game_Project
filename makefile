@@ -32,7 +32,7 @@ action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
 main: main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o inputListener.o
-	$(gcc) $(LIBS) -o Booh main.o game.o player.o IObject.o wall.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o
+	$(gcc) -o Booh main.o game.o player.o IObject.o wall.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
 
 # main: main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o
 # 	$(gcc) -o Booh main.o game.o player.o IObject.o wall.o door.o inputHandler.o keyboardMouse.o action.o -I$(LIBS)
