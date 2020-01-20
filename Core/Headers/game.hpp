@@ -40,14 +40,10 @@ class Game {
         Action(sf::Keyboard::Num4, [=](){cellType = "Player";}),
         Action(sf::Keyboard::Num5, [=](){cellType = "Enemy";}),
         Action(sf::Mouse::Button::Left, [&](){
-            auto index = findShapeFromMouse(
-                window.mapPixelToCoords(
-                    sf::Mouse::getPosition(window)
-                )
-            );
-            grid[index[0]]
-                [index[1]].setType(cellType);
-        }
+            sf::Vector2f mousePos = window.mapPixelToCoords( sf::Mouse::getPosition(window));
+            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
+            grid[index[0]][index[1]].setType(cellType);
+        })
     };
 
   public:
