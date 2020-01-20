@@ -4,7 +4,7 @@ void Player::moveIfPossible(sf::Vector2f direction) {
     prevPosition = position;
     position = position + direction * speed;
 
-    base.setPosition(position);
+    iCirc.setPosition(position);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {
             collision(*obj);
@@ -13,34 +13,40 @@ void Player::moveIfPossible(sf::Vector2f direction) {
 }
 
 bool Player::intersect(IObject & obj) {
-    return base.getGlobalBounds().intersects(obj.getBounds());
+    return iCirc.getGlobalBounds().intersects(obj.getBounds());
 }
 
 void Player::jump(sf::Vector2f target) {
     prevPosition = position;
     position = target;
-    base.setPosition(position);
+    iCirc.setPosition(position);
 }
 
 void Player::collision(IObject & obj) {
-    if (obj.getType() == "Wall") {
-        position = prevPosition;
-        base.setPosition(position);
-
+    std::shared_ptr<IObject> object = std::make_shared<IObject>(obj);
+    //        player = std::static_pointer_cast<Player>(drawables[0]);
+    // If the pointer cast returns a nullptr, it failed.
+    if(std::static_pointer_cast<Wall>(object) != nullptr){
+        ICirc.setPosition(prevPosition);
         return;
+    }
+
+
+    if(std::static_pointer_cast<Door>(object) != nullptr){
+        std::cout << "You won the game!" << std::endl;
     }
 
     if (obj.getType() == "Door") {
         std::cout << "You won the game!" << std::endl;
         position = prevPosition;
-        base.setPosition(position);
+        iCirc.setPosition(position);
         win = true;
         return;
     }
 }
 
-void Player::draw(sf::RenderWindow & window) { window.draw(base); }
+void Player::draw(sf::RenderWindow & window) { window.draw(iCirc); }
 
-sf::FloatRect Player::getBounds() { return base.getGlobalBounds(); }
+sf::FloatRect Player::getBounds() { return iCirc.getGlobalBounds(); }
 
 bool Player::checkWin() { return win; }
