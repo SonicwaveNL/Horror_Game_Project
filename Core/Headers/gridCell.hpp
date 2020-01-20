@@ -6,9 +6,9 @@
 
 class GridCell : public IRectangle {
 private:
-    // Flyweigth pattern    
+    // Flyweight pattern    
     sf::Texture * texture;
-    sf::Sprite * sprite;
+    sf::Sprite sprite;
     std::string type = "Floor";
 public:
     // For AI
