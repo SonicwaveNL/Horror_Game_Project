@@ -37,7 +37,7 @@ public:
     void setPosition(sf::Vector2f position) override;
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
-
+    void setColor(sf::Color color) override;
     void setType(std::string type);
 };
 
