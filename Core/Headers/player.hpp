@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iObject.hpp>
-#include <iCircle.hpp>
+#include <iRectangle.hpp>
 #include <door.hpp>
 #include <wall.hpp>
 
@@ -13,12 +13,36 @@
 /// Player class.
 ///\details
 /*A Player class, create a playable character*/
-class Player : public IRect {
+class Player : public IRectangle {
   private:
     bool win = false;
     sf::Texture texture;
-
+    sf::Sprite sprite;
   public:
+      ///\brief
+    /// Player object constructor.
+    ///\details
+    /// The Player constructor parameters are used to create a IObject.
+    ///@param texture
+    /*a SFML sf::Texture, this is the texture for the object*/
+    ///@param position
+    /*a sf::Vector2f position, this is the position of the object*/
+    ///@param objects
+    /*a std::vector<IObject*> vector array, this is a group of all IObjects
+     * within*/
+    ///@param color
+    /*a SFML sf::Color, this is the color of the texture.*/
+    Player(
+      sf::Vector2f position,
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Color color = sf::Color(255, 98, 0), 
+      float speed = 5
+      ): 
+      IRectangle(
+        position, 
+        objects, 
+        color, 
+        speed){}
     ///\brief
     /// Player object constructor.
     ///\details
@@ -32,10 +56,21 @@ class Player : public IRect {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Player(sf::Texture & texture, sf::Vector2f position,
-           std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color(255, 98, 0), float speed = 5)
-        : IRect(position, objects, color, speed), texture(texture) {}
+    Player(
+      sf::Texture & texture, 
+      sf::Vector2f position,
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Color color = sf::Color(255, 98, 0), 
+      float speed = 5
+      ): 
+      IRectangle(
+        position, 
+        objects, 
+        color, 
+        speed), 
+        texture(texture){
+          sprite.setTexture(texture);
+        }
 
     ///\brief
     /// Draw IObject on window
@@ -68,7 +103,7 @@ class Player : public IRect {
     /*Jump Player object to given sf::Vector2f target.*/
     ///@param obj
     /*sf::Vector2f*/
-    void jump(sf::Vector2f target) override;
+    void setPosition(sf::Vector2f position) override;
 
     ///\brief
     /// Player collision.
