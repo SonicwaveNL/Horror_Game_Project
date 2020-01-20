@@ -1,10 +1,10 @@
 #include <../Headers/door.hpp>
 
 void Door::moveIfPossible(sf::Vector2f direction) {
-    prevPosition = position;
-    position = position + direction * speed;
-    base.setPosition(position);
+    prevPosition = iRect.getPosition();
+    sf::Vector2f position = iRect.getPosition() + direction * speed;
 
+    iRect.setPosition(position);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {
             collision(*obj);
@@ -13,20 +13,18 @@ void Door::moveIfPossible(sf::Vector2f direction) {
 }
 
 bool Door::intersect(IObject & obj) {
-    return base.getGlobalBounds().intersects(obj.getBounds());
+    return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Door::jump(sf::Vector2f target) {
-    prevPosition = position;
-    position = target;
-    base.setPosition(position);
+void Door::setPosition(sf::Vector2f target) {
+    prevPosition = iRect.getPosition();
+    iRect.setPosition(position);
 }
 
 void Door::collision(IObject & obj) {
-    position = prevPosition;
-    base.setPosition(position);
+    iRect.setPosition(prevPosition);
 }
 
-void Door::draw(sf::RenderWindow & window) { window.draw(base); }
+void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
-sf::FloatRect Door::getBounds() { return base.getGlobalBounds(); }
+sf::FloatRect Door::getBounds() { return iRect.getGlobalBounds(); }

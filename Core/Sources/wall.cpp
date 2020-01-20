@@ -1,10 +1,10 @@
 #include <../Headers/wall.hpp>
 
 void Wall::moveIfPossible(sf::Vector2f direction) {
-    prevPosition = position;
-    position = position + direction * speed;
-    base.setPosition(position);
+    prevPosition = iRect.getPosition();
+    sf::Vector2f position = iRect.getPosition() + direction * speed;
 
+    iRect.setPosition(position);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {
             collision(*obj);
@@ -12,21 +12,19 @@ void Wall::moveIfPossible(sf::Vector2f direction) {
     }
 }
 
-void Wall::jump(sf::Vector2f target) {
-    prevPosition = position;
-    position = target;
-    base.setPosition(position);
+void Wall::setPosition(sf::Vector2f target) {
+    prevPosition = iRect.getPosition();
+    iRect.setPosition(target);
 }
 
 bool Wall::intersect(IObject & obj) {
-    return base.getGlobalBounds().intersects(obj.getBounds());
+    return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
 void Wall::collision(IObject & obj) {
-    position = prevPosition;
-    base.setPosition(position);
+    iRect.setPosition(prevPosition);
 }
 
-void Wall::draw(sf::RenderWindow & window) { window.draw(base); }
+void Wall::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
-sf::FloatRect Wall::getBounds() { return base.getGlobalBounds(); }
+sf::FloatRect Wall::getBounds() { return iRect.getGlobalBounds(); }

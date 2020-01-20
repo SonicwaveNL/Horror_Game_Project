@@ -35,7 +35,7 @@ class Player : public IRect {
     Player(sf::Texture & texture, sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Color color = sf::Color(255, 98, 0), float speed = 5)
-        : ICircle(position, objects, color, speed), texture(texture) {}
+        : IRect(position, objects, color, speed), texture(texture) {}
 
     ///\brief
     /// Draw IObject on window
