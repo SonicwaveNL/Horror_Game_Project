@@ -5,7 +5,7 @@
 #include <iObject.hpp>
 
 class ICircle : public IObject {
-  private:
+  protected:
     sf::CircleShape iCirc;
 
   public:
@@ -18,6 +18,7 @@ class ICircle : public IObject {
     }
 
     void setRadius(float rad);
+
 };
 
 #endif // ICIRCLE_hpp

@@ -2,7 +2,7 @@
 #define DOOR_HPP
 
 #include <SFML/Graphics.hpp>
-#include <iObject.hpp>
+#include <iRectangle.hpp>
 
 ///@file
 
@@ -10,7 +10,10 @@
 /// Door class.
 ///\details
 /*A Door class, create a door to interact with*/
-class Door : public IObject {
+class Door : public IRectangle {
+  private:
+    sf::Texture texture;
+    sf::Sprite sprite;
   public:
     ///\brief
     /// Door object constructor.
@@ -25,32 +28,17 @@ class Door : public IObject {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Door(sf::Texture & texture, sf::Vector2f position,
-         std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Color color = sf::Color::White)
-        : IObject(texture, position, objects, "Door", color)
-
-              {};
-
-    ///\brief
-    /// Door object constructor.
-    ///\details
-    /// The Door constructor parameters are used to create a IObject.
-    ///@param base
-    /*a SFML sf::RectangleShape, this is a rectangle shaped object*/
-    ///@param position
-    /*a sf::Vector2f position, this is the position of the object*/
-    ///@param objects
-    /*a std::vector<IObject*> vector array, this is a group of all IObjects
-     * within*/
-    ///@param color
-    /*a SFML sf::Color, this is the color of the texture.*/
-    Door(sf::Vector2f position, sf::Vector2f size,
-         std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Color color = sf::Color::White)
-        : IObject(position, size, objects, "Door", color)
-
-              {};
+    Door(
+      sf::Vector2f position,
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Color color = sf::Color::White,
+      float speed = 0
+    ):IRectangle( 
+        position,
+        objects, 
+        color,
+        speed
+    ){};
 
     ///\brief
     /// Draw IObject on window
@@ -83,7 +71,7 @@ class Door : public IObject {
     /*Jump Door object to given sf::Vector2f target.*/
     ///@param obj
     /*sf::Vector2f*/
-    void jump(sf::Vector2f target) override;
+    void setPosition(sf::Vector2f position) override;
 
     ///\brief
     /// Door collision.

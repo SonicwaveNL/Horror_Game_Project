@@ -2,14 +2,14 @@
 #define Wall_hpp
 
 #include <SFML/Graphics.hpp>
-#include <iObject.hpp>
+#include <iRectangle.hpp>
 ///@file
 
 ///\brief
 /// A wall object, through which a user can't move
 ///\details
 /// A wall blocks a player from walking somewhere.
-class Wall : public IObject {
+class Wall : public IRectangle {
   public:
     ///\brief
     /// The constructor for the Wall object
@@ -23,10 +23,16 @@ class Wall : public IObject {
     ///@param color
     /*An SFML colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(sf::Vector2f position, sf::Vector2f size,
-         std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Color color = sf::Color::White)
-        : IObject(position, size, objects, "Wall", color) {}
+    Wall(
+      sf::Vector2f position, 
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Color color = sf::Color::White
+    ): 
+      IRectangle(
+        position, 
+        objects, 
+        color
+      ) {}
 
     ///\brief
     /// Move the wall in a specific direction, if it's possible
@@ -47,7 +53,7 @@ class Wall : public IObject {
      * the specific location.*/
     ///@param target
     /*The new position to put the wall.*/
-    void jump(sf::Vector2f target) override;
+    void setPosition(sf::Vector2f position) override;
 
     ///\brief
     /// Whether or not the wall collides with the object given in the
