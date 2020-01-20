@@ -65,11 +65,11 @@ class Game {
         drawables.push_back(std::make_shared<Door>(
             sf::Vector2f(1895.f, 500.f), sf::Vector2f(10.f, 80.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
-        grid = = createGrid(window.getSize());
+        grid = createGrid(window.getSize());
     };
 
     std::vector< std::vector< GridCell >> createGrid( sf::Vector2u windowSize );
-    int arr[2] findShapeFromMouse( sf::Vector2f mousePos );
+    std::array<int,2> findShapeFromMouse( sf::Vector2f mousePos );
     ///\brief
     /// Runs the game demo
     void run();
