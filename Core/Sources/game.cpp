@@ -28,10 +28,10 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
     return shapeMatrix;
 }
 
-int arr[2] findShapeFromMouse( sf::Vector2f mousePos ){
+std::array<int,2> findShapeFromMouse( sf::Vector2f mousePos ){
     int xPos = int(mousePos.x) / 20;
     int yPos = int(mousePos.y) / 20;
-    int arr[2] = {xPos, yPos};
+    std::array<int, 2> arr = {xPos, yPos};
     return arr;
 }
 
