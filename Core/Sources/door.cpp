@@ -18,7 +18,7 @@ bool Door::intersect(IObject & obj) {
 
 void Door::setPosition(sf::Vector2f target) {
     prevPosition = iRect.getPosition();
-    iRect.setPosition(position);
+    iRect.setPosition(iRect.getPosition());
 }
 
 void Door::collision(IObject & obj) {

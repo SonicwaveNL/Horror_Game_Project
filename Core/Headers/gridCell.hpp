@@ -31,6 +31,7 @@ public:
     };
 
     void draw(sf::RenderWindow & window) override;
+    void move(sf::Vector2f direction) override;
     void moveIfPossible(sf::Vector2f direction) override;
     bool intersect(IObject & obj) override;
     void setPosition(sf::Vector2f position) override;

@@ -8,14 +8,25 @@ void GridCell::move(sf::Vector2f direction){
     return;    
 }
 
-bool GridCell::isColliding(IObject & obj){
-
+bool GridCell::intersect(IObject & obj){
+    return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void GridCell::interact(IObject & obj){
+void GridCell::collision(IObject & obj){
+    // If gridcell collides with anything: do nothing
+    return;
 
 }
 
 void GridCell::setType(std::string type){
     type=type;
+}
+
+sf::FloatRect GridCell::getBounds(){
+    return iRect.getGlobalBounds();
+}
+
+void GridCell::draw(sf::RenderWindow & window){
+    window.draw(iRect);
+    window.draw(sprite);
 }

@@ -30,7 +30,7 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
 
 int arr[2] findShapeFromMouse( sf::Vector2f mousePos ){
     int xPos = int(mousePos.x) / 20;
-    int yPos = int(mousePosY.y) / 20;
+    int yPos = int(mousePos.y) / 20;
     int arr[2] = {xPos, yPos};
     return arr;
 }
