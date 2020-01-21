@@ -35,6 +35,26 @@ std::array<int,2> findShapeFromMouse( sf::Vector2f mousePos ){
     return arr;
 }
 
+void Game::loadSubVectors(){
+
+    for(std::shared_ptr<IObject> obj : drawables){
+        
+        if(std::static_pointer_cast<Player>(obj) != nullptr){
+            characters.push_back(obj);
+        }else if(std::static_pointer_cast<Monster>(obj) != nullptr){
+            characters.push_back(obj);
+        }
+
+        if(std::static_pointer_cast<Switch>(obj) != nullptr){
+            characters.push_back(obj);
+        }else if(std::static_pointer_cast<Door>(obj) != nullptr){
+            characters.push_back(obj);
+        }
+
+
+    }
+}
+
 void Game::run() {
     // while (window.isOpen()) {
     //     for (auto & action : playingActions) {

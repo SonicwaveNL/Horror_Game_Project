@@ -9,6 +9,8 @@
 #include <support.hpp>
 #include <action.hpp>
 #include <player.hpp>
+#include <monster.hpp>
+#include <switch.hpp>
 
 ///@file
 
@@ -19,11 +21,18 @@ class Game {
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
                             sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
+    
+    std::vector<std::shared_ptr<IObject>> characters;
+    std::vector<std::shared_ptr<IObject>> winFactors;
+    std::vector<std::shared_ptr<IObject>> gameObjects;
+
+
+
     std::shared_ptr<Player> player;
     std::vector<std::vector<GridCell>> grid;
     std::string cellType = "Floor";
 
-    Action playingActions[4] = {
+    Action playingActions[5] = {
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
         Action(actionKeyword::down,
@@ -31,7 +40,8 @@ class Game {
         Action(actionKeyword::left,
                [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
         Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); })};
+               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); })
+        };
 
     Action editorActions[6] = {
         Action(sf::Keyboard::Num1, [=](){cellType = "Wall";}),
@@ -65,11 +75,16 @@ class Game {
         drawables.push_back(std::make_shared<Door>(
             sf::Vector2f(1895.f, 500.f), sf::Vector2f(10.f, 80.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
-        grid = = createGrid(window.getSize());
+
+        loadSubVectors();
+
+        grid = createGrid(window.getSize());
     };
 
+    void loadSubVectors();
+
     std::vector< std::vector< GridCell >> createGrid( sf::Vector2u windowSize );
-    int arr[2] findShapeFromMouse( sf::Vector2f mousePos );
+    std::array<int, 2> findShapeFromMouse( sf::Vector2f mousePos );
     ///\brief
     /// Runs the game demo
     void run();
