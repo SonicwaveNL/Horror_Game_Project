@@ -82,4 +82,114 @@ void Game::run() {
             }
         }
     }
+
+};
+
+sf::Vector2f Game::findShortestStep(){
+
+    int myXPos = 0;
+    int myYPos = 0;
+    int smallestValue = 999;
+    sf::Vector2f moveDirection = sf::Vector2f(0, 0);
+
+   sf::Vector2f monsterPosition = monster->getPosition();
+   myXPos = monsterPosition.x / 20;
+   myYPos = monsterPosition.y / 20;
+
+
+    // Check up
+    if ( (myYPos - 1) >= 0 && grid[myYPos - 1][myXPos].value <= smallestValue ){
+        smallestValue = grid[myYPos - 1][myXPos].value;
+        moveDirection.x = 0;
+        moveDirection.y = -1;
+    }
+
+    // Check down
+    if ( (myYPos + 1) < grid.size() && grid[myYPos + 1][myXPos].value <= smallestValue ){
+        smallestValue = grid[myYPos + 1][myXPos].value;
+        moveDirection.x = 0;
+        moveDirection.y = 1;
+    }
+
+    // Check left
+    if ( (myXPos - 1) >= 0 && grid[myYPos][myXPos - 1].value <= smallestValue ){
+        smallestValue = grid[myYPos][myXPos - 1].value;
+        moveDirection.x = -1;
+        moveDirection.y = 0;
+    }
+
+    // Check right
+    if ( (myXPos + 1) < grid[myYPos].size() && grid[myYPos][myXPos + 1].value <= smallestValue ){
+        smallestValue = grid[myYPos][myXPos + 1].value;
+        moveDirection.x = 1;
+        moveDirection.y = 0;
+    }
+
+    return moveDirection;
+
+};
+
+void Game::reversedBFSPathAlgorithm(){
+
+    std::queue<GridCell&> q;
+    int xPos = player->getPosition().x / 20;
+    int yPos = player->getPosition().y / 20;
+
+    GridCell & source = grid[yPos][xPos];
+    bool visited[grid.size()][grid[0].size()];
+
+    // Fill the visited array with "isWalkAble" bools
+    for( int y = 0; y < grid.size(); y++ ){
+        for( int x = 0; x < grid[y].size(); x++ ){   
+            visited[y][x] = ! grid[y][x].isWalkAble;
+        }
+    }
+
+    int xPosMonster = monster->getPosition().x / 20;
+    int yPosMonster = monster->getPosition().y / 20;
+    GridCell * sourceMonster = &grid[yPosMonster][xPosMonster];
+
+    q.push(source);
+    visited[yPosMonster][xPosMonster] = true;
+
+    while( ! q.empty() ){
+
+        GridCell *p = &q.front();
+        q.pop();
+
+        if( p == sourceMonster ){ return; }
+
+        // Check upper cell
+        if( (yPos - 1) >= 0 && visited[yPos - 1][xPos] == false ){
+            grid[ yPos - 1 ][xPos].value = p->value + 1;
+            q.push( grid[yPos - 1][xPos] );
+            visited[yPos - 1][xPos] = true;
+        }
+
+        // Check lower cell
+        if( (yPos + 1) < grid.size() && visited[yPos + 1][xPos] == false ){
+            grid[ yPos + 1 ][xPos].value = p->value + 1;
+            q.push( grid[yPos + 1][xPos] );
+            visited[yPos + 1][xPos] = true;
+        }
+
+        // Check left cell
+        if( (xPos - 1) >= 0 && visited[yPos][xPos - 1] == false ){
+            grid[ yPos][xPos - 1].value = p->value + 1;
+            q.push( grid[yPos][xPos - 1] );
+            visited[yPos][xPos - 1] = true;
+        }
+
+        // Check right cell
+        if( (xPos + 1) < grid[yPos].size() && visited[yPos][xPos + 1] == false ){
+            grid[ yPos][xPos + 1].value = p->value + 1;
+            q.push( grid[yPos][xPos + 1] );
+            visited[yPos][xPos + 1] = true;
+        }
+
+    }
+
+
+    
+
 };

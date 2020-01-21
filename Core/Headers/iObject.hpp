@@ -12,25 +12,27 @@
 ///\details
 /*An abstract class to handle/create SMFL objects.*/
 class IObject {
-  protected:
-    sf::Color color;
-    sf::Vector2f prevPosition;
-    std::vector<std::shared_ptr<IObject>> & objects;
-    float speed = 5;
+  public:
     enum class Type{
       Door,
       Wall,
       Player,
-      Enemy,
+      Monster,
       Switch,
       Powerup,
       Abstract,
       GridCell
     };
+  protected:
+    sf::Color color;
+    sf::Vector2f prevPosition;
+    std::vector<std::shared_ptr<IObject>> & objects;
+    float speed = 5;
 
     Type type;
 
   public:
+  
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0, Type type = Type::Abstract)
         : objects(objects), color(color), speed(speed), type(type) {}
@@ -95,6 +97,7 @@ class IObject {
     virtual sf::FloatRect getBounds() = 0;
 
     Type getType();
+
 };
 
 #endif // IOBJECT_HPP

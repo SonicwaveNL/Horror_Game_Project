@@ -87,6 +87,8 @@ class Monster : public IRectangle {
   /*Get the GlobalBounds of the Monster object.*/
   ///@return sf::FloatRect
   sf::FloatRect getBounds() override;
+
+  sf::Vector2f getPosition() override;
 };
 
 #endif  // MONSTER_HPP

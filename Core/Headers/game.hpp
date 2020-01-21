@@ -4,11 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <vector>
+#include <queue>
 #include <iObject.hpp>
 #include <gridCell.hpp>
 #include <support.hpp>
 #include <action.hpp>
 #include <player.hpp>
+#include <monster.hpp>
 
 ///@file
 
@@ -20,6 +22,7 @@ class Game {
                             sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
     std::shared_ptr<Player> player;
+    std::shared_ptr<Monster> monster;
     std::vector<std::vector<GridCell>> grid;
     std::string cellType = "Floor";
 
@@ -38,7 +41,7 @@ class Game {
         Action(sf::Keyboard::Num2, [=]() { cellType = "Switch"; }),
         Action(sf::Keyboard::Num3, [=]() { cellType = "Door"; }),
         Action(sf::Keyboard::Num4, [=]() { cellType = "Player"; }),
-        Action(sf::Keyboard::Num5, [=]() { cellType = "Enemy"; }),
+        Action(sf::Keyboard::Num5, [=]() { cellType = "Monster"; }),
         Action(sf::Mouse::Button::Left, [&]() {
             sf::Vector2f mousePos =
                 window.mapPixelToCoords(sf::Mouse::getPosition(window));
@@ -56,7 +59,10 @@ class Game {
     Game() {
         drawables.push_back(
             std::make_shared<Player>(sf::Vector2f(50.f, 50.f), drawables));
+        drawables.push_back(
+            std::make_shared<Monster>( sf::Vector2f(50.f, 50.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
+        monster = std::static_pointer_cast<Monster>(drawables[1]);
         grid = createGrid(window.getSize());
         std::cout << "grid size x : " << grid.size() << std::endl;
     };
@@ -66,6 +72,9 @@ class Game {
     ///\brief
     /// Runs the game demo
     void run();
+
+    sf::Vector2f findShortestStep();
+    void reversedBFSPathAlgorithm();
 };
 
 #endif

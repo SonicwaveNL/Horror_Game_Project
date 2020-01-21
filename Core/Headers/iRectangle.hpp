@@ -86,6 +86,8 @@ class IRectangle : public IObject{
 
     void setSize(sf::Vector2f size);
 
+    virtual sf::Vector2f getPosition() = 0;
+
 };
 
 #endif

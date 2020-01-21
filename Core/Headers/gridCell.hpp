@@ -17,6 +17,10 @@ class GridCell : public IRectangle{
     // int column;
     // int dist;
 
+    int value = 0;
+    bool visited = false;
+    bool isWalkAble = true;
+
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
              sf::Color color = sf::Color::White)
@@ -30,6 +34,7 @@ class GridCell : public IRectangle{
     void moveIfPossible(sf::Vector2f direction) override;
     bool intersect(IObject & obj) override;
     void setPosition(sf::Vector2f position) override;
+    sf::Vector2f getPosition() override;
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
     void setColor(sf::Color color) override;
