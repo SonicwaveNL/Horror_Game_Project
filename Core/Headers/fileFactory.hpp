@@ -38,18 +38,36 @@ public:
         }
     }
 
-    void loadFromFile(std::vector<std::vector<GridCell>> & matrix, std::string fileName){
+    void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix, std::string fileName){
         std::ifstream file;
         file.open(fileName); //@TODO exception maken
+        std::string tmpString;
+        int xCoordinate, yCoordinate;
+        char tmpChar;
         while(!EOF){
-            std::string tmp;
-            tmp << file;
-            
-            
+            file >> tmpString;
+
+            if( !(file >> tmpChar) ){ return; } //spatie
+
+            if( !(file >> tmpChar) ){ return; }
+            if( !(tmpChar != '(') ){ return; }
+
+            if( !(file >> xCoordinate) ){ return; }
+
+            if( !(file >> tmpChar) ){ return; }
+            if( !(tmpChar != ',' ) ){ return; }
+
+            if( !(file >> yCoordinate) ){ return; }
+
+            if( !(file >> tmpChar) ){ return; }
+            if( !(tmpChar != ')') ){ return; }
+
+            for( auto & item : types){
+                if( tmpString == item.writeAble){
+                    matrix[xCoordinate/20][yCoordinate/20].setCellType( item.itemType );
+                }
+            }
         }
-
-
-
     }
 };
 
