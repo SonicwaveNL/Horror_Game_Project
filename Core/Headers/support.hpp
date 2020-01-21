@@ -8,6 +8,17 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
+enum class objectType {
+    Abstract, 
+    GridCell, 
+    Floor, 
+    Wall, 
+    Switch, 
+    Door, 
+    Player, 
+    Monster
+};
+
 ///\brief
 /// Enum class that contains keywords representing actions.
 enum class actionKeyword {

@@ -21,7 +21,7 @@ class Game {
     std::vector<std::shared_ptr<IObject>> drawables;
     std::shared_ptr<Player> player;
     std::vector<std::vector<GridCell>> grid;
-    std::string cellType = "Floor";
+    objectType cellType = objectType::Floor;
 
     Action playingActions[4] = {
         Action(actionKeyword::up,
@@ -34,12 +34,12 @@ class Game {
                [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); })};
 
     Action editorActions[7] = {
-        Action(sf::Keyboard::Num0, [=]() { cellType = "Floor"; }),
-        Action(sf::Keyboard::Num1, [=]() { cellType = "Wall"; }),
-        Action(sf::Keyboard::Num2, [=]() { cellType = "Switch"; }),
-        Action(sf::Keyboard::Num3, [=]() { cellType = "Door"; }),
-        Action(sf::Keyboard::Num4, [=]() { cellType = "Player"; }),
-        Action(sf::Keyboard::Num5, [=]() { cellType = "Enemy"; }),
+        Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
+        Action(sf::Keyboard::Num1, [=]() { cellType = objectType::Wall; }),
+        Action(sf::Keyboard::Num2, [=]() { cellType = objectType::Switch; }),
+        Action(sf::Keyboard::Num3, [=]() { cellType = objectType::Door; }),
+        Action(sf::Keyboard::Num4, [=]() { cellType = objectType::Player; }),
+        Action(sf::Keyboard::Num5, [=]() { cellType = objectType::Monster; }),
         Action(sf::Mouse::Button::Left, [&]() {
             sf::Vector2f mousePos =
                 window.mapPixelToCoords(sf::Mouse::getPosition(window));
