@@ -14,14 +14,13 @@
 
 ///\brief
 /// Game class to present demo
-template<unsigned int x, unsigned int y>
 class Game {
   private:
-    sf::RenderWindow window{sf::VideoMode{x, y}, "Booh - The game",
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
                             sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
     std::shared_ptr<Player> player;
-    
+    std::vector<std::vector<GridCell>> grid;
     std::string cellType = "Floor";
 
     Action playingActions[4] = {
@@ -46,7 +45,7 @@ class Game {
             int index[2] = {int(mousePos.x) % 20, int(mousePos.y) % 20};
             std::cout << "0 :  " << index[0] << "| 1 : " << index[1] << std::endl;
             std::cout << grid[index[0]][index[1]].getCellType() << std::endl;
-            // grid[index[0]][index[1]].setCellType(cellType);
+            grid[index[0]][index[1]].setCellType(cellType);
         })};
 
   public:

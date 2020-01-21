@@ -1,8 +1,5 @@
 #include <../Headers/game.hpp>
 
-// <template unsigned int N1, unsigned int N2>
-// std::array<std::array<GridCell,N1>,N2> Game::createGrid()
-
 std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize ){
     unsigned int amountOfColumn = windowSize.x / 20;
     unsigned int amountRectRow = windowSize.y / 20;
@@ -12,42 +9,17 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
 
     std::vector< std::vector< GridCell >> shapeMatrix;
 
-    
-
-    for (size_t i = 0; i < amountOfColumn; i++)
-    {
-        // std::cout << "fl i : " << i << std::endl;
+    for (size_t i = 0; i < amountOfColumn; i++){
+        shapeMatrix.push_back(std::vector<GridCell>());
         int posX = (int)x / 20;
-        for (size_t j = 0; j < amountRectRow; j++)
-        {
-            // std::cout << "fl j : " << j << std::endl;
+        for (size_t j = 0; j < amountRectRow; j++){
             int posY = (int)y / 20;
-            // std::cout << " i0 , x : " << posX << "," << x << " | i1, y : " << posY << "," << y << std::endl;
             y+=20;
-            // shapeMatrix[posX][posY] = GridCell((sf::Vector2f(x,y)), drawables);
             shapeMatrix[posX].push_back(GridCell((sf::Vector2f(x,y)), drawables));
         }
         x+=20;
         y=0;
     }
-    
-
-    // for( unsigned int i = 0; i < amountOfRect; i++ ){
-
-
-    //     int posX = (int)x / 20;
-    //     int posY = (int)y / 20;
-
-    //     std::cout << " i0 , x : " << posX << "," << x << " | i1, y : " << posY << "," << y << std::endl;
-    //     // shapeMatrix[posX][posY] = GridCell((sf::Vector2f(x,y)), drawables);
-
-    //     if( i == (amountOfColumn-1) ){
-    //         x = 0;
-    //         y += 20;
-    //     } else {
-    //         x += 20;
-    //     }
-    // }
     return shapeMatrix;
 }
 

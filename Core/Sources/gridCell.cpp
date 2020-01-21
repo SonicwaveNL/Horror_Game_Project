@@ -17,7 +17,16 @@ void GridCell::setPosition(sf::Vector2f position){
     iRect.setPosition( position );
 }
 
-void GridCell::setCellType(std::string type) { type = type; }
+void GridCell::setCellType(std::string type) { 
+    if(type == "Wall"){
+        setColor(sf::Color::Red);
+    }else if(type == "Floor"){
+        setColor(sf::Color::White);
+    }else if(type == "Switch"){
+        setColor(sf::Color::Green);
+    }
+    type = type;
+}
 
 std::string GridCell::getCellType(){
     return cellType;
