@@ -1,41 +1,31 @@
-#ifndef IOBJECT_HPP
-#define IOBJECT_HPP
+#ifndef IRECTANGLE_HPP
+#define IRECTANGLE_HPP
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
-#include <memory>
+#include <iObject.hpp>
 
-///@file
-///\brief
-/// IObject class.
-///\details
-/*An abstract class to handle/create SMFL objects.*/
-class IObject {
+class IRectangle : public IObject{
   protected:
-    sf::Color color;
-    sf::Vector2f prevPosition;
-    std::vector<std::shared_ptr<IObject>> & objects;
-    float speed = 5;
-    enum class Type{
-      Door,
-      Wall,
-      Player,
-      Enemy,
-      Switch,
-      Powerup,
-      Abstract,
-      GridCell
-    };
-
-    Type type;
+    sf::RectangleShape iRect;
 
   public:
-    IObject(std::vector<std::shared_ptr<IObject>> & objects,
-            sf::Color color = sf::Color::Transparent, float speed = 0, Type type = Type::Abstract)
-        : objects(objects), color(color), speed(speed), type(type) {}
+    IRectangle(
+        sf::Vector2f position, 
+        std::vector<std::shared_ptr<IObject>> & objects,
+        sf::Color color = sf::Color::Transparent, 
+        float speed = 0, Type type = Type::Abstract)
+        : 
+        IObject(
+            objects, 
+            color, 
+            speed, 
+            type) 
+    {
+        iRect.setPosition(position);
+        iRect.setSize(sf::Vector2f(20.f,20.f));
+    }
 
-    ///\brief
+///\brief
     /// Move IObject to direction.
     ///\details
     /*Move IObject to given sf::Vector2f direction.*/
@@ -94,7 +84,8 @@ class IObject {
     ///@return sf::FloatRect
     virtual sf::FloatRect getBounds() = 0;
 
-    Type getType();
+    void setSize(sf::Vector2f size);
+
 };
 
-#endif // IOBJECT_HPP
+#endif

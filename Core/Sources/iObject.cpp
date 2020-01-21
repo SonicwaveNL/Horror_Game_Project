@@ -1,9 +1,5 @@
 #include <../Headers/iObject.hpp>
 
-void IObject::move(sf::Vector2f direction) {
-    prevPosition = position;
-    position = position + direction * speed;
-    base.setPosition(position);
+IObject::Type IObject::getType(){
+    return type;
 }
-
-std::string IObject::getType() { return type; }

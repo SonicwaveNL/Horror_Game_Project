@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iObject.hpp>
+#include <iRectangle.hpp>
 #include <door.hpp>
 #include <wall.hpp>
 
@@ -12,9 +13,12 @@
 /// Player class.
 ///\details
 /*A Player class, create a playable character*/
-class Player : public IObject {
+class Player : public IRectangle {
   private:
     bool win = false;
+    sf::Texture texture;
+    sf::Sprite sprite;
+
   public:
     ///\brief
     /// Player object constructor.
@@ -29,18 +33,16 @@ class Player : public IObject {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Player(sf::Texture & texture, sf::Vector2f position,
-           std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(texture, position, objects, "Player" ,color)
-
-              {};
-
+    Player(sf::Vector2f position,
+           std::vector<std::shared_ptr<IObject>> & objects,
+           sf::Color color = sf::Color(255, 98, 0), float speed = 5)
+        : IRectangle(position, objects, color, speed) {}
     ///\brief
     /// Player object constructor.
     ///\details
     /// The Player constructor parameters are used to create a IObject.
-    ///@param base
-    /*a SFML sf::RectangleShape, this is a rectangle shaped object*/
+    ///@param texture
+    /*a SFML sf::Texture, this is the texture for the object*/
     ///@param position
     /*a sf::Vector2f position, this is the position of the object*/
     ///@param objects
@@ -48,19 +50,30 @@ class Player : public IObject {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Player(sf::Vector2f position, sf::Vector2f size,
-           std::vector<std::shared_ptr<IObject>> & objects, sf::Color color = sf::Color::White)
-        : IObject(position, size, objects, "Player", color)
-
-                                                       {};
+    Player(sf::Texture & texture, sf::Vector2f position,
+           std::vector<std::shared_ptr<IObject>> & objects,
+           sf::Color color = sf::Color(255, 98, 0), float speed = 5, Type type = Type::Player)
+        : texture(texture),
+        IRectangle(position, objects, color, speed){sprite.setTexture(texture);
+    }
 
     ///\brief
     /// Draw IObject on window
     ///\details
-    /*Draw the IObject on the sf::RendWindow*/
+    /*Draw the IObject on the sf::RenderWindow*/
     ///@param window
     /*sf::RenderWindow*/
     void draw(sf::RenderWindow & window) override;
+
+    ///\brief
+    /// Move IObject to direction.
+    ///\details
+    /*Move IObject to given sf::Vector2f direction.*/
+    ///@param direction
+    /*sf::Vector2f*/
+    void move(sf::Vector2f possition) override;
+
+    void setColor(sf::Color color) override;
 
     ///\brief
     /// Move Player to direction, if possible.
@@ -85,7 +98,7 @@ class Player : public IObject {
     /*Jump Player object to given sf::Vector2f target.*/
     ///@param obj
     /*sf::Vector2f*/
-    void jump(sf::Vector2f target) override;
+    void setPosition(sf::Vector2f position) override;
 
     ///\brief
     /// Player collision.
@@ -103,7 +116,7 @@ class Player : public IObject {
     sf::FloatRect getBounds() override;
 
     ///\brief
-    ///Check the win variable.
+    /// Check the win variable.
     ///@return bool
     bool checkWin();
 };
