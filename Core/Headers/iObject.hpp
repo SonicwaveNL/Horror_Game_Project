@@ -24,9 +24,10 @@ class IObject {
       Enemy,
       Switch,
       Powerup,
-      Abstract
+      Abstract,
+      GridCell
     };
-    
+
     Type type;
 
   public:

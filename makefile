@@ -29,8 +29,8 @@ action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 %.o: %.cpp
 	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
-main: main.o game.o player.o wall.o door.o inputHandler.o keyboardMouse.o action.o inputListener.o
-	$(gcc) -o Booh main.o game.o player.o wall.o iObject.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
+main: main.o game.o player.o wall.o door.o inputHandler.o iRectangle.o gridCell.o iObject.o keyboardMouse.o action.o inputListener.o
+	$(gcc) -o Booh main.o game.o player.o wall.o iObject.o iRectangle.o gridCell.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
 
 clean:
 	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o Booh
