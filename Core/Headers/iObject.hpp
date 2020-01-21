@@ -18,14 +18,16 @@ class IObject {
     std::vector<std::shared_ptr<IObject>> & objects;
     float speed = 5;
     enum class Type{
-      Abstract,
-      Wall,
       Door,
-      GridCell,
-      Switch,
+      Wall,
       Player,
-      Enemy
+      Enemy,
+      Switch,
+      Powerup,
+      Abstract,
+      GridCell
     };
+
     Type type;
 
   public:
@@ -91,6 +93,8 @@ class IObject {
     /*Get the GlobalBounds of the IObject.*/
     ///@return sf::FloatRect
     virtual sf::FloatRect getBounds() = 0;
+
+    Type getType();
 };
 
 #endif // IOBJECT_HPP

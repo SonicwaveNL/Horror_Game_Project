@@ -4,13 +4,14 @@
 #include <string>
 #include <iRectangle.hpp>
 
-class GridCell : public IRectangle {
-private:
-    // Flyweight pattern    
-    sf::Texture * texture;
-    sf::Sprite sprite;
-    std::string type = "Floor";
-public:
+class GridCell : public IRectangle{
+  private:
+    // Flyweight pattern
+    // sf::Texture * texture;
+    // sf::Sprite sprite;
+    std::string cellType = "Floor";
+
+  public:
     // For AI
     // int row;
     // int column;
@@ -39,8 +40,19 @@ public:
     void setPosition(sf::Vector2f position) override;
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
-
-    void setType(std::string type);
+    void setColor(sf::Color color) override;
+    void setCellType(std::string type);
+    std::string getCellType();
+    GridCell & operator=(const GridCell & rhs) {
+        if (this != &rhs) {
+            this->setPosition( rhs.iRect.getPosition());
+            this->setColor( rhs.color );
+            this->prevPosition = rhs.prevPosition;
+            this->speed = rhs.speed;
+            this->iRect.setSize( rhs.iRect.getSize());
+        }
+        return *this;
+    }
 };
 
 #endif

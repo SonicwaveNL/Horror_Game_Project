@@ -1,12 +1,7 @@
 #include <../Headers/door.hpp>
 
 void Door::moveIfPossible(sf::Vector2f direction) {
-    move(direction);
-    for (std::shared_ptr<IObject> obj : objects) {
-        if (obj->intersect(*this)) {
-            collision(*obj);
-        }
-    }
+    return;
 }
 void Door::setColor(sf::Color color){
     color = color;
@@ -24,12 +19,11 @@ bool Door::intersect(IObject & obj) {
 }
 
 void Door::setPosition(sf::Vector2f target) {
-    prevPosition = iRect.getPosition();
-    iRect.setPosition(iRect.getPosition());
+    return;
 }
 
 void Door::collision(IObject & obj) {
-    iRect.setPosition(prevPosition);
+    return;
 }
 
 void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }

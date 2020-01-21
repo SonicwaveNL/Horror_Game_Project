@@ -1,7 +1,7 @@
 #include <../Headers/game.hpp>
 
 std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize ){
-    unsigned int amountOfColumn = windowSize.x /20;
+    unsigned int amountOfColumn = windowSize.x / 20;
     unsigned int amountRectRow = windowSize.y / 20;
     unsigned int amountOfRect = amountRectRow * amountOfColumn;
     float x = 0;
@@ -9,21 +9,16 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
 
     std::vector< std::vector< GridCell >> shapeMatrix;
 
-    for( unsigned int i = 0; i < amountOfRect; i++ ){
-        GridCell shape;
-        shape.setPosition( sf::Vector2f(x, y) );
-
-        int posX = (int)x % 20;
-        int posY = (int)y % 20;
-
-        shapeMatrix[posX][posY] = shape;
-
-        if( i == (amountRectRow-1) ){
-            x = 0;
-            y += 20;
-        } else {
-            x += 20;
+    for (size_t i = 0; i < amountOfColumn; i++){
+        shapeMatrix.push_back(std::vector<GridCell>());
+        int posX = (int)x / 20;
+        for (size_t j = 0; j < amountRectRow; j++){
+            int posY = (int)y / 20;
+            y+=20;
+            shapeMatrix[posX].push_back(GridCell((sf::Vector2f(x,y)), drawables));
         }
+        x+=20;
+        y=0;
     }
     return shapeMatrix;
 }
@@ -84,7 +79,7 @@ void Game::run() {
     while (window.isOpen()){
         window.clear();
 
-        //Draw the grid.
+        // //Draw the grid.
         for (auto & row : grid) {
             for (auto & me : row) {
                 me.draw(window);
