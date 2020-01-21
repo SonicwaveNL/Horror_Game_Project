@@ -43,7 +43,8 @@ class Game {
                [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); })
                };
 
-    Action editorActions[6] = {
+    Action editorActions[7] = {
+        Action(sf::Keyboard::Num0, [=]() { cellType = "Floor"; }),
         Action(sf::Keyboard::Num1, [=]() { cellType = "Wall"; }),
         Action(sf::Keyboard::Num2, [=]() { cellType = "Switch"; }),
         Action(sf::Keyboard::Num3, [=]() { cellType = "Door"; }),
@@ -52,9 +53,7 @@ class Game {
         Action(sf::Mouse::Button::Left, [&]() {
             sf::Vector2f mousePos =
                 window.mapPixelToCoords(sf::Mouse::getPosition(window));
-            int index[2] = {int(mousePos.x) % 20, int(mousePos.y) % 20};
-            std::cout << "0 :  " << index[0] << "| 1 : " << index[1] << std::endl;
-            std::cout << grid[index[0]][index[1]].getCellType() << std::endl;
+            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20-1};           
             grid[index[0]][index[1]].setCellType(cellType);
         })};
 
@@ -71,8 +70,6 @@ class Game {
             std::make_shared<Player>(sf::Vector2f(50.f, 50.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
         grid = createGrid(window.getSize());
-        std::cout << "grid size x : " << grid.size() << std::endl;
-        loadSubVectors();
     };
 
     std::vector<std::vector<GridCell>> createGrid(sf::Vector2u windowSize);
