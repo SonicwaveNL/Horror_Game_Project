@@ -9,8 +9,8 @@ class Switch : public IRectangle {
   public:
     Switch(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color::Green, float speed = 0)
-        : IRectangle(position, objects, color, speed) {}
+           sf::Color color = sf::Color::Green, float speed = 0, Type type = Type::Switch)
+        : IRectangle(position, objects, color, speed, type) {}
 
     void move(sf::Vector2f direction) override;
 

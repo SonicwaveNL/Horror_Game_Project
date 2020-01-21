@@ -37,8 +37,8 @@ class Monster : public IRectangle {
           sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>>& objects,
           sf::Color color = sf::Color::Blue,
-          float speed = 5)
-      : IRectangle(position, objects, color, speed), texture(texture){};
+          float speed = 5, Type type = Type::Enemy)
+      : IRectangle(position, objects, color, speed, type), texture(texture){};
 
   ///\brief
   /// Draw IRectangle on window

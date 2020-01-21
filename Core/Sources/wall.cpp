@@ -28,3 +28,14 @@ void Wall::collision(IObject & obj) {
 void Wall::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
 sf::FloatRect Wall::getBounds() { return iRect.getGlobalBounds(); }
+
+void Wall::setColor(sf::Color color){
+    color = color;
+}
+
+void Wall::move(sf::Vector2f direction){
+    prevPosition = iRect.getPosition();
+    sf::Vector2f position = iRect.getPosition() + direction * speed;
+
+    iRect.setPosition(position);
+}

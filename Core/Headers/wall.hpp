@@ -26,13 +26,19 @@ class Wall : public IRectangle {
     Wall(
       sf::Vector2f position, 
       std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White
+      sf::Color color = sf::Color::White, float speed = 0,Type type = Type::Switch
     ): 
       IRectangle(
         position, 
         objects, 
-        color
+        color,
+        speed,
+        type
       ) {}
+
+    void move(sf::Vector2f direction) override;
+
+    void setColor(sf::Color color) override;
 
     ///\brief
     /// Move the wall in a specific direction, if it's possible

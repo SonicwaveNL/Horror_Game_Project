@@ -36,13 +36,13 @@ class Player : public IRectangle {
       sf::Vector2f position,
       std::vector<std::shared_ptr<IObject>> & objects,
       sf::Color color = sf::Color(255, 98, 0), 
-      float speed = 5
+      float speed = 5, Type type = Type::Player
       ): 
       IRectangle(
         position, 
         objects, 
         color, 
-        speed){}
+        speed, type){}
     ///\brief
     /// Player object constructor.
     ///\details
@@ -71,6 +71,11 @@ class Player : public IRectangle {
         texture(texture){
           sprite.setTexture(texture);
         }
+
+    void move(sf::Vector2f direction) override;
+    
+    void setColor(sf::Color color) override;
+    
 
     ///\brief
     /// Draw IObject on window

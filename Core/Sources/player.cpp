@@ -13,6 +13,18 @@ void Player::moveIfPossible(sf::Vector2f direction) {
     }
 }
 
+void Player::setColor(sf::Color color){
+    color = color;
+}
+
+void Player::move(sf::Vector2f direction){
+    prevPosition = iRect.getPosition();
+    sf::Vector2f position = iRect.getPosition() + direction * speed;
+
+    iRect.setPosition(position);
+}
+
+
 bool Player::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());
 }

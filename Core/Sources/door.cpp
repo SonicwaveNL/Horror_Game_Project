@@ -1,15 +1,22 @@
 #include <../Headers/door.hpp>
 
 void Door::moveIfPossible(sf::Vector2f direction) {
-    prevPosition = iRect.getPosition();
-    sf::Vector2f position = iRect.getPosition() + direction * speed;
-
-    iRect.setPosition(position);
+    move(direction);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {
             collision(*obj);
         }
     }
+}
+void Door::setColor(sf::Color color){
+    color = color;
+}
+
+void Door::move(sf::Vector2f direction){
+    prevPosition = iRect.getPosition();
+    sf::Vector2f position = iRect.getPosition() + direction * speed;
+
+    iRect.setPosition(position);
 }
 
 bool Door::intersect(IObject & obj) {
