@@ -32,12 +32,14 @@ class Door : public IRectangle {
       sf::Vector2f position,
       std::vector<std::shared_ptr<IObject>> & objects,
       sf::Color color = sf::Color::White,
-      float speed = 0
+      float speed = 0,
+      Type type = Type::Door
     ):IRectangle( 
         position,
         objects, 
         color,
-        speed
+        speed,
+        type
     ){};
 
     ///\brief

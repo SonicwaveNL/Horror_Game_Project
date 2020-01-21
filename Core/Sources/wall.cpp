@@ -1,20 +1,11 @@
 #include <../Headers/wall.hpp>
 
 void Wall::moveIfPossible(sf::Vector2f direction) {
-    prevPosition = iRect.getPosition();
-    // sf::Vector2f position = iRect.getPosition() + direction * speed;
-
-    // iRect.setPosition(position);
-    move(iRect.getPosition() + direction * speed);
-    for (std::shared_ptr<IObject> obj : objects) {
-        if (obj->intersect(*this)) {
-            collision(*obj);
-        }
-    }
+    return;
 }
 
 void Wall::move(sf::Vector2f position) {
-    iRect.setPosition(position);
+    return;
 }
 
 void Wall::setColor(sf::Color color){
@@ -23,8 +14,7 @@ void Wall::setColor(sf::Color color){
 }
 
 void Wall::setPosition(sf::Vector2f target) {
-    prevPosition = iRect.getPosition();
-    iRect.setPosition(target);
+    return;
 }
 
 bool Wall::intersect(IObject & obj) {
@@ -32,7 +22,7 @@ bool Wall::intersect(IObject & obj) {
 }
 
 void Wall::collision(IObject & obj) {
-    iRect.setPosition(prevPosition);
+    return;
 }
 
 void Wall::draw(sf::RenderWindow & window) { window.draw(iRect); }

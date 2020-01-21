@@ -17,6 +17,7 @@ main.o: main.cpp game.hpp
 game.o: game.cpp game.hpp iObject.hpp support.hpp action.hpp player.hpp gridCell.hpp
 gridCell.o: iRectangle.hpp gridCell.hpp gridCell.cpp
 # iCircle.o: iObject.hpp iCircle.hpp iCircle.cpp
+iObject.o: iObject.hpp iObject.cpp
 iRectangle.o: iObject.hpp iRectangle.hpp iRectangle.cpp
 player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
 door.o: door.cpp door.hpp iRectangle.hpp
@@ -29,7 +30,7 @@ action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
 main: main.o game.o player.o wall.o door.o inputHandler.o keyboardMouse.o action.o inputListener.o
-	$(gcc) -o Booh main.o game.o player.o wall.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
+	$(gcc) -o Booh main.o game.o player.o wall.o iObject.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
 
 clean:
 	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o Booh

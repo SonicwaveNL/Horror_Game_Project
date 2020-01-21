@@ -13,12 +13,13 @@ class IRectangle : public IObject{
         sf::Vector2f position, 
         std::vector<std::shared_ptr<IObject>> & objects,
         sf::Color color = sf::Color::Transparent, 
-        float speed = 0)
+        float speed = 0, Type type = Type::Abstract)
         : 
         IObject(
             objects, 
             color, 
-            speed) 
+            speed, 
+            type) 
     {
         iRect.setPosition(position);
         iRect.setSize(sf::Vector2f(20.f,20.f));

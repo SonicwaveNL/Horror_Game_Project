@@ -33,22 +33,19 @@ void Player::setPosition(sf::Vector2f target) {
 }
 
 void Player::collision(IObject & obj) {
-    std::shared_ptr<IObject> object = std::make_shared<IObject>(obj);
-    // If the pointer cast returns a nullptr, it failed.
-    if(std::static_pointer_cast<Wall>(object) != nullptr){
-        iRect.setPosition(prevPosition);
-        return;
-    }
+    switch(obj.getType()){
+        case Type::Wall:{
+            iRect.setPosition(prevPosition);
+        break;
+        }
 
-
-    if(std::static_pointer_cast<Door>(object) != nullptr){
-        std::cout << "You won the game!" << std::endl;
-        iRect.setPosition(prevPosition);
-        win = true;
-        return;
-    }
-
-   
+        case Type::Door:{
+            std::cout << "You won the game!" << std::endl;
+            iRect.setPosition(prevPosition);
+            win = true;
+        break;
+        }
+    }   
 }
 
 void Player::draw(sf::RenderWindow & window) { window.draw(iRect); }
