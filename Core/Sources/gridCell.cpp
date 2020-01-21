@@ -13,6 +13,10 @@ void GridCell::collision(IObject & obj) {
     return;
 }
 
+void GridCell::setPosition(sf::Vector2f position){
+    iRect.setPosition( position );
+}
+
 void GridCell::setType(std::string type) { type = type; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
