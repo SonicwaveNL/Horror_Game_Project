@@ -85,7 +85,8 @@ class IRectangle : public IObject{
     virtual sf::FloatRect getBounds() = 0;
 
     void setSize(sf::Vector2f size);
-
+    ///\brief
+    ///Function to get the position.
     virtual sf::Vector2f getPosition() = 0;
 
 };

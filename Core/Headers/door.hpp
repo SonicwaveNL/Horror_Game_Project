@@ -89,6 +89,10 @@ class Door : public IRectangle {
     /*Get the GlobalBounds of the Door object.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
+    
+    ///\brief
+    ///Function to get the position.
+    sf::Vector2f getPosition() override;
 };
 
 #endif // DOOR_HPP

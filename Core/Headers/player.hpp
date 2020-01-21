@@ -99,6 +99,9 @@ class Player : public IRectangle {
     ///@param obj
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
+    ///\brief
+    ///Function to get the position.
+    sf::Vector2f getPosition() override;
 
     ///\brief
     /// Player collision.

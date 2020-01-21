@@ -34,6 +34,8 @@ class GridCell : public IRectangle{
     void moveIfPossible(sf::Vector2f direction) override;
     bool intersect(IObject & obj) override;
     void setPosition(sf::Vector2f position) override;
+    ///\brief
+    ///Function to get the position.
     sf::Vector2f getPosition() override;
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
