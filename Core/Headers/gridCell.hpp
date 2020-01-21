@@ -4,12 +4,12 @@
 #include <string>
 #include <iRectangle.hpp>
 
-class GridCell : public IRectangle {
+class GridCell : public IRectangle{
   private:
     // Flyweight pattern
-    sf::Texture * texture;
-    sf::Sprite sprite;
-    std::string type = "Floor";
+    // sf::Texture * texture;
+    // sf::Sprite sprite;
+    std::string cellType = "Floor";
 
   public:
     // For AI
@@ -19,8 +19,8 @@ class GridCell : public IRectangle {
 
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
-             sf::Color color = sf::Color::White, float speed = 0, Type type = Type::GridCell)
-        : IRectangle(position, objects, color, speed, type) {
+             sf::Color color = sf::Color::White)
+        : IRectangle(position, objects, color) {
         iRect.setSize(sf::Vector2f(20.f, 20.f));
         iRect.setOutlineColor(sf::Color::Yellow);
     };
@@ -33,14 +33,15 @@ class GridCell : public IRectangle {
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
     void setColor(sf::Color color) override;
-    void setType(std::string type);
+    void setCellType(std::string type);
+    std::string getCellType();
     GridCell & operator=(const GridCell & rhs) {
         if (this != &rhs) {
             this->setPosition( rhs.iRect.getPosition());
             this->setColor( rhs.color );
             this->prevPosition = rhs.prevPosition;
             this->speed = rhs.speed;
-            this->setSize( rhs.iRect.getSize());
+            this->iRect.setSize( rhs.iRect.getSize());
         }
         return *this;
     }

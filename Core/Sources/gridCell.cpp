@@ -17,7 +17,11 @@ void GridCell::setPosition(sf::Vector2f position){
     iRect.setPosition( position );
 }
 
-void GridCell::setType(std::string type) { type = type; }
+void GridCell::setCellType(std::string type) { type = type; }
+
+std::string GridCell::getCellType(){
+    return cellType;
+}
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 
@@ -28,5 +32,5 @@ void GridCell::setColor(sf::Color color) {
 
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);
-    window.draw(sprite);
+    // window.draw(sprite);
 }
