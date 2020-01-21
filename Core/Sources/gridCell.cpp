@@ -18,13 +18,19 @@ void GridCell::setPosition(sf::Vector2f position){
 }
 
 void GridCell::setCellType(std::string type) { 
-    if(type == "Wall"){
-        setColor(sf::Color::Red);
-    }else if(type == "Floor"){
+    if(type == "Floor"){
         setColor(sf::Color::White);
+    }else if(type == "Wall"){
+        setColor(sf::Color::Red);
     }else if(type == "Switch"){
         setColor(sf::Color::Green);
-    }
+    }else if(type == "Door"){
+        setColor(sf::Color::Yellow);
+    }else if(type == "Player"){
+        setColor(sf::Color::Green);
+    }else if(type == "Enemy"){
+        setColor(sf::Color::Blue);
+    }    
     type = type;
 }
 
