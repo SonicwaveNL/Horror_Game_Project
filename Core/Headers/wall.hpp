@@ -35,6 +35,14 @@ class Wall : public IRectangle {
       ) {}
 
     ///\brief
+    /// Move IObject to direction.
+    ///\details
+    /*Move IObject to given sf::Vector2f direction.*/
+    ///@param direction
+    /*sf::Vector2f*/
+    void move(sf::Vector2f direction) override;
+
+    ///\brief
     /// Move the wall in a specific direction, if it's possible
     ///\details
     /// The wall gets moved, if and only if the location it moves to does NOT
@@ -45,6 +53,8 @@ class Wall : public IRectangle {
     /*The direction to move in, which will get multiplied by the object's speed
      * when it moves.*/
     void moveIfPossible(sf::Vector2f direction) override;
+
+    void setColor(sf::Color color) override;
 
     ///\brief
     ///'Teleport' the wall to a specific location.

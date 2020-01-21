@@ -14,10 +14,13 @@ LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 build: main
 
 main.o: main.cpp game.hpp
-game.o: game.cpp game.hpp iObject.hpp support.hpp action.hpp player.hpp
-player.o: player.cpp player.hpp iObject.hpp door.hpp wall.hpp
-door.o: door.cpp door.hpp iObject.hpp
-wall.o: iObject.hpp wall.hpp wall.cpp
+game.o: game.cpp game.hpp iObject.hpp support.hpp action.hpp player.hpp gridCell.hpp
+gridCell.o: iRectangle.hpp gridCell.hpp gridCell.cpp
+# iCircle.o: iObject.hpp iCircle.hpp iCircle.cpp
+iRectangle.o: iObject.hpp iRectangle.hpp iRectangle.cpp
+player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
+door.o: door.cpp door.hpp iRectangle.hpp
+wall.o: iRectangle.hpp wall.hpp wall.cpp
 inputListener.o: inputListener.hpp inputListener.cpp
 inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp inputListener.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp

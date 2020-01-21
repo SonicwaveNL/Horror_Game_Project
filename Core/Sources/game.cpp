@@ -10,8 +10,7 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
     std::vector< std::vector< GridCell >> shapeMatrix;
 
     for( unsigned int i = 0; i < amountOfRect; i++ ){
-        GridCell shape;
-        shape.setPosition( sf::Vector2f(x, y) );
+        GridCell shape(  (sf::Vector2f(x,y)), drawables );
 
         int posX = (int)x % 20;
         int posY = (int)y % 20;
