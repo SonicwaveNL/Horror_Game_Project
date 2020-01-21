@@ -2,8 +2,8 @@
 
 std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize ){
     unsigned int amountOfColumn = windowSize.x / 20;
-    unsigned int amountRectRow = windowSize.y / 20;
-    unsigned int amountOfRect = amountRectRow * amountOfColumn;
+    unsigned int amountOfRow = windowSize.y / 20;
+    unsigned int amountOfRect = amountOfRow * amountOfColumn;
     float x = 0;
     float y = 0;
 
@@ -12,10 +12,13 @@ std::vector< std::vector< GridCell >> Game::createGrid( sf::Vector2u windowSize 
     for (size_t i = 0; i < amountOfColumn; i++){
         shapeMatrix.push_back(std::vector<GridCell>());
         int posX = (int)x / 20;
-        for (size_t j = 0; j < amountRectRow; j++){
+        for (size_t j = 0; j < amountOfRow; j++){
             int posY = (int)y / 20;
             y+=20;
             shapeMatrix[posX].push_back(GridCell((sf::Vector2f(x,y)), drawables));
+            if( i == 0 || i == (amountOfColumn-1) || j ==0 || j == (amountOfRow-2)){
+                shapeMatrix[posX][posY].setCellType( objectType::Wall );
+            }
         }
         x+=20;
         y=0;
@@ -72,7 +75,6 @@ void Game::run() {
 
         //Draw window.
         window.display();
-
 
         sf::sleep(sf::milliseconds(20));
         sf::Event event;
