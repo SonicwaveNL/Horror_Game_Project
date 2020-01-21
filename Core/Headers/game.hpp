@@ -11,7 +11,7 @@
 #include <player.hpp>
 #include <monster.hpp>
 #include <switch.hpp>
-
+#include <IException.hpp>
 ///@file
 
 ///\brief
@@ -21,18 +21,16 @@ class Game {
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
                             sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
-    
+
     std::vector<std::shared_ptr<IObject>> characters;
     std::vector<std::shared_ptr<IObject>> winFactors;
     std::vector<std::shared_ptr<IObject>> gameObjects;
-
-
 
     std::shared_ptr<Player> player;
     std::vector<std::vector<GridCell>> grid;
     std::string cellType = "Floor";
 
-    Action playingActions[4] = {
+    Action playingActions[5] = {
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
         Action(actionKeyword::down,
@@ -40,8 +38,23 @@ class Game {
         Action(actionKeyword::left,
                [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
         Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); })
-               };
+               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); }),
+        Action(actionKeyword::action1, [=]() {
+            int switchCount = 0;
+    
+            for (size_t i = 1; i < winFactors.size(); i++) {
+                std::shared_ptr<Switch> s = std::static_pointer_cast<Switch>(winFactors[i]);
+                s->collision(*characters[0]);
+                
+                if (s->isActive()) {
+                    switchCount++;
+                }
+            }
+            if (switchCount == winFactors.size() - 1) {
+                std::shared_ptr<Door> door = std::static_pointer_cast<Door>(winFactors[0]);
+                door->setOpenState(true);
+            }
+        })};
 
     Action editorActions[7] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = "Floor"; }),
@@ -53,12 +66,11 @@ class Game {
         Action(sf::Mouse::Button::Left, [&]() {
             sf::Vector2f mousePos =
                 window.mapPixelToCoords(sf::Mouse::getPosition(window));
-            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20-1};           
+            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20 - 1};
             grid[index[0]][index[1]].setCellType(cellType);
         })};
 
     void loadSubVectors();
-
 
   public:
     ///\brief
@@ -68,8 +80,17 @@ class Game {
     Game() {
         drawables.push_back(
             std::make_shared<Player>(sf::Vector2f(50.f, 50.f), drawables));
+        drawables.push_back(
+            std::make_shared<Wall>(sf::Vector2f(0.f, 0.f), drawables));
+        drawables.push_back(
+            std::make_shared<Wall>(sf::Vector2f(100.f, 100.f), drawables));
+        drawables.push_back(
+            std::make_shared<Switch>(sf::Vector2f(150.f, 150.f), drawables));
+        drawables.push_back(
+            std::make_shared<Door>(sf::Vector2f(200.f, 150.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
         grid = createGrid(window.getSize());
+        loadSubVectors();
     };
 
     std::vector<std::vector<GridCell>> createGrid(sf::Vector2u windowSize);

@@ -14,7 +14,7 @@ class Door : public IRectangle {
   private:
     sf::Texture texture;
     sf::Sprite sprite;
-
+    bool open = false;
   public:
     ///\brief
     /// Door object constructor.
@@ -37,6 +37,9 @@ class Door : public IRectangle {
     void move(sf::Vector2f direction) override;
 
     void setColor(sf::Color color) override;
+
+    void setOpenState(bool state);
+    bool getOpenState();
 
     ///\brief
     /// Draw IObject on window

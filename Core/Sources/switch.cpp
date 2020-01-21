@@ -1,19 +1,11 @@
 #include <switch.hpp>
 
 void Switch::move(sf::Vector2f direction){
-    prevPosition = iRect.getPosition();
-    sf::Vector2f position = iRect.getPosition() + direction * speed;
-
-    iRect.setPosition(position);
+    return;
 }
 
 void Switch::moveIfPossible(sf::Vector2f direction){
-    move(direction);
-    for (std::shared_ptr<IObject> obj : objects) {
-        if (obj->intersect(*this)) {
-            collision(*obj);
-        }
-    }
+    return;
 }
 
 bool Switch::intersect(IObject & obj){
@@ -33,16 +25,15 @@ void Switch::draw(sf::RenderWindow & window){
     window.draw(iRect); 
 }
 
-void Switch::collision(IObject & obj){
-    std::shared_ptr<IObject> object = std::make_shared<IObject>(obj);
-
-    // If the player interacts with the switch, 'switch' the on-state
-    if(std::static_pointer_cast<Player>(object) != nullptr){
-        active = !active;
+void Switch::collision(IObject & obj){ 
+    if(!intersect(obj)){
+        return;
     }
 
-    // Set position to previous position if switch collides with an object
-    iRect.setPosition(prevPosition);
+    // If the player interacts with the switch, turn it ON
+    if(obj.getType() == Type::Player){
+        active = true;
+    }
 }
 
 sf::FloatRect Switch::getBounds(){

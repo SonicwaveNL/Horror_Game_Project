@@ -2,7 +2,6 @@
 #include <../Headers/player.hpp>
 
 void Player::moveIfPossible(sf::Vector2f direction) {
-    prevPosition = iRect.getPosition();
     // sf::Vector2f position = iRect.getPosition() + direction * speed;
 
     // iRect.setPosition(position);
@@ -15,6 +14,8 @@ void Player::moveIfPossible(sf::Vector2f direction) {
 }
 
 void Player::move(sf::Vector2f position) {
+        prevPosition = iRect.getPosition();
+
     iRect.setPosition(position);
 }
 
@@ -33,19 +34,24 @@ void Player::setPosition(sf::Vector2f target) {
 }
 
 void Player::collision(IObject & obj) {
+    
     switch(obj.getType()){
-        case Type::Wall:{
+        case IObject::Type::Wall:{
             iRect.setPosition(prevPosition);
         break;
         }
 
-        case Type::Door:{
-            std::cout << "You won the game!" << std::endl;
-            iRect.setPosition(prevPosition);
-            win = true;
+        case IObject::Type::Door:{
+            Door * d = dynamic_cast<Door*>(&obj);
+            if(d->getOpenState()){
+                std::cout << "You won the game!" << std::endl;
+                iRect.setPosition(prevPosition);
+                win = true;
+            }
         break;
         }
-    }   
+
+    }
 }
 
 void Player::draw(sf::RenderWindow & window) { window.draw(iRect); }

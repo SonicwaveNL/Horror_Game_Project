@@ -26,6 +26,13 @@ void Door::collision(IObject & obj) {
     return;
 }
 
+void Door::setOpenState(bool state){
+    open = state;
+}
+bool Door::getOpenState(){
+    return open;
+}
+
 void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
 sf::FloatRect Door::getBounds() { return iRect.getGlobalBounds(); }
