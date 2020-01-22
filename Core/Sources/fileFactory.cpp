@@ -72,9 +72,7 @@ void FileFactory::loadMatrixFromFile(
     }
 }
 
-std::vector<std::shared_ptr<IObject>>
-FileFactory::objectsToDrawables(std::vector<std::vector<GridCell>> & matrix) {
-    std::vector<std::shared_ptr<IObject>> returnVector;
+void FileFactory::objectsToDrawables(std::vector<std::shared_ptr<IObject>>drawables, std::vector<std::vector<GridCell>> & matrix) {
     objectType soort;
     for (auto & row : matrix) {
         for (auto & item : row) {
@@ -88,32 +86,20 @@ FileFactory::objectsToDrawables(std::vector<std::vector<GridCell>> & matrix) {
             } else if (soort == objectType::Floor) {
                 continue;
             } else if (soort == objectType::Wall) {
-                auto pointer =
-                    std::make_shared<Wall>(item.getPosition(), returnVector);
-                    returnVector.push_back(pointer);
+                drawables.push_back(std::make_shared<Wall>(item.getPosition(), drawables));
 
             } else if (soort == objectType::Switch) {
-                auto pointer =
-                    std::make_shared<Switch>(item.getPosition(), returnVector);
-                    returnVector.push_back(pointer);
+                drawables.push_back(std::make_shared<Switch>(item.getPosition(), drawables));
 
             } else if (soort == objectType::Door) {
-                auto pointer =
-                    std::make_shared<Door>(item.getPosition(), returnVector);
-                    returnVector.push_back(pointer);
+                drawables.push_back(std::make_shared<Door>(item.getPosition(), drawables));
 
             } else if (soort == objectType::Player) {
-                auto pointer =
-                    std::make_shared<Player>(item.getPosition(), returnVector);
-                    returnVector.push_back(pointer);
+                drawables.push_back(std::make_shared<Player>(item.getPosition(), drawables));
 
             } else if (soort == objectType::Monster) {
-                auto pointer =
-                    std::make_shared<Monster>(item.getPosition(), returnVector);
-                    returnVector.push_back(pointer);
-
+                drawables.push_back(std::make_shared<Monster>(item.getPosition(), drawables));
             }
         }
     }
-    return returnVector;
 }

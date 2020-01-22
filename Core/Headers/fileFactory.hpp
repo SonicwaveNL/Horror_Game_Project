@@ -62,9 +62,7 @@ class FileFactory {
      * given matrix*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
-    ///@return std::vector<std::shared_ptr<IObject>>
-    std::vector<std::shared_ptr<IObject>>
-    objectsToDrawables(std::vector<std::vector<GridCell>> & matrix);
+    void objectsToDrawables( std::vector<std::shared_ptr<IObject>> drawables, std::vector<std::vector<GridCell>> & matrix);
 };
 
 #endif

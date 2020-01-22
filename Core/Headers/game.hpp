@@ -91,7 +91,7 @@ class Game {
     Game() {
         FileFactory fileFactory;
         grid = createGrid(window.getSize());
-        drawables = fileFactory.objectsToDrawables(grid);
+        fileFactory.objectsToDrawables(drawables, grid);
         loadSubVectors();
         
         player = std::static_pointer_cast<Player>(characters[0]);
