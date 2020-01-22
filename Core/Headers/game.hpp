@@ -21,8 +21,8 @@
 /// Game class to present demo
 class Game {
   private:
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-                            sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};
+                            // sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -93,10 +93,15 @@ class Game {
         grid = createGrid(window.getSize());
         fileFactory.objectsToDrawables(drawables, grid);
         loadSubVectors();
-        
+        if(characters.size() < 1){
+            std::cout << "characters empty\n";
+        }
+        if(characters[0]->getType() != objectType::Player){
+            std::cout << "player isn't a player\n";
+        }
         player = std::static_pointer_cast<Player>(characters[0]);
         monster = std::static_pointer_cast<Monster>(characters[1]);
-        // reversedBFSPathAlgorithm();
+        reversedBFSPathAlgorithm();
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);

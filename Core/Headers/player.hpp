@@ -60,7 +60,7 @@ class Player : public IRectangle {
     /*Move IObject to given sf::Vector2f direction.*/
     ///@param direction
     /*sf::Vector2f*/
-    void move(sf::Vector2f possition) override;
+    void move(sf::Vector2f direction) override;
 
     ///\brief
     ///Set the color of the object.

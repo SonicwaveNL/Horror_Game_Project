@@ -72,7 +72,7 @@ void FileFactory::loadMatrixFromFile(
     }
 }
 
-void FileFactory::objectsToDrawables(std::vector<std::shared_ptr<IObject>>drawables, std::vector<std::vector<GridCell>> & matrix) {
+void FileFactory::objectsToDrawables(std::vector<std::shared_ptr<IObject>>&drawables, std::vector<std::vector<GridCell>> & matrix) {
     objectType soort;
     for (auto & row : matrix) {
         for (auto & item : row) {

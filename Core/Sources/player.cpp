@@ -6,21 +6,16 @@ void Player::moveIfPossible(sf::Vector2f direction) {
 
     // iRect.setPosition(position);
     move(direction);
-    std::cout << "Objects:  " << objects.size();
     for (std::shared_ptr<IObject> obj : objects) {
-        std::cout << "OH NOOO I CRASHED\n";
-
         if (obj->intersect(*this)) {
             collision(*obj);
         }
     }
 }
 
-void Player::move(sf::Vector2f position) {
-        prevPosition = iRect.getPosition();
-
-    iRect.setPosition(position);
-    
+void Player::move(sf::Vector2f direction) {
+    prevPosition = iRect.getPosition();
+    iRect.setPosition(iRect.getPosition() + direction * speed);
 }
 
 void Player::setColor(sf::Color color) {
