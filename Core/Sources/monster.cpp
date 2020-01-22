@@ -22,7 +22,7 @@ void Monster::setPosition(sf::Vector2f target) {
 }
 
 void Monster::collision(IObject& obj) {
-  if (obj.getType() == Type::Monster) {
+  if (obj.getType() == objectType::Monster) {
     std::cout << "Monster attacked player" << std::endl;
     // position = prevPosition;
     // iRect.setPosition(position);
@@ -30,6 +30,18 @@ void Monster::collision(IObject& obj) {
     return;
   }
 }
+
+void Monster::move(sf::Vector2f position) {
+        prevPosition = iRect.getPosition();
+
+    iRect.setPosition(position);
+}
+
+void Monster::setColor(sf::Color color) {
+    iRect.setFillColor(color);
+    iRect.setOutlineColor(color);
+}
+
 
 void Monster::draw(sf::RenderWindow& window) {
   window.draw(iRect);

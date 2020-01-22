@@ -12,13 +12,13 @@ class IRectangle : public IObject {
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
                sf::Color color = sf::Color::Transparent, float speed = 0,
-               Type type = Type::Abstract)
+               objectType type = objectType::Abstract)
         : IObject(objects, color, speed, type) {
         iRect.setPosition(position);
         iRect.setSize(sf::Vector2f(20.f, 20.f));
     }
 
-///\brief
+    ///\brief
     /// Move IObject to direction.
     ///\details
     /*Move IObject to given sf::Vector2f direction.*/

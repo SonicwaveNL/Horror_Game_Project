@@ -2,8 +2,8 @@
 
 std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
     unsigned int amountOfColumn = windowSize.x / 20;
-    unsigned int amountRectRow = windowSize.y / 20;
-    unsigned int amountOfRect = amountRectRow * amountOfColumn;
+    unsigned int amountOfRow = windowSize.y / 20;
+    unsigned int amountOfRect = amountOfRow * amountOfColumn;
     float x = 0;
     float y = 0;
 
@@ -12,15 +12,21 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
     for (size_t i = 0; i < amountOfColumn; i++) {
         shapeMatrix.push_back(std::vector<GridCell>());
         int posX = (int)x / 20;
-        for (size_t j = 0; j < amountRectRow; j++) {
+        for (size_t j = 0; j < amountOfRow; j++) {
             int posY = (int)y / 20;
-            y += 20;
             shapeMatrix[posX].push_back(
                 GridCell((sf::Vector2f(x, y)), drawables));
+            if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
+                j == (amountOfRow - 1)) {
+                shapeMatrix[posX][posY].setCellType(objectType::Wall);
+            }
+            y += 20;
         }
         x += 20;
         y = 0;
     }
+    shapeMatrix[30][30].setCellType(objectType::Player);
+    shapeMatrix[20][20].setCellType(objectType::Monster);
     return shapeMatrix;
 }
 
@@ -36,40 +42,45 @@ void Game::loadSubVectors() {
     characters.clear();
     winFactors.clear();
     gameObjects.clear();
+                std::cout << "loading subvectors\n";
 
     // Caches for objects that should be placed last in the vectors, but ocurred
     // before the objects that should be placed before it. These get placed
     // after the original ones.
     std::vector<std::shared_ptr<IObject>> monsterCache;
     std::vector<std::shared_ptr<IObject>> switchCache;
+                std::cout << "created cache\n";
 
     // Loop through the objects and try to add them to their appropriate vector,
     // according to their type. Objects will get stored in the cache if they
     // ocurred before the objects that should ocur before it.
     for (std::shared_ptr<IObject> obj : drawables) {
         switch (obj->getType()) {
-            case IObject::Type::Player:
+            case objectType::Player:
+                std::cout << "Adding Player\n";
                 if (characters.size() >= 1) {
                     characters[0] = obj;
                 } else {
                     characters.push_back(obj);
                 }
                 break;
-            case IObject::Type::Monster:
+            case objectType::Monster:
+                            std::cout << "Adding MOnster\n";
+
                 if (characters.size() >= 1) {
                     characters.push_back(obj);
                 } else {
                     monsterCache.push_back(obj);
                 }
                 break;
-            case IObject::Type::Switch:
+            case objectType::Switch:
                 if (winFactors.size() >= 1) {
                     winFactors.push_back(obj);
                 } else {
                     switchCache.push_back(obj);
                 }
                 break;
-            case IObject::Type::Door:
+            case objectType::Door:
                 if (winFactors.size() >= 1) {
                     winFactors[0] = obj;
                 } else {
@@ -78,7 +89,7 @@ void Game::loadSubVectors() {
 
                 break;
 
-            case IObject::Type::Wall:
+            case objectType::Wall:
                 gameObjects.push_back(obj);
                 break;
         }
@@ -244,12 +255,12 @@ void Game::run() {
     while (window.isOpen()) {
         window.clear();
 
-        monster->move(findShortestStep());
+        // monster->move(findShortestStep());
         pathFindCounter++;
 
         if (pathFindCounter == 50) {
             pathFindCounter = 0;
-            reversedBFSPathAlgorithm();
+            // reversedBFSPathAlgorithm();
         }
 
         ////Draw the grid.
@@ -258,7 +269,6 @@ void Game::run() {
                 me.draw(window);
             }
         }
-
         // Do the actions.
         for (auto & action : editorActions) {
             action();

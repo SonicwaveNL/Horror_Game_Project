@@ -37,34 +37,14 @@ class Player : public IRectangle {
       sf::Vector2f position,
       std::vector<std::shared_ptr<IObject>> & objects,
       sf::Color color = sf::Color(255, 98, 0), 
-      float speed = 5, Type type = Type::Player
+      float speed = 5, objectType type = objectType::Player
       ): 
       IRectangle(
         position, 
         objects, 
         color, 
         speed, type){}
-    ///\brief
-    /// Player object constructor.
-    ///\details
-    /// The Player constructor parameters are used to create a IObject.
-    ///@param texture
-    /*a SFML sf::Texture, this is the texture for the object*/
-    ///@param position
-    /*a sf::Vector2f position, this is the position of the object*/
-    ///@param objects
-    /*a std::vector<IObject*> vector array, this is a group of all IObjects
-     * within*/
-    ///@param color
-    /*a SFML sf::Color, this is the color of the texture.*/
-    Player(sf::Texture & texture, sf::Vector2f position,
-           std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color(255, 98, 0), float speed = 5, Type type = Type::Player)
-        : texture(texture),
-        IRectangle(position, objects, color, speed){sprite.setTexture(texture);
-    }
-
- 
+  
 
     ///\brief
     /// Draw IObject on window

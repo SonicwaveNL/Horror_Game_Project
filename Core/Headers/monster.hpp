@@ -33,11 +33,11 @@ class Monster : public IRectangle {
   /*a SFML sf::Color, this is the color of the texture.*/
   ///@param speed
   /*The walking speed of the monster*/
-  Monster(sf::Texture& texture, sf::Vector2f position,
+  Monster(sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>>& objects,
           sf::Color color = sf::Color::Blue,
-          float speed = 5, Type type = Type::Monster)
-      : IRectangle(position, objects, color, speed, type), texture(texture){};
+          float speed = 5, objectType type = objectType::Monster)
+      : IRectangle(position, objects, color, speed, type){};
 
   ///\brief
   /// Draw IRectangle on window
@@ -46,6 +46,20 @@ class Monster : public IRectangle {
   ///@param window
   /*sf::RenderWindow*/
   void draw(sf::RenderWindow& window) override;
+
+  ///\brief
+  /// Move IObject to direction.
+  ///\details
+  /*Move IObject to given sf::Vector2f direction.*/
+  ///@param direction
+  /*sf::Vector2f*/
+  void move(sf::Vector2f possition) override;
+
+  ///\brief
+  ///Set the color of the object.
+  ///@param color
+  /*The new color of the object.*/
+  void setColor(sf::Color color) override;
 
   ///\brief
   /// Move Monster to direction, if possible.
