@@ -43,3 +43,7 @@ sf::FloatRect Switch::getBounds(){
 bool Switch::isActive(){
     return active;
 }
+
+sf::Vector2f Switch::getPosition(){
+    return iRect.getPosition();
+}

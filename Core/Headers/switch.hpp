@@ -79,6 +79,10 @@ class Switch : public IRectangle {
     /*Returns true if the switch is flipped ON.*/
     ///@return bool
     bool isActive();
+
+    ///\brief
+    ///Function to get the position.
+    sf::Vector2f getPosition();
 };
 
 #endif // SWITCH_hpp
