@@ -37,10 +37,7 @@ void Monster::move(sf::Vector2f position) {
     iRect.setPosition(position);
 }
 
-void Monster::setColor(sf::Color color) {
-    iRect.setFillColor(color);
-    iRect.setOutlineColor(color);
-}
+
 
 
 void Monster::draw(sf::RenderWindow& window) {

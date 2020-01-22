@@ -16,6 +16,7 @@ class IRectangle : public IObject {
         : IObject(objects, color, speed, type) {
         iRect.setPosition(position);
         iRect.setSize(sf::Vector2f(20.f, 20.f));
+        setColor(color);
     }
 
     ///\brief
@@ -51,7 +52,7 @@ class IRectangle : public IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
-    virtual void setColor(sf::Color color) = 0;
+    void setColor(sf::Color color) override;
 
     ///\brief
     /// Draw IObject on window

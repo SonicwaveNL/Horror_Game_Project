@@ -100,7 +100,6 @@ class GridCell : public IRectangle {
     /// Sets the color of the IObject.
     ///@param color
     /*sf::Color*/
-    void setColor(sf::Color color) override;
 
     ///\brief
     /// Sets the type of the GridCell.

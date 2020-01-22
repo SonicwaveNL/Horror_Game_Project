@@ -62,7 +62,6 @@ class Wall : public IRectangle {
     ///Sets the new color of the object.
     ///@param color
     /*The new sf::Color of the object*/
-    void setColor(sf::Color color) override;
 
     ///\brief
     ///'Teleport' the wall to a specific location.

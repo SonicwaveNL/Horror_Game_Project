@@ -17,9 +17,6 @@ void Switch::setPosition(sf::Vector2f direction){
     iRect.setPosition(iRect.getPosition());
 }
 
-void Switch::setColor(sf::Color color){
-    color = color;
-}
 
 void Switch::draw(sf::RenderWindow & window){
     window.draw(iRect); 

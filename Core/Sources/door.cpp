@@ -3,9 +3,7 @@
 void Door::moveIfPossible(sf::Vector2f direction) {
     return;
 }
-void Door::setColor(sf::Color color){
-    color = color;
-}
+
 
 void Door::move(sf::Vector2f direction){
     prevPosition = iRect.getPosition();

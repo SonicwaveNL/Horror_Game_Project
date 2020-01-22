@@ -50,7 +50,6 @@ class Door : public IRectangle {
     ///Set the color of the door.
     ///@param color
     /*The color to change the door to.*/
-    void setColor(sf::Color color) override;
 
     ///\brief
     ///Set if the door is open or not. True means it should open, false means it should close.  

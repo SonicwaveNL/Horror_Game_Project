@@ -4,10 +4,7 @@ void Wall::moveIfPossible(sf::Vector2f direction) { return; }
 
 void Wall::move(sf::Vector2f position) { return; }
 
-void Wall::setColor(sf::Color color) {
-    iRect.setFillColor(color);
-    iRect.setOutlineColor(color);
-}
+
 
 void Wall::setPosition(sf::Vector2f target) { return; }
 

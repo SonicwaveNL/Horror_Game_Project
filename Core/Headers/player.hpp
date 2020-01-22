@@ -66,7 +66,6 @@ class Player : public IRectangle {
     ///Set the color of the object.
     ///@param color
     /*The new color of the object.*/
-    void setColor(sf::Color color) override;
 
     ///\brief
     /// Move Player to direction, if possible.

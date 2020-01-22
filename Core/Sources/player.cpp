@@ -18,10 +18,7 @@ void Player::move(sf::Vector2f direction) {
     iRect.setPosition(iRect.getPosition() + direction * speed);
 }
 
-void Player::setColor(sf::Color color) {
-    iRect.setFillColor(color);
-    iRect.setOutlineColor(color);
-}
+
 
 bool Player::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());

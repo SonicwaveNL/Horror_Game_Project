@@ -250,12 +250,12 @@ void Game::run() {
     while (window.isOpen()) {
         window.clear();
 
-        monster->move(findShortestStep());
+        // monster->move(findShortestStep());
         pathFindCounter++;
 
         if (pathFindCounter == 50) {
             pathFindCounter = 0;
-            reversedBFSPathAlgorithm();
+            // reversedBFSPathAlgorithm();
         }
 
         ////Draw the grid.

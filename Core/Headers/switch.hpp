@@ -52,7 +52,6 @@ class Switch : public IRectangle {
     ///Set the color of the object.
     ///@param color
     /*sf::Color the new color of the object.*/
-    void setColor(sf::Color color) override;
 
     ///\brief
     ///Draw the object to the given window.

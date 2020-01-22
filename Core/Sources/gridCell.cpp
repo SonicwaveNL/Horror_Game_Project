@@ -42,10 +42,7 @@ objectType GridCell::getCellType() { return cellType; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 
-void GridCell::setColor(sf::Color color) {
-    iRect.setFillColor(color);
-    iRect.setOutlineColor(color);
-}
+
 
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);
