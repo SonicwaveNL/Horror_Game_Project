@@ -35,8 +35,13 @@ void Game::loadSubVectors(){
     characters.clear();
     winFactors.clear();
     gameObjects.clear();
-    std::vector<std::shared_ptr<IObject>> monsterCache; // Cache for holding monsters that ocurred before the player object and should thus be added after the player was added to the sub-vector
+    
+    // Caches for objects that should be placed last in the vectors, but ocurred before the objects that should be placed before it. These get placed after the original ones.
+    std::vector<std::shared_ptr<IObject>> monsterCache; 
     std::vector<std::shared_ptr<IObject>> switchCache;
+
+    // Loop through the objects and try to add them to their appropriate vector, according to their type.
+    // Objects will get stored in the cache if they ocurred before the objects that should ocur before it.
     for(std::shared_ptr<IObject> obj : drawables){
         switch(obj->getType()){
             case IObject::Type::Player:
@@ -82,8 +87,8 @@ void Game::loadSubVectors(){
                 characters.push_back(obj);
             }
         }else{
-            IException playerError("No instance of player object is present in the object list!");
-            throw playerError;
+             LoadPlayerError mapError;
+            throw mapError;
         }
     }
 
@@ -93,7 +98,7 @@ void Game::loadSubVectors(){
                 winFactors.push_back(obj);
             }
         }else{
-            IException mapError("No instance of door object is present in the object list!\nIs the map corrupt?");
+            LoadDoorError mapError;
             throw mapError;
         }
     }

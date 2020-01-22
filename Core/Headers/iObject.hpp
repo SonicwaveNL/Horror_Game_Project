@@ -32,7 +32,16 @@ class IObject {
     Type type;
 
   public:
-   
+    ///\brief
+    ///IObject constructor
+    ///@param objects
+    /*The vector of pointers to the game objects.*/
+    ///@param color
+    /*(Default=Transparent) The color of the object.*/
+    ///@param speed
+    /*(Default=0) The speed of the object. How fast it moves when it moves*/
+    ///@param type
+    /* (Default=Type::Abstract) This defines the object type for the system. *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object, segmentation faults WILL occur.*/
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0, Type type = Type::Abstract)
         : objects(objects), color(color), speed(speed), type(type) {}
@@ -70,6 +79,10 @@ class IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+    ///\brief
+    ///Sets the new color of the object.
+    ///@param color
+    /*The new sf::Color of the object*/
     virtual void setColor(sf::Color color) = 0;
 
     ///\brief

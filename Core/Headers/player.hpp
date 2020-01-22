@@ -82,6 +82,10 @@ class Player : public IRectangle {
     /*sf::Vector2f*/
     void move(sf::Vector2f possition) override;
 
+    ///\brief
+    ///Set the color of the object.
+    ///@param color
+    /*The new color of the object.*/
     void setColor(sf::Color color) override;
 
     ///\brief

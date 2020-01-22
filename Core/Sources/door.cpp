@@ -27,10 +27,10 @@ void Door::collision(IObject & obj) {
 }
 
 void Door::setOpenState(bool state){
-    open = state;
+    isOpen = state;
 }
 bool Door::getOpenState(){
-    return open;
+    return isOpen;
 }
 
 void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }

@@ -70,6 +70,11 @@ class Game {
             grid[index[0]][index[1]].setCellType(cellType);
         })};
 
+
+    ///\brief
+    ///Loads the objects from the 'main' vector into their appropriate sub-vectors
+    ///\details
+    /*It will also put them in the right places. i.e. the player will get placed at index 0, monsters after that etc.*/
     void loadSubVectors();
 
   public:
@@ -88,6 +93,8 @@ class Game {
             std::make_shared<Switch>(sf::Vector2f(150.f, 150.f), drawables));
         drawables.push_back(
             std::make_shared<Door>(sf::Vector2f(200.f, 150.f), drawables));
+         drawables.push_back(
+            std::make_shared<Switch>(sf::Vector2f(250.f, 250.f), drawables));
         player = std::static_pointer_cast<Player>(drawables[0]);
         grid = createGrid(window.getSize());
         loadSubVectors();

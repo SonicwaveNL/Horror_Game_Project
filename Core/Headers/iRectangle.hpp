@@ -77,6 +77,10 @@ class IRectangle : public IObject {
     ///@return sf::FloatRect
     virtual sf::FloatRect getBounds() = 0;
 
+    ///\brief
+    ///Set the size of the object.
+    ///@param size
+    /*A vector2f containing the new size of the object.s*/
     void setSize(sf::Vector2f size);
 };
 
