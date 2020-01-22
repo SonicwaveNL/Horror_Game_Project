@@ -21,63 +21,32 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
 void FileFactory::loadMatrixFromFile(
     std::vector<std::vector<GridCell>> & matrix, std::ifstream & file) {
     std::string tmpString;
-    int xCoordinate, yCoordinate;
-    char tmpChar;
+    std::string tmpCoordinates;
     while (!file.eof()) {
+        std::string xCoordinate,yCoordinate;
         file >> tmpString;
-        std::cout << tmpString;
-
-        if (!(file >> tmpChar)) {
-            std::cout << "NO WRONG \n";
-            continue;
-        } // spatie
-
-
-        if (!(file >> tmpChar)) {
-            std::cout << "NO WRONG \n";
-            continue;
+        // std::cout << tmpString;
+        file >> tmpCoordinates;
+        bool x = true;
+        for( unsigned int i = 1 ; i < tmpCoordinates.size()-1; i++){
+            if( tmpCoordinates[i] != ',' && x != false){
+                xCoordinate+=tmpCoordinates[i];
+            }
+            x = false;
+            if( tmpCoordinates[i] != ',' && x == false){
+                yCoordinate+=tmpCoordinates[i];
+            }
         }
-
-        if (!(tmpChar != '(')) {
-            std::cout << "NO WRONG " << tmpChar <<std::endl;
-            continue;
-        }
-
-        if (!(file >> xCoordinate)) {
-            std::cout << "NO WRONG " << xCoordinate <<std::endl;
-            continue;
-        }
-
-        if (!(file >> tmpChar)) {
-            std::cout << "NO WRONG \n";
-            continue;
-        }
-
-        if (!(tmpChar != ',')) {
-            std::cout << "NO WRONG " << tmpChar <<std::endl;
-            continue;
-        }
-
-        if (!(file >> yCoordinate)) {
-            std::cout << "NO WRONG " << yCoordinate <<std::endl;
-            continue;
-        }
-
-        if (!(file >> tmpChar)) {
-            std::cout << "NO WRONG \n";
-            continue;
-        }
-        if (!(tmpChar != ')')) {
-            std::cout << "NO WRONG " << tmpChar <<std::endl;
-            continue;
-        }
+        // std::cout << " coordinates: " << std::atoi(xCoordinate.c_str()) << "," << std::atoi(yCoordinate.c_str()) << std::endl;
+        int xCor = std::atoi(xCoordinate.c_str());
+        int yCor = std::atoi(yCoordinate.c_str());
 
         for (auto & item : types) {
             if (tmpString == item.writeAble) {
-                matrix[xCoordinate / 20][yCoordinate / 20].setCellType(
+                matrix[xCor / 20][yCor / 20].setCellType(
                     item.itemType);
-                matrix[xCoordinate / 20][yCoordinate / 20].setPosition(
-                    sf::Vector2f(xCoordinate, yCoordinate));
+                matrix[xCor / 20][yCor / 20].setPosition(
+                    sf::Vector2f(xCor, yCor));
             }
         }
     }
