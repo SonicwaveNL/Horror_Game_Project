@@ -189,32 +189,32 @@ void Game::reversedBFSPathAlgorithm() {
         }
 
         // Check upper cell
-        if ((yPos - 1) >= 0 && visited[yPos - 1][xPos] == false) {
+        if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
             grid[yPos - 1][xPos].value = p->value + 1;
             q.push(&grid[yPos - 1][xPos]);
             visited[yPos - 1][xPos] = true;
         }
 
         // Check lower cell
-        if ((yPos + 1) < grid.size() && visited[yPos + 1][xPos] == false) {
-            grid[yPos + 1][xPos].value = p->value + 1;
-            q.push(&grid[yPos + 1][xPos]);
-            visited[yPos + 1][xPos] = true;
+        if ((yPos + 1) < grid.size() && visited[xPos][yPos + 1] == false) {
+            grid[xPos][yPos + 1].value = p->value + 1;
+            q.push(&grid[xPos][yPos + 1]);
+            visited[xPos][yPos + 1] = true;
         }
 
         // Check left cell
-        if ((xPos - 1) >= 0 && visited[yPos][xPos - 1] == false) {
-            grid[yPos][xPos - 1].value = p->value + 1;
-            q.push(&grid[yPos][xPos - 1]);
-            visited[yPos][xPos - 1] = true;
+        if ((xPos - 1) >= 0 && visited[xPos - 1][yPos] == false) {
+            grid[xPos - 1][yPos].value = p->value + 1;
+            q.push(&grid[xPos - 1][yPos]);
+            visited[xPos - 1][yPos] = true;
         }
 
         // Check right cell
         if ((xPos + 1) < grid[yPos].size() &&
-            visited[yPos][xPos + 1] == false) {
-            grid[yPos][xPos + 1].value = p->value + 1;
-            q.push(&grid[yPos][xPos + 1]);
-            visited[yPos][xPos + 1] = true;
+            visited[xPos + 1][yPos] == false) {
+            grid[xPos + 1][yPos].value = p->value + 1;
+            q.push(&grid[xPos + 1][yPos]);
+            visited[xPos + 1][yPos] = true;
         }
     }
 };
