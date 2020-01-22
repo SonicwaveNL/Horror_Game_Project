@@ -1,5 +1,37 @@
 #include "fileFactory.hpp"
 
+std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
+    char c;
+    if (!(input >> c)) {
+        std::cout << "KILL ME1\n";
+    }
+    if (c != '(') {
+        std::cout << "KILL ME2\n";
+    }
+    if (!(input >> rhs.x)) {
+        std::cout << "KILL ME3\n";
+    }
+    if (!(input >> c)) { // adjust so only , are correct
+        std::cout << "KILL ME4\n";
+        
+    } else {
+        if (c != ',') {
+        std::cout << "KILL ME5\n";
+        }
+    }
+    if (!(input >> rhs.y)) {
+        std::cout << "KILL ME6\n";
+        
+    }
+    if (!(input >> c)) {
+        std::cout << "KILL ME7\n";
+    }
+    if (c != ')') {
+        std::cout << "KILL ME8z\n";
+    }
+    return input;
+}
+
 void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
                               std::string fileName) {
     std::ofstream file;
@@ -16,38 +48,22 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
             }
         }
     }
+    file << "END";
+    file.close();
 }
 
 void FileFactory::loadMatrixFromFile(
-    std::vector<std::vector<GridCell>> & matrix, std::ifstream & file) {
-    std::string tmpString;
-    std::string tmpCoordinates;
-    std::cout << "Size : " << matrix.size();
-    std::cout << "Size 2 : " << matrix[0].size();
+    std::vector<std::vector<GridCell>> & matrix, std::istream & file) {
+    sf::Vector2f position;
+    std::string name;
     while (!file.eof()) {
-        std::string xCoordinate, yCoordinate;
-        file >> tmpString;
-        // std::cout << tmpString;
-        file >> tmpCoordinates;
-        bool x = true;
-        for (unsigned int i = 1; i < tmpCoordinates.size() - 1; i++) {
-            if (tmpCoordinates[i] != ',' && x != false) {
-                xCoordinate += tmpCoordinates[i];
-            }
-            x = false;
-            if (tmpCoordinates[i] != ',' && x == false) {
-                yCoordinate += tmpCoordinates[i];
-            }
-        }
-        int xCor = std::atoi(xCoordinate.c_str());
-        int yCor = std::atoi(yCoordinate.c_str());
-
-        std::cout << "Name : |" << tmpString << "| x : |" << xCor << "| y : |" << yCor << "|\n";
-
+        file >> name;
+        if (name == "END"){continue;}
+        file >> position;
         for(auto & item : types) {
-            if (tmpString == item.writeAble) {
-                matrix[xCor / 20][yCor / 20].setCellType(item.itemType);
-                matrix[xCor / 20][yCor / 20].setPosition(sf::Vector2f(xCor, yCor));
+            if (name == item.writeAble) {
+                matrix[position.x / 20][position.y / 20].setCellType(item.itemType);
+                matrix[position.x / 20][position.y / 20].setPosition(position);
             }
         }
     }

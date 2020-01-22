@@ -46,6 +46,8 @@ void Game::loadSubVectors() {
     winFactors.clear();
     gameObjects.clear();
 
+    std::cout << " Load Size " << drawables.size();
+
     // Caches for objects that should be placed last in the vectors, but ocurred
     // before the objects that should be placed before it. These get placed
     // after the original ones.
@@ -56,6 +58,7 @@ void Game::loadSubVectors() {
     // according to their type. Objects will get stored in the cache if they
     // ocurred before the objects that should ocur before it.
     for (std::shared_ptr<IObject> obj : drawables) {
+
         switch (obj->getType()) {
             case objectType::Player:
                 if (characters.size() >= 1) {
@@ -79,7 +82,7 @@ void Game::loadSubVectors() {
                 }
                 break;
             case objectType::Door:
-                if (winFactors.size() ,2 >= 1) {
+                if (winFactors.size() >= 1) {
                     winFactors[0] = obj;
                 } else {
                     winFactors.push_back(obj);
@@ -286,15 +289,15 @@ void Game::run() {
     while( window.isOpen()){
         window.clear();
 
-        // for( auto & row: grid ){
-        //     for( auto & item: row){
-        //         item.draw(window);
-        //     }
-        // }
-
-        for (auto & me : drawables) {
-            me->draw(window);
+        for( auto & row: grid ){
+            for( auto & item: row){
+                item.draw(window);
+            }
         }
+
+        // for (auto & me : drawables) {
+        //     me->draw(window);
+        // }
 
         window.display();
 

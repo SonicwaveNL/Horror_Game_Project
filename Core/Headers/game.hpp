@@ -103,8 +103,8 @@ class Game {
         }
         factory.objectsToDrawables(drawables, grid);
         loadSubVectors();
-        player = std::static_pointer_cast<Player>(characters[0]);
-        monster = std::static_pointer_cast<Monster>(characters[1]);
+        // player = std::static_pointer_cast<Player>(characters[0]);
+        // monster = std::static_pointer_cast<Monster>(characters[1]);
         // reversedBFSPathAlgorithm();
         
     };
