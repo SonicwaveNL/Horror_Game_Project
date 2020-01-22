@@ -42,14 +42,12 @@ void Game::loadSubVectors() {
     characters.clear();
     winFactors.clear();
     gameObjects.clear();
-                std::cout << "loading subvectors\n";
 
     // Caches for objects that should be placed last in the vectors, but ocurred
     // before the objects that should be placed before it. These get placed
     // after the original ones.
     std::vector<std::shared_ptr<IObject>> monsterCache;
     std::vector<std::shared_ptr<IObject>> switchCache;
-                std::cout << "created cache\n";
 
     // Loop through the objects and try to add them to their appropriate vector,
     // according to their type. Objects will get stored in the cache if they
@@ -57,7 +55,6 @@ void Game::loadSubVectors() {
     for (std::shared_ptr<IObject> obj : drawables) {
         switch (obj->getType()) {
             case objectType::Player:
-                std::cout << "Adding Player\n";
                 if (characters.size() >= 1) {
                     characters[0] = obj;
                 } else {
@@ -65,8 +62,6 @@ void Game::loadSubVectors() {
                 }
                 break;
             case objectType::Monster:
-                            std::cout << "Adding MOnster\n";
-
                 if (characters.size() >= 1) {
                     characters.push_back(obj);
                 } else {
@@ -270,7 +265,7 @@ void Game::run() {
             }
         }
         // Do the actions.
-        for (auto & action : editorActions) {
+        for (auto & action : playingActions) {
             action();
         }
 

@@ -49,7 +49,7 @@ class Game {
             for (size_t i = 1; i < winFactors.size(); i++) {
                 std::shared_ptr<Switch> s =
                     std::static_pointer_cast<Switch>(winFactors[i]);
-                s->collision(*characters[0]);
+                    s->collision(*characters[0]);
 
                 if (s->isActive()) {
                     switchCount++;
