@@ -43,7 +43,7 @@ class Game {
         Action(sf::Mouse::Button::Left, [&]() {
             sf::Vector2f mousePos =
                 window.mapPixelToCoords(sf::Mouse::getPosition(window));
-            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20 - 1};
+            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
             grid[index[0]][index[1]].setCellType(cellType);
         })};
 

@@ -14,13 +14,13 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
         int posX = (int)x / 20;
         for (size_t j = 0; j < amountOfRow; j++) {
             int posY = (int)y / 20;
-            y += 20;
             shapeMatrix[posX].push_back(
                 GridCell((sf::Vector2f(x, y)), drawables));
             if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
-                j == (amountOfRow - 2)) {
+                j == (amountOfRow - 1)) {
                 shapeMatrix[posX][posY].setCellType(objectType::Wall);
             }
+            y += 20;
         }
         x += 20;
         y = 0;
