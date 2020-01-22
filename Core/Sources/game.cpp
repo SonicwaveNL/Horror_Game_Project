@@ -189,15 +189,13 @@ void Game::reversedBFSPathAlgorithm() {
     while (!q.empty()) {
         GridCell * p = q.front();
         q.pop();
-        xPos = p->getPosition().x/20;
-        yPos = p->getPosition().y/20;
-
+        xPos = p->getPosition().x / 20;
+        yPos = p->getPosition().y / 20;
 
         if (p == sourceMonster) {
             std::cout << "found monster\n";
             return;
         }
-
         // Check upper cell
         if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
             grid[xPos][yPos - 1].value = p->value + 1;
@@ -206,7 +204,8 @@ void Game::reversedBFSPathAlgorithm() {
         }
 
         // Check lower cell
-        if ((yPos + 1) < grid.size() && visited[xPos][yPos + 1] == false) {
+        if ((yPos + 1) < grid[xPos].size() && visited[xPos][yPos + 1] == false) {
+
             grid[xPos][yPos + 1].value = p->value + 1;
             q.push(&grid[xPos][yPos + 1]);
             visited[xPos][yPos + 1] = true;
@@ -214,16 +213,19 @@ void Game::reversedBFSPathAlgorithm() {
 
         // Check left cell
         if ((xPos - 1) >= 0 && visited[xPos - 1][yPos] == false) {
+
             grid[xPos - 1][yPos].value = p->value + 1;
             q.push(&grid[xPos - 1][yPos]);
             visited[xPos - 1][yPos] = true;
         }
 
         // Check right cell
-        if ((xPos + 1) < grid[yPos].size() &&
+        if ((xPos + 1) < grid.size() &&
             visited[xPos + 1][yPos] == false) {
+
             grid[xPos + 1][yPos].value = p->value + 1;
             q.push(&grid[xPos + 1][yPos]);
+            
             visited[xPos + 1][yPos] = true;
         }
 
@@ -240,7 +242,7 @@ void Game::reversedBFSPathAlgorithm() {
     std::cout << grid[0].size() << std::endl;
     std::cout << std::endl;
     std::cout << "q was empty\n";
-    window.close();
+    // window.close();
 };
 
 void Game::run() {

@@ -100,7 +100,7 @@ class Game {
             std::cout << "player isn't a player\n";
         }
         player = std::static_pointer_cast<Player>(characters[0]);
-        player->setPosition(sf::Vector2f{0,0});
+        // player->setPosition(sf::Vector2f{0,0});
         monster = std::static_pointer_cast<Monster>(characters[1]);
         reversedBFSPathAlgorithm();
     };
