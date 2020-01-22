@@ -37,6 +37,7 @@ class GridCell : public IRectangle {
         iRect.setSize(sf::Vector2f(20.f, 20.f));
         if(type == objectType::Wall){
           isWalkAble = false;
+          value = 100000;
         }
     };
 
