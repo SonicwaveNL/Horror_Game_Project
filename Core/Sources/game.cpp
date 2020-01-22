@@ -153,11 +153,11 @@ sf::Vector2f Game::findShortestStep() {
 };
 
 void Game::reversedBFSPathAlgorithm() {
-    std::queue<GridCell &> q;
+    std::queue<GridCell *> q;
     int xPos = player->getPosition().x / 20;
     int yPos = player->getPosition().y / 20;
 
-    GridCell & source = grid[yPos][xPos];
+    GridCell * source = &grid[yPos][xPos];
     bool visited[grid.size()][grid[0].size()];
 
     // Fill the visited array with "isWalkAble" bools
@@ -175,7 +175,7 @@ void Game::reversedBFSPathAlgorithm() {
     visited[yPosMonster][xPosMonster] = true;
 
     while (!q.empty()) {
-        GridCell * p = &q.front();
+        GridCell * p = q.front();
         q.pop();
 
         if (p == sourceMonster) {
@@ -185,21 +185,21 @@ void Game::reversedBFSPathAlgorithm() {
         // Check upper cell
         if ((yPos - 1) >= 0 && visited[yPos - 1][xPos] == false) {
             grid[yPos - 1][xPos].value = p->value + 1;
-            q.push(grid[yPos - 1][xPos]);
+            q.push(&grid[yPos - 1][xPos]);
             visited[yPos - 1][xPos] = true;
         }
 
         // Check lower cell
         if ((yPos + 1) < grid.size() && visited[yPos + 1][xPos] == false) {
             grid[yPos + 1][xPos].value = p->value + 1;
-            q.push(grid[yPos + 1][xPos]);
+            q.push(&grid[yPos + 1][xPos]);
             visited[yPos + 1][xPos] = true;
         }
 
         // Check left cell
         if ((xPos - 1) >= 0 && visited[yPos][xPos - 1] == false) {
             grid[yPos][xPos - 1].value = p->value + 1;
-            q.push(grid[yPos][xPos - 1]);
+            q.push(&grid[yPos][xPos - 1]);
             visited[yPos][xPos - 1] = true;
         }
 
@@ -207,7 +207,7 @@ void Game::reversedBFSPathAlgorithm() {
         if ((xPos + 1) < grid[yPos].size() &&
             visited[yPos][xPos + 1] == false) {
             grid[yPos][xPos + 1].value = p->value + 1;
-            q.push(grid[yPos][xPos + 1]);
+            q.push(&grid[yPos][xPos + 1]);
             visited[yPos][xPos + 1] = true;
         }
     }
