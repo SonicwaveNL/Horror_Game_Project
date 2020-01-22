@@ -35,7 +35,7 @@ void GridCell::setCellType(objectType type) {
     } else if (type == objectType::Monster) {
         setColor(sf::Color::Blue);
     }
-    type = type;
+    cellType = type;
 }
 
 objectType GridCell::getCellType() { return cellType; }

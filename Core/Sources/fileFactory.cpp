@@ -90,31 +90,30 @@ FileFactory::objectsToDrawables(std::vector<std::vector<GridCell>> & matrix) {
             } else if (soort == objectType::Wall) {
                 auto pointer =
                     std::make_shared<Wall>(item.getPosition(), returnVector);
-                        returnVector.push_back(pointer);
+                    returnVector.push_back(pointer);
 
             } else if (soort == objectType::Switch) {
                 auto pointer =
                     std::make_shared<Switch>(item.getPosition(), returnVector);
-                        returnVector.push_back(pointer);
+                    returnVector.push_back(pointer);
 
             } else if (soort == objectType::Door) {
                 auto pointer =
                     std::make_shared<Door>(item.getPosition(), returnVector);
-                        returnVector.push_back(pointer);
+                    returnVector.push_back(pointer);
 
             } else if (soort == objectType::Player) {
                 auto pointer =
                     std::make_shared<Player>(item.getPosition(), returnVector);
-                        returnVector.push_back(pointer);
+                    returnVector.push_back(pointer);
 
             } else if (soort == objectType::Monster) {
                 auto pointer =
                     std::make_shared<Monster>(item.getPosition(), returnVector);
-                        returnVector.push_back(pointer);
+                    returnVector.push_back(pointer);
 
             }
         }
     }
-    // returnVector.push_back(pointer);
     return returnVector;
 }

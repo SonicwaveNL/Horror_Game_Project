@@ -50,14 +50,11 @@ void Game::loadSubVectors() {
     std::vector<std::shared_ptr<IObject>> monsterCache;
     std::vector<std::shared_ptr<IObject>> switchCache;
                 std::cout << "created cache\n";
-                    std::cout << "drawables size: " << drawables.size() ;
 
     // Loop through the objects and try to add them to their appropriate vector,
     // according to their type. Objects will get stored in the cache if they
     // ocurred before the objects that should ocur before it.
     for (std::shared_ptr<IObject> obj : drawables) {
-                        std::cout << "for\n";
-
         switch (obj->getType()) {
             case objectType::Player:
                 std::cout << "Adding Player\n";

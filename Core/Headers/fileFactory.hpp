@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <ostream>
 
 #include <support.hpp>
 #include <gridCell.hpp>
