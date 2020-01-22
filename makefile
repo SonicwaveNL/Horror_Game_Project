@@ -13,25 +13,29 @@ LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 
 build: main
 
-main.o: main.cpp game.hpp
-game.o: game.cpp game.hpp iObject.hpp support.hpp action.hpp player.hpp gridCell.hpp switch.hpp
-gridCell.o: iRectangle.hpp gridCell.hpp gridCell.cpp
+#windowHandler.o : windowHandler.hpp windowHandler.cpp iObject.hpp
 # iCircle.o: iObject.hpp iCircle.hpp iCircle.cpp
-switch.o: switch.hpp switch.cpp
-iObject.o: iObject.hpp iObject.cpp
-iRectangle.o: iObject.hpp iRectangle.hpp iRectangle.cpp
-player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
-door.o: door.cpp door.hpp iRectangle.hpp
-wall.o: iRectangle.hpp wall.hpp wall.cpp
-inputListener.o: inputListener.hpp inputListener.cpp
-inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp inputListener.hpp
-keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
+
 action.o: action.hpp action.cpp support.hpp inputHandler.hpp
+door.o: door.cpp door.hpp iRectangle.hpp
+game.o: game.cpp game.hpp action.hpp gridCell.hpp iObject.hpp monster.hpp player.hpp support.hpp switch.hpp
+gridCell.o: gridCell.hpp gridCell.cpp iRectangle.hpp
+inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp inputListener.hpp
+inputListener.o: inputListener.hpp inputListener.cpp
+iObject.o: iObject.hpp iObject.cpp
+iRectangle.o: iRectangle.hpp iRectangle.cpp iObject.hpp
+keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
+monster.o : monster.hpp monster.cpp door.hpp iRectangle.hpp wall.hpp
+player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
+switch.o: switch.hpp switch.cpp iRectangle.hpp player.hpp
+wall.o: wall.hpp wall.cpp iRectangle.hpp iRectangle.hpp
+main.o: main.cpp game.hpp
+
 %.o: %.cpp
 	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
-main: main.o game.o player.o wall.o door.o inputHandler.o switch.o iRectangle.o gridCell.o iObject.o keyboardMouse.o action.o inputListener.o
-	$(gcc) -o Booh main.o game.o player.o wall.o iObject.o switch.o iRectangle.o gridCell.o door.o inputHandler.o inputListener.o keyboardMouse.o action.o $(LIBS)
+main: action.o door.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o main.o
+	$(gcc) -o Booh action.o door.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o main.o $(LIBS)
 
 clean:
 	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o Booh
