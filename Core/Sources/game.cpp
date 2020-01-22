@@ -119,7 +119,7 @@ void Game::loadSubVectors() {
 sf::Vector2f Game::findShortestStep() {
     int myXPos = 0;
     int myYPos = 0;
-    int smallestValue = 999;
+    int smallestValue = 900000000;
     sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
     sf::Vector2f monsterPosition = monster->getPosition();
@@ -164,6 +164,13 @@ sf::Vector2f Game::findShortestStep() {
 };
 
 void Game::reversedBFSPathAlgorithm() {
+    for (auto & item : grid)
+    {
+        for (auto & y : item)
+        {
+            y.value = 0;
+        }
+    }
     std::cout << "reversed running\n";
     std::queue<GridCell *> q;
     int xPos = player->getPosition().x / 20;
@@ -279,7 +286,7 @@ void Game::run() {
         monster->moveIfPossible(findShortestStep());
         pathFindCounter++;
 
-        if (pathFindCounter == 50) {
+        if (pathFindCounter == 1) {
             pathFindCounter = 0;
             reversedBFSPathAlgorithm();
         }
