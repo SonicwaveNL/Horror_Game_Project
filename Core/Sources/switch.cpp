@@ -31,7 +31,7 @@ void Switch::collision(IObject & obj){
     }
 
     // If the player interacts with the switch, turn it ON
-    if(obj.getType() == Type::Player){
+    if(obj.getType() == objectType::Player){
         active = true;
     }
 }

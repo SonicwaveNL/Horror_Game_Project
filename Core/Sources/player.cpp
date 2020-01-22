@@ -1,4 +1,4 @@
-    #include <iostream>
+#include <iostream>
 #include <../Headers/player.hpp>
 
 void Player::moveIfPossible(sf::Vector2f direction) {
@@ -19,9 +19,9 @@ void Player::move(sf::Vector2f position) {
     iRect.setPosition(position);
 }
 
-void Player::setColor(sf::Color color){
-    iRect.setFillColor( color );
-    iRect.setOutlineColor( color );
+void Player::setColor(sf::Color color) {
+    iRect.setFillColor(color);
+    iRect.setOutlineColor(color);
 }
 
 bool Player::intersect(IObject & obj) {
@@ -40,12 +40,12 @@ sf::Vector2f Player :: getPosition(){
 void Player::collision(IObject & obj) {
     
     switch(obj.getType()){
-        case IObject::Type::Wall:{
+        case objectType::Wall:{
             iRect.setPosition(prevPosition);
-        break;
+            break;
         }
 
-        case IObject::Type::Door:{
+        case objectType::Door:{
             Door * d = dynamic_cast<Door*>(&obj);
             if(d->getOpenState()){
                 std::cout << "You won the game!" << std::endl;

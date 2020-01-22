@@ -5,31 +5,19 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-
+#include <support.hpp>
 ///@file
 ///\brief
 /// IObject class.
 ///\details
 /*An abstract class to handle/create SMFL objects.*/
 class IObject {
-  public:
-   enum class Type{
-      Door,
-      Wall,
-      Player,
-      Monster,
-      Switch,
-      Powerup,
-      Abstract,
-      GridCell
-    };
-    
-  protected:
+protected:
     sf::Color color;
     sf::Vector2f prevPosition;
     std::vector<std::shared_ptr<IObject>> & objects;
     float speed = 5;
-    Type type;
+    objectType type;
 
   public:
     ///\brief
@@ -43,7 +31,8 @@ class IObject {
     ///@param type
     /* (Default=Type::Abstract) This defines the object type for the system. *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object, segmentation faults WILL occur.*/
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
-            sf::Color color = sf::Color::Transparent, float speed = 0, Type type = Type::Abstract)
+            sf::Color color = sf::Color::Transparent, float speed = 0,
+            objectType type = objectType::Abstract)
         : objects(objects), color(color), speed(speed), type(type) {}
 
     ///\brief
@@ -109,7 +98,7 @@ class IObject {
     ///@return sf::FloatRect
     virtual sf::FloatRect getBounds() = 0;
 
-    Type getType();
+    objectType getType();
 
 };
 

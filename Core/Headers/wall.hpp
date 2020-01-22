@@ -26,7 +26,7 @@ class Wall : public IRectangle {
     Wall(
       sf::Vector2f position, 
       std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White, float speed = 0,Type type = Type::Wall
+      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Wall
     ): 
       IRectangle(
         position, 

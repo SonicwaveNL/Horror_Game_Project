@@ -22,7 +22,7 @@ void Monster::setPosition(sf::Vector2f target) {
 }
 
 void Monster::collision(IObject& obj) {
-  if (obj.getType() == Type::Monster) {
+  if (obj.getType() == objectType::Monster) {
     std::cout << "Monster attacked player" << std::endl;
     // position = prevPosition;
     // iRect.setPosition(position);

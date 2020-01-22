@@ -15,7 +15,7 @@ class Switch : public IRectangle {
   public:
     Switch(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color::Green, float speed = 0, Type type = Type::Switch)
+           sf::Color color = sf::Color::Green, float speed = 0, objectType type = objectType::Switch)
         : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief

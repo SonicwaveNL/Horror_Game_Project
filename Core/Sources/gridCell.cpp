@@ -13,34 +13,32 @@ void GridCell::collision(IObject & obj) {
     return;
 }
 
-void GridCell::setPosition(sf::Vector2f position){
-    iRect.setPosition( position );
+void GridCell::setPosition(sf::Vector2f position) {
+    iRect.setPosition(position);
 }
 
 sf::Vector2f GridCell::getPosition(){
     return iRect.getPosition();
 }
 
-void GridCell::setCellType(std::string type) { 
-    if(type == "Floor"){
+void GridCell::setCellType(objectType type) { 
+    if(type == objectType::Floor){
         setColor(sf::Color::White);
-    }else if(type == "Wall"){
+    } else if (type == objectType::Wall) {
         setColor(sf::Color::Red);
-    }else if(type == "Switch"){
+    } else if (type == objectType::Switch) {
         setColor(sf::Color::Green);
-    }else if(type == "Door"){
+    } else if (type == objectType::Door) {
+        setColor(sf::Color::Magenta);
+    } else if (type == objectType::Player) {
         setColor(sf::Color::Yellow);
-    }else if(type == "Player"){
-        setColor(sf::Color::Green);
-    }else if(type == "Enemy"){
+    } else if (type == objectType::Monster) {
         setColor(sf::Color::Blue);
-    }    
+    }
     type = type;
 }
 
-std::string GridCell::getCellType(){
-    return cellType;
-}
+objectType GridCell::getCellType() { return cellType; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 

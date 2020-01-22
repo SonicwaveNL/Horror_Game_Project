@@ -36,7 +36,7 @@ class Monster : public IRectangle {
   Monster(sf::Texture& texture, sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>>& objects,
           sf::Color color = sf::Color::Blue,
-          float speed = 5, Type type = Type::Monster)
+          float speed = 5, objectType type = objectType::Monster)
       : IRectangle(position, objects, color, speed, type), texture(texture){};
 
   ///\brief

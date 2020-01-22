@@ -18,13 +18,9 @@ bool Door::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Door::setPosition(sf::Vector2f target) {
-    return;
-}
+void Door::setPosition(sf::Vector2f target) { return; }
 
-void Door::collision(IObject & obj) {
-    return;
-}
+void Door::collision(IObject & obj) { return; }
 
 void Door::setOpenState(bool state){
     isOpen = state;
