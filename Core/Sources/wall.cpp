@@ -28,3 +28,7 @@ void Wall::collision(IObject & obj) {
 void Wall::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
 sf::FloatRect Wall::getBounds() { return iRect.getGlobalBounds(); }
+
+sf::Vector2f Wall::getPosition(){
+    return iRect.getPosition();
+}

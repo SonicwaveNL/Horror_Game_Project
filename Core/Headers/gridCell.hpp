@@ -4,7 +4,7 @@
 #include <string>
 #include <iRectangle.hpp>
 
-class GridCell : public IRectangle{
+class GridCell : public IRectangle {
   private:
     // Flyweight pattern
     // sf::Texture * texture;
@@ -12,24 +12,16 @@ class GridCell : public IRectangle{
     std::string cellType = "Floor";
 
   public:
-    // For AI
-    // int row;
-    // int column;
-    // int dist;
-    
-    GridCell(
-        sf::Vector2f position, 
-        std::vector<std::shared_ptr<IObject>> & objects,
-        sf::Color color = sf::Color::White, float speed = 0, Type type = Type::GridCell
-    ):
-        IRectangle(
-        position, 
-        objects, 
-        color,
-        speed,
-        type
-    ){
-        iRect.setSize(sf::Vector2f(20.f,20.f));
+    int value = 0;
+    bool visited = false;
+    bool isWalkAble = true;
+
+    GridCell(sf::Vector2f position,
+             std::vector<std::shared_ptr<IObject>> & objects,
+             sf::Color color = sf::Color::White, float speed = 0,
+             Type type = Type::GridCell)
+        : IRectangle(position, objects, color, speed, type) {
+        iRect.setSize(sf::Vector2f(20.f, 20.f));
         iRect.setOutlineColor(sf::Color::Yellow);
     };
 
@@ -38,6 +30,9 @@ class GridCell : public IRectangle{
     void moveIfPossible(sf::Vector2f direction) override;
     bool intersect(IObject & obj) override;
     void setPosition(sf::Vector2f position) override;
+    ///\brief
+    /// Function to get the position.
+    sf::Vector2f getPosition() override;
     void collision(IObject & obj) override;
     sf::FloatRect getBounds() override;
     void setColor(sf::Color color) override;
@@ -45,11 +40,11 @@ class GridCell : public IRectangle{
     std::string getCellType();
     GridCell & operator=(const GridCell & rhs) {
         if (this != &rhs) {
-            this->setPosition( rhs.iRect.getPosition());
-            this->setColor( rhs.color );
+            this->setPosition(rhs.iRect.getPosition());
+            this->setColor(rhs.color);
             this->prevPosition = rhs.prevPosition;
             this->speed = rhs.speed;
-            this->iRect.setSize( rhs.iRect.getSize());
+            this->iRect.setSize(rhs.iRect.getSize());
         }
         return *this;
     }

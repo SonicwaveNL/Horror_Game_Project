@@ -110,6 +110,7 @@ class IObject {
     virtual sf::FloatRect getBounds() = 0;
 
     Type getType();
+
 };
 
 #endif // IOBJECT_HPP

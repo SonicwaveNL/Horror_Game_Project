@@ -99,6 +99,9 @@ class Wall : public IRectangle {
     /*Returns the rectangle the object is surrounded by.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
+    ///\brief
+    ///Function to get the position.
+    sf::Vector2f getPosition() override;
 };
 
 #endif // Wall_hpp

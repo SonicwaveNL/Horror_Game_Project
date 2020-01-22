@@ -33,6 +33,10 @@ void Player::setPosition(sf::Vector2f target) {
     iRect.setPosition(target);
 }
 
+sf::Vector2f Player :: getPosition(){
+    return iRect.getPosition();
+}
+
 void Player::collision(IObject & obj) {
     
     switch(obj.getType()){

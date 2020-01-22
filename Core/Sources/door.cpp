@@ -36,3 +36,7 @@ bool Door::getOpenState(){
 void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }
 
 sf::FloatRect Door::getBounds() { return iRect.getGlobalBounds(); }
+
+sf::Vector2f Door::getPosition(){
+    return iRect.getPosition();
+}

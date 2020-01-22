@@ -33,8 +33,7 @@ class Monster : public IRectangle {
   /*a SFML sf::Color, this is the color of the texture.*/
   ///@param speed
   /*The walking speed of the monster*/
-  Monster(sf::Texture& texture,
-          sf::Vector2f position,
+  Monster(sf::Texture& texture, sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>>& objects,
           sf::Color color = sf::Color::Blue,
           float speed = 5, Type type = Type::Monster)
@@ -63,7 +62,7 @@ class Monster : public IRectangle {
   ///@param obj
   /*IObject*/
   ///@return bool
-  bool intersect(IObject & obj) override;
+  bool intersect(IObject& obj) override;
 
   ///\brief
   /// Jump Monster object to given target
@@ -87,6 +86,9 @@ class Monster : public IRectangle {
   /*Get the GlobalBounds of the Monster object.*/
   ///@return sf::FloatRect
   sf::FloatRect getBounds() override;
+  ///\brief
+  /// Function to get the position.
+  sf::Vector2f getPosition() override;
 };
 
 #endif  // MONSTER_HPP

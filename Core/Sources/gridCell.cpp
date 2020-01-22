@@ -17,6 +17,10 @@ void GridCell::setPosition(sf::Vector2f position){
     iRect.setPosition( position );
 }
 
+sf::Vector2f GridCell::getPosition(){
+    return iRect.getPosition();
+}
+
 void GridCell::setCellType(std::string type) { 
     if(type == "Floor"){
         setColor(sf::Color::White);
