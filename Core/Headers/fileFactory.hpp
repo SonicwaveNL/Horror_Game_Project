@@ -65,7 +65,39 @@ public:
             for( auto & item : types){
                 if( tmpString == item.writeAble){
                     matrix[xCoordinate/20][yCoordinate/20].setCellType( item.itemType );
+                    matrix[xCoordinate/20][yCoordinate/20].setPosition( sf::Vector2f( (xCoordinate), yCoordinate/20 ));
                 }
+            }
+        }
+
+        std::vector<std::shared_ptr<IObject>> objectsToDrawables( std::vector<std::vector<GridCell>> & matrix ){
+            std::vector<std::shared_ptr<IObject>> returnVector;
+            objectType soort;
+            int x = 0;
+            int y = 0;
+            for( auto & row: matrix ){
+                for( auto & item: row ){
+                    soort = item.getCelType();
+                    if( soort == objectType::Abstract){
+                        // throw exception
+                    } else if( soort == objectType::GridCell ){
+                        // throw exception
+                    } else if( soort == objectType::Floor ){
+                        // empty
+                    } else if( soort == objectType::Wall ){
+                        std::make_unique<Wall>();
+                    } else if( soort == objectType::Switch ){
+                        std::make_unique<>();
+                    } else if( soort == objectType::Door ){
+                        std::make_unique<>();
+                    } else if( soort == objectType::Player ){
+                        std::make_unique<>();
+                    } else if( soort == objectType::Monster ){
+
+                    }
+                    y++
+                }
+                x++
             }
         }
     }
