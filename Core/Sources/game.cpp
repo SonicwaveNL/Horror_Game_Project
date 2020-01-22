@@ -1,11 +1,14 @@
 #include <../Headers/game.hpp>
 
 std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
+    std::cout <<"window " << windowSize.x << " " << windowSize.y << std::endl;
     unsigned int amountOfColumn = windowSize.x / 20;
     unsigned int amountOfRow = windowSize.y / 20;
     unsigned int amountOfRect = amountOfRow * amountOfColumn;
     float x = 0;
     float y = 0;
+
+    std::cout << "Creating size x,y : " << amountOfColumn << ',' << amountOfRow << '\n'; 
 
     std::vector<std::vector<GridCell>> shapeMatrix;
 

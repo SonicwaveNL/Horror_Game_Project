@@ -22,6 +22,8 @@ void FileFactory::loadMatrixFromFile(
     std::vector<std::vector<GridCell>> & matrix, std::ifstream & file) {
     std::string tmpString;
     std::string tmpCoordinates;
+    std::cout << "Size : " << matrix.size();
+    std::cout << "Size 2 : " << matrix[0].size();
     while (!file.eof()) {
         std::string xCoordinate, yCoordinate;
         file >> tmpString;
@@ -37,16 +39,15 @@ void FileFactory::loadMatrixFromFile(
                 yCoordinate += tmpCoordinates[i];
             }
         }
-        // std::cout << " coordinates: " << std::atoi(xCoordinate.c_str()) <<
-        // "," << std::atoi(yCoordinate.c_str()) << std::endl;
         int xCor = std::atoi(xCoordinate.c_str());
         int yCor = std::atoi(yCoordinate.c_str());
 
-        for (auto & item : types) {
+        std::cout << "Name : |" << tmpString << "| x : |" << xCor << "| y : |" << yCor << "|\n";
+
+        for(auto & item : types) {
             if (tmpString == item.writeAble) {
                 matrix[xCor / 20][yCor / 20].setCellType(item.itemType);
-                matrix[xCor / 20][yCor / 20].setPosition(
-                    sf::Vector2f(xCor, yCor));
+                matrix[xCor / 20][yCor / 20].setPosition(sf::Vector2f(xCor, yCor));
             }
         }
     }

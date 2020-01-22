@@ -22,8 +22,8 @@
 /// Game class to present demo
 class Game {
   private:
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};
-    // sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
+        sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -95,6 +95,7 @@ class Game {
     /*Loads a map into the grid.*/
     Game() {
         grid = createGrid(window.getSize());
+        std::cout << "Created grid x,y : " << grid.size() << ", " << grid[0].size() << '\n'; 
         std::ifstream file("level1.txt");
         if( file ){
             std::cout << "FILE GOOD HUB HUBA \n";
