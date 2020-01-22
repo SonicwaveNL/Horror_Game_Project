@@ -133,7 +133,7 @@ sf::Vector2f Game::findShortestStep() {
     }
 
     // Check down
-    if ((myYPos + 1) < grid.size() &&
+    if ((myYPos + 1) < grid[myXPos].size() &&
         grid[myXPos][myYPos + 1].value <= smallestValue) {
         smallestValue = grid[myXPos][myYPos + 1].value;
         moveDirection.x = 0;
@@ -148,7 +148,7 @@ sf::Vector2f Game::findShortestStep() {
     }
 
     // Check right
-    if ((myXPos + 1) < grid[myYPos].size() &&
+    if ((myXPos + 1) < grid.size() &&
         grid[myXPos + 1][myYPos].value <= smallestValue) {
         smallestValue = grid[myXPos + 1][myYPos].value;
         moveDirection.x = 1;
@@ -163,22 +163,22 @@ void Game::reversedBFSPathAlgorithm() {
     int xPos = player->getPosition().x / 20;
     int yPos = player->getPosition().y / 20;
 
-    GridCell * source = &grid[yPos][xPos];
+    GridCell * source = &grid[xPos][yPos];
     bool visited[grid.size()][grid[0].size()];
 
     // Fill the visited array with "isWalkAble" bools
-    for (int y = 0; y < grid.size(); y++) {
-        for (int x = 0; x < grid[y].size(); x++) {
-            visited[y][x] = !grid[y][x].isWalkAble;
+    for (int x = 0; x < grid.size(); x++) {
+        for (int y = 0; y < grid[x].size(); y++) {
+            visited[x][y] = !grid[x][y].isWalkAble;
         }
     }
 
     int xPosMonster = monster->getPosition().x / 20;
     int yPosMonster = monster->getPosition().y / 20;
-    GridCell * sourceMonster = &grid[yPosMonster][xPosMonster];
+    GridCell * sourceMonster = &grid[xPosMonster][yPosMonster];
 
     q.push(source);
-    visited[yPosMonster][xPosMonster] = true;
+    visited[xPosMonster][yPosMonster] = true;
 
     while (!q.empty()) {
         GridCell * p = q.front();
@@ -190,9 +190,9 @@ void Game::reversedBFSPathAlgorithm() {
 
         // Check upper cell
         if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
-            grid[yPos - 1][xPos].value = p->value + 1;
-            q.push(&grid[yPos - 1][xPos]);
-            visited[yPos - 1][xPos] = true;
+            grid[xPos][yPos - 1].value = p->value + 1;
+            q.push(&grid[xPos][yPos - 1]);
+            visited[xPos][yPos - 1] = true;
         }
 
         // Check lower cell
