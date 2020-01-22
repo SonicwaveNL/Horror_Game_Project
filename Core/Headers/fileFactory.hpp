@@ -52,7 +52,7 @@ class FileFactory {
     ///@param fileName
     /*std::string*/
     void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix,
-                            std::string fileName);
+                            std::ifstream & file);
 
     ///@file
     ///\brief

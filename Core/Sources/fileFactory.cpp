@@ -9,7 +9,7 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
             auto itemSoort = item.getCellType();
             for (auto const & soort : types) {
                 if (itemSoort == soort.itemType) {
-                    file << soort.writeAble;
+                    file << soort.writeAble << " ";
                     file << "(" << item.getPosition().x << ","
                          << item.getPosition().y << ")\n";
                 }
@@ -19,46 +19,57 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
 }
 
 void FileFactory::loadMatrixFromFile(
-    std::vector<std::vector<GridCell>> & matrix, std::string fileName) {
-    std::ifstream file;
-    file.open(fileName); //@TODO exception maken
+    std::vector<std::vector<GridCell>> & matrix, std::ifstream & file) {
     std::string tmpString;
     int xCoordinate, yCoordinate;
     char tmpChar;
-    while (!EOF) {
+    while (!file.eof()) {
         file >> tmpString;
+        std::cout << tmpString;
 
         if (!(file >> tmpChar)) {
-            return;
+            std::cout << "NO WRONG \n";
+            continue;
         } // spatie
 
+
         if (!(file >> tmpChar)) {
-            return;
+            std::cout << "NO WRONG \n";
+            continue;
         }
+
         if (!(tmpChar != '(')) {
-            return;
+            std::cout << "NO WRONG " << tmpChar <<std::endl;
+            continue;
         }
 
         if (!(file >> xCoordinate)) {
-            return;
+            std::cout << "NO WRONG " << xCoordinate <<std::endl;
+            continue;
         }
 
         if (!(file >> tmpChar)) {
-            return;
+            std::cout << "NO WRONG \n";
+            continue;
         }
+
         if (!(tmpChar != ',')) {
-            return;
+            std::cout << "NO WRONG " << tmpChar <<std::endl;
+            continue;
         }
 
         if (!(file >> yCoordinate)) {
-            return;
+            std::cout << "NO WRONG " << yCoordinate <<std::endl;
+            continue;
         }
 
         if (!(file >> tmpChar)) {
-            return;
+            std::cout << "NO WRONG \n";
+            continue;
         }
         if (!(tmpChar != ')')) {
-            return;
+            std::cout << "NO WRONG " << tmpChar <<std::endl;
+            continue;
         }
 
         for (auto & item : types) {

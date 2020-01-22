@@ -57,6 +57,7 @@
         "valarray": "cpp",
         "set": "cpp",
         "iomanip": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "codecvt": "cpp"
     }
 }

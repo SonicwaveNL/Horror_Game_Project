@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <experimental/filesystem>
 #include <action.hpp>
 #include <gridCell.hpp>
 #include <iObject.hpp>
@@ -22,7 +23,7 @@
 class Game {
   private:
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};
-                            // sf::Style::Fullscreen};
+    // sf::Style::Fullscreen};
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -33,6 +34,7 @@ class Game {
     std::shared_ptr<Player> player;
     std::vector<std::vector<GridCell>> grid;
     objectType cellType = objectType::Floor;
+    FileFactory factory;
 
     Action playingActions[5] = {
         Action(actionKeyword::up,
@@ -49,7 +51,7 @@ class Game {
             for (size_t i = 1; i < winFactors.size(); i++) {
                 std::shared_ptr<Switch> s =
                     std::static_pointer_cast<Switch>(winFactors[i]);
-                    s->collision(*characters[0]);
+                s->collision(*characters[0]);
 
                 if (s->isActive()) {
                     switchCount++;
@@ -62,19 +64,22 @@ class Game {
             }
         })};
 
-    Action editorActions[7] = {
+    Action editorActions[8] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
         Action(sf::Keyboard::Num1, [=]() { cellType = objectType::Wall; }),
         Action(sf::Keyboard::Num2, [=]() { cellType = objectType::Switch; }),
         Action(sf::Keyboard::Num3, [=]() { cellType = objectType::Door; }),
         Action(sf::Keyboard::Num4, [=]() { cellType = objectType::Player; }),
         Action(sf::Keyboard::Num5, [=]() { cellType = objectType::Monster; }),
-        Action(sf::Mouse::Button::Left, [&]() {
-            sf::Vector2f mousePos =
-                window.mapPixelToCoords(sf::Mouse::getPosition(window));
-            int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
-            grid[index[0]][index[1]].setCellType(cellType);
-        })};
+        Action(sf::Mouse::Button::Left,
+               [&]() {
+                   sf::Vector2f mousePos =
+                       window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
+                   grid[index[0]][index[1]].setCellType(cellType);
+               }),
+        Action(sf::Keyboard::Escape,
+               [=] { factory.writeToFile(grid, "level1.txt"); window.close();})};
 
     ///\brief
     /// Loads the objects from the 'main' vector into their appropriate
@@ -89,19 +94,18 @@ class Game {
     ///\details
     /*Loads a map into the grid.*/
     Game() {
-        FileFactory fileFactory;
         grid = createGrid(window.getSize());
-        fileFactory.objectsToDrawables(drawables, grid);
+        std::ifstream file("level1.txt");
+        if( file ){
+            std::cout << "FILE GOOD HUB HUBA \n";
+            factory.loadMatrixFromFile(grid,file);
+        }
+        factory.objectsToDrawables(drawables, grid);
         loadSubVectors();
-        if(characters.size() < 1){
-            std::cout << "characters empty\n";
-        }
-        if(characters[0]->getType() != objectType::Player){
-            std::cout << "player isn't a player\n";
-        }
         player = std::static_pointer_cast<Player>(characters[0]);
         monster = std::static_pointer_cast<Monster>(characters[1]);
-        reversedBFSPathAlgorithm();
+        // reversedBFSPathAlgorithm();
+        
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
@@ -135,7 +139,7 @@ class Game {
     monster should go to. See the details for reversedBFSPathAlgorithm for
     further details on this subject.*/
     ///@return sf::Vector2f, containing the direction the Monster should move
-    ///to.
+    /// to.
     sf::Vector2f findShortestStep();
 
     ///\brief

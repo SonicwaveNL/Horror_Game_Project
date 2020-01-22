@@ -76,7 +76,7 @@ void Game::loadSubVectors() {
                 }
                 break;
             case objectType::Door:
-                if (winFactors.size() >= 1) {
+                if (winFactors.size() ,2 >= 1) {
                     winFactors[0] = obj;
                 } else {
                     winFactors.push_back(obj);
@@ -245,31 +245,59 @@ void Game::run() {
     //     }
     // }
 
-    int pathFindCounter = 0;
+    // int pathFindCounter = 0;
 
-    while (window.isOpen()) {
+    // while (window.isOpen()) {
+    //     window.clear();
+
+    //     monster->moveIfPossible(findShortestStep());
+    //     pathFindCounter++;
+
+    //     if (pathFindCounter == 50) {
+    //         pathFindCounter = 0;
+    //         reversedBFSPathAlgorithm();
+    //     }
+
+    //     ////Draw the grid.
+    //     for (auto & me : drawables) {
+    //             me->draw(window);
+         
+    //     }
+    //     // Do the actions.
+    //     for (auto & action : playingActions) {
+    //         action();
+    //     }
+
+    //     // Draw window.
+    //     window.display();
+
+    //     sf::sleep(sf::milliseconds(20));
+    //     sf::Event event;
+    //     while (window.pollEvent(event)) {
+    //         if (event.type == sf::Event::Closed) {
+    //             window.close();
+    //         }
+    //     }
+    // }
+
+    while( window.isOpen()){
         window.clear();
 
-        monster->moveIfPossible(findShortestStep());
-        pathFindCounter++;
-
-        if (pathFindCounter == 50) {
-            pathFindCounter = 0;
-            reversedBFSPathAlgorithm();
+        for( auto & row: grid ){
+            for( auto & item: row){
+                item.draw(window);
+            }
         }
 
-        ////Draw the grid.
-        for (auto & me : drawables) {
-                me->draw(window);
-         
-        }
-        // Do the actions.
-        for (auto & action : playingActions) {
+        // for (auto & me : drawables) {
+        //     me->draw(window);
+        // }
+
+        window.display();
+
+        for (auto & action : editorActions) {
             action();
         }
-
-        // Draw window.
-        window.display();
 
         sf::sleep(sf::milliseconds(20));
         sf::Event event;
