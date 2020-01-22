@@ -35,6 +35,9 @@ class GridCell : public IRectangle {
              objectType type = objectType::GridCell)
         : IRectangle(position, objects, color, speed, type) {
         iRect.setSize(sf::Vector2f(20.f, 20.f));
+        if(type == objectType::Wall){
+          isWalkAble = false;
+        }
     };
 
     ///\brief
