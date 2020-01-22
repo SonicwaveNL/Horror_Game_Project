@@ -28,6 +28,7 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
     }
     shapeMatrix[30][30].setCellType(objectType::Player);
     shapeMatrix[20][20].setCellType(objectType::Monster);
+    shapeMatrix[10][10].setCellType(objectType::Wall);
     return shapeMatrix;
 }
 
@@ -125,6 +126,7 @@ sf::Vector2f Game::findShortestStep() {
     sf::Vector2f monsterPosition = monster->getPosition();
     myXPos = monsterPosition.x / 20;
     myYPos = monsterPosition.y / 20;
+    grid[myXPos][myYPos].value = 2300;
 
     // Check up
     if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue) {
@@ -286,7 +288,7 @@ void Game::run() {
         monster->moveIfPossible(findShortestStep());
         pathFindCounter++;
 
-        if (pathFindCounter == 1) {
+        if (pathFindCounter == 50) {
             pathFindCounter = 0;
             reversedBFSPathAlgorithm();
         }
