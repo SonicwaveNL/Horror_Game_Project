@@ -13,30 +13,28 @@ void GridCell::collision(IObject & obj) {
     return;
 }
 
-void GridCell::setPosition(sf::Vector2f position){
-    iRect.setPosition( position );
+void GridCell::setPosition(sf::Vector2f position) {
+    iRect.setPosition(position);
 }
 
-void GridCell::setCellType(objectType type) { 
-    if(type == objectType::Floor){
+void GridCell::setCellType(objectType type) {
+    if (type == objectType::Floor) {
         setColor(sf::Color::White);
-    }else if(type == objectType::Wall){
+    } else if (type == objectType::Wall) {
         setColor(sf::Color::Red);
-    }else if(type == objectType::Switch){
+    } else if (type == objectType::Switch) {
         setColor(sf::Color::Green);
-    }else if(type == objectType::Door){
+    } else if (type == objectType::Door) {
         setColor(sf::Color::Magenta);
-    }else if(type == objectType::Player){
+    } else if (type == objectType::Player) {
         setColor(sf::Color::Yellow);
-    }else if(type == objectType::Monster){
+    } else if (type == objectType::Monster) {
         setColor(sf::Color::Blue);
-    }    
+    }
     type = type;
 }
 
-objectType GridCell::getCellType(){
-    return cellType;
-}
+objectType GridCell::getCellType() { return cellType; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 

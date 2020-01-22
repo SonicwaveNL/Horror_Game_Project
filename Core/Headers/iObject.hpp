@@ -17,22 +17,23 @@ class IObject {
     sf::Vector2f prevPosition;
     std::vector<std::shared_ptr<IObject>> & objects;
     float speed = 5;
-    enum class Type{
-      Door,
-      Wall,
-      Player,
-      Enemy,
-      Switch,
-      Powerup,
-      Abstract,
-      GridCell
+    enum class Type {
+        Door,
+        Wall,
+        Player,
+        Enemy,
+        Switch,
+        Powerup,
+        Abstract,
+        GridCell
     };
 
     Type type;
 
   public:
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
-            sf::Color color = sf::Color::Transparent, float speed = 0, Type type = Type::Abstract)
+            sf::Color color = sf::Color::Transparent, float speed = 0,
+            Type type = Type::Abstract)
         : objects(objects), color(color), speed(speed), type(type) {}
 
     ///\brief

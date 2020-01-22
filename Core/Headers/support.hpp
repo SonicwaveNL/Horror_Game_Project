@@ -9,13 +9,13 @@
 enum class inputType { keyboard, controller };
 
 enum class objectType {
-    Abstract, 
-    GridCell, 
-    Floor, 
-    Wall, 
-    Switch, 
-    Door, 
-    Player, 
+    Abstract,
+    GridCell,
+    Floor,
+    Wall,
+    Switch,
+    Door,
+    Player,
     Monster
 };
 

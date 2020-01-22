@@ -14,6 +14,7 @@ class Door : public IRectangle {
   private:
     sf::Texture texture;
     sf::Sprite sprite;
+
   public:
     ///\brief
     /// Door object constructor.
@@ -28,19 +29,10 @@ class Door : public IRectangle {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Door(
-      sf::Vector2f position,
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White,
-      float speed = 0,
-      Type type = Type::Door
-    ):IRectangle( 
-        position,
-        objects, 
-        color,
-        speed,
-        type
-    ){};
+    Door(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White, float speed = 0,
+         Type type = Type::Door)
+        : IRectangle(position, objects, color, speed, type){};
 
     ///\brief
     /// Draw IObject on window

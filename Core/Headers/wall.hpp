@@ -23,19 +23,10 @@ class Wall : public IRectangle {
     ///@param color
     /*An SFML colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White, float speed = 0,
-      Type type = Type::Wall
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        color,
-        speed,
-        type
-      ) {}
+    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White, float speed = 0,
+         Type type = Type::Wall)
+        : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief
     /// Move IObject to direction.

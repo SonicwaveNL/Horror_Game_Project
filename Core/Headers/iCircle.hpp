@@ -6,7 +6,7 @@
 
 ///@file
 ///\brief
-///ICircle class
+/// ICircle class
 ///\details
 /*class for creating circle using sfml*/
 class ICircle : public IObject {
@@ -14,7 +14,7 @@ class ICircle : public IObject {
     sf::CircleShape iCirc;
 
   public:
-    ICircle(sf::Vector2f position, 
+    ICircle(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0)
         : IObject(objects, color, speed) {
@@ -23,13 +23,12 @@ class ICircle : public IObject {
     }
 
     ///\brief
-    ///setRadius function
+    /// setRadius function
     ///\details
     /*This functions sets the radius of the circle to the given float rad*/
     ///@param rad
     /*float*/
     void setRadius(float rad);
-
 };
 
 #endif // ICIRCLE_hpp

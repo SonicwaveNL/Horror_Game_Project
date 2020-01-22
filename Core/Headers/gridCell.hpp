@@ -7,11 +7,12 @@
 
 ///@file
 ///\brief
-///Class for cells in a grid.
+/// Class for cells in a grid.
 ///\details
 /*This class represents a cell in the grid or a "tile" in the map editor.
-It contains a variable in which it's cell type is stored using the objectType enum class.*/
-class GridCell : public IRectangle{
+It contains a variable in which it's cell type is stored using the objectType
+enum class.*/
+class GridCell : public IRectangle {
   private:
     // Flyweight pattern
     // sf::Texture * texture;
@@ -19,9 +20,8 @@ class GridCell : public IRectangle{
     objectType cellType = objectType::Floor;
 
   public:
-    
     ///\brief
-    ///GridCell constructor.
+    /// GridCell constructor.
     ///\details
     /*The GridCell will be constructed having the following default values:
       Color : White, Size : 20x20 */
@@ -31,7 +31,7 @@ class GridCell : public IRectangle{
         : IRectangle(position, objects, color) {
         iRect.setSize(sf::Vector2f(20.f, 20.f));
     };
-    
+
     ///\brief
     /// Draw IObject on window
     ///\details
@@ -87,21 +87,21 @@ class GridCell : public IRectangle{
     /*Get the GlobalBounds of the IObject.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
-    
+
     ///\brief
-    ///Sets the color of the IObject.
+    /// Sets the color of the IObject.
     ///@param color
     /*sf::Color*/
     void setColor(sf::Color color) override;
 
     ///\brief
-    ///Sets the type of the GridCell.
+    /// Sets the type of the GridCell.
     ///@param type
     /*objectType*/
     void setCellType(objectType type);
 
     ///\brief
-    ///Gets the type of the GridCell.
+    /// Gets the type of the GridCell.
     ///@return objectType
     objectType getCellType();
 
@@ -109,11 +109,11 @@ class GridCell : public IRectangle{
     ///= operator.
     GridCell & operator=(const GridCell & rhs) {
         if (this != &rhs) {
-            this->setPosition( rhs.iRect.getPosition());
-            this->setColor( rhs.color );
+            this->setPosition(rhs.iRect.getPosition());
+            this->setColor(rhs.color);
             this->prevPosition = rhs.prevPosition;
             this->speed = rhs.speed;
-            this->iRect.setSize( rhs.iRect.getSize());
+            this->iRect.setSize(rhs.iRect.getSize());
         }
         return *this;
     }

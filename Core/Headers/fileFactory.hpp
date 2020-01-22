@@ -14,54 +14,56 @@
 
 ///@file
 ///\brief
-///FileFactory class
+/// FileFactory class
 ///\details
 /*s Filefactory class that can write a game state to a file and read it again*/
-class FileFactory{
-private:
-    const struct { objectType itemType; std::string writeAble; }
-        types[8]{
-            { objectType::Abstract, "ABSTRACT" },
-            { objectType::GridCell, "GRIDCELL" },
-            { objectType::Floor, "FLOOR" },
-            { objectType::Wall, "WALL" },
-            { objectType::Switch, "SWITCH" },
-            { objectType::Door, "DOOR" },
-            { objectType::Player, "PLAYER" },
-            { objectType::Monster, "MONSTER" }
-        };
-public:
-    
-    ///\brief
-    ///writeToFile function
-    ///\details
-    /*writes a matrix that represents the current game state to a txt file which name has to be given*/
-    ///@param matrix
-    /*std::vector<std::vector<GridCell>> &*/
-    ///@param fileName
-    /*std::string*/
-    void writeToFile(std::vector<std::vector<GridCell>> & matrix, std::string fileName );
+class FileFactory {
+  private:
+    const struct {
+        objectType itemType;
+        std::string writeAble;
+    } types[8]{
+        {objectType::Abstract, "ABSTRACT"}, {objectType::GridCell, "GRIDCELL"},
+        {objectType::Floor, "FLOOR"},       {objectType::Wall, "WALL"},
+        {objectType::Switch, "SWITCH"},     {objectType::Door, "DOOR"},
+        {objectType::Player, "PLAYER"},     {objectType::Monster, "MONSTER"}};
 
-    
+  public:
     ///\brief
-    ///loadMatrixFromFile function
+    /// writeToFile function
     ///\details
-    /*fills the suplied matrix of std::vector<std::vector<GridCell>> with the correct gridcells supllied by the given file*/
+    /*writes a matrix that represents the current game state to a txt file which
+     * name has to be given*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
     ///@param fileName
     /*std::string*/
-    void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix, std::string fileName);
+    void writeToFile(std::vector<std::vector<GridCell>> & matrix,
+                     std::string fileName);
+
+    ///\brief
+    /// loadMatrixFromFile function
+    ///\details
+    /*fills the suplied matrix of std::vector<std::vector<GridCell>> with the
+     * correct gridcells supllied by the given file*/
+    ///@param matrix
+    /*std::vector<std::vector<GridCell>> &*/
+    ///@param fileName
+    /*std::string*/
+    void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix,
+                            std::string fileName);
 
     ///@file
     ///\brief
-    ///objectsToDrawables function
+    /// objectsToDrawables function
     ///\details
-    /*returns a vector with drawable IObject pointers in a std::vector from a given matrix*/
+    /*returns a vector with drawable IObject pointers in a std::vector from a
+     * given matrix*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
     ///@return std::vector<std::shared_ptr<IObject>>
-    std::vector<std::shared_ptr<IObject>> objectsToDrawables( std::vector<std::vector<GridCell>> & matrix );
+    std::vector<std::shared_ptr<IObject>>
+    objectsToDrawables(std::vector<std::vector<GridCell>> & matrix);
 };
 
 #endif
