@@ -101,7 +101,7 @@ class Game {
         }
         player = std::static_pointer_cast<Player>(characters[0]);
         monster = std::static_pointer_cast<Monster>(characters[1]);
-        // reversedBFSPathAlgorithm();
+        reversedBFSPathAlgorithm();
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);

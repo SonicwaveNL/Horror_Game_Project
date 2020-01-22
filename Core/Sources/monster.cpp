@@ -38,8 +38,6 @@ void Monster::move(sf::Vector2f position) {
 }
 
 
-
-
 void Monster::draw(sf::RenderWindow& window) {
   window.draw(iRect);
 }
