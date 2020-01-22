@@ -31,6 +31,18 @@ void Monster::collision(IObject& obj) {
   }
 }
 
+void Monster::move(sf::Vector2f position) {
+        prevPosition = iRect.getPosition();
+
+    iRect.setPosition(position);
+}
+
+void Monster::setColor(sf::Color color) {
+    iRect.setFillColor(color);
+    iRect.setOutlineColor(color);
+}
+
+
 void Monster::draw(sf::RenderWindow& window) {
   window.draw(iRect);
 }

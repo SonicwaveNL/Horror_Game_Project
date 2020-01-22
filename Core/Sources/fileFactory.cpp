@@ -116,4 +116,5 @@ FileFactory::objectsToDrawables(std::vector<std::vector<GridCell>> & matrix) {
         }
     }
     // returnVector.push_back(pointer);
+    return returnVector;
 }

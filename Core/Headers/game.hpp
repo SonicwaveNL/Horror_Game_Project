@@ -8,7 +8,6 @@
 #include <memory>
 #include <monster.hpp>
 #include <player.hpp>
-#include <monster.hpp>
 #include <switch.hpp>
 #include <IException.hpp>
 #include <queue>
@@ -90,14 +89,15 @@ class Game {
     ///\details
     /*Loads a map into the grid.*/
     Game() {
-
+        FileFactory fileFactory;
         grid = createGrid(window.getSize());
-        // objectsToDrawables
+        drawables = fileFactory.objectsToDrawables(grid);
+        std::cout << drawables.size();
         loadSubVectors();
         
         player = std::static_pointer_cast<Player>(characters[0]);
         monster = std::static_pointer_cast<Monster>(characters[1]);
-        reversedBFSPathAlgorithm();
+        // reversedBFSPathAlgorithm();
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
