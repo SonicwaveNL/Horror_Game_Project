@@ -4,6 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <iObject.hpp>
 
+///@file
+///\brief
+///ICircle class
+///\details
+/*class for creating circle using sfml*/
 class ICircle : public IObject {
   protected:
     sf::CircleShape iCirc;
@@ -17,6 +22,12 @@ class ICircle : public IObject {
         iCirc.setRadius(18);
     }
 
+    ///\brief
+    ///setRadius function
+    ///\details
+    /*This functions sets the radius of the circle to the given float rad*/
+    ///@param rad
+    /*float*/
     void setRadius(float rad);
 
 };
