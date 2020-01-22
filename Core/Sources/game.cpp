@@ -123,8 +123,8 @@ sf::Vector2f Game::findShortestStep() {
     sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
     sf::Vector2f monsterPosition = monster->getPosition();
-    myXPos = monsterPosition.x / 20;
-    myYPos = monsterPosition.y / 20;
+    myXPos = (monsterPosition.x + (monster->getBounds().width/2))/ 20;
+    myYPos = (monsterPosition.y + (monster->getBounds().height/2))/ 20;
 
     // Check up
     if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue) {
@@ -171,7 +171,6 @@ void Game::reversedBFSPathAlgorithm() {
             y.value = 0;
         }
     }
-    std::cout << "reversed running\n";
     std::queue<GridCell *> q;
     int xPos = player->getPosition().x / 20;
     int yPos = player->getPosition().y / 20;
@@ -186,8 +185,8 @@ void Game::reversedBFSPathAlgorithm() {
         }
     }
 
-    int xPosMonster = monster->getPosition().x / 20;
-    int yPosMonster = monster->getPosition().y / 20;
+    int xPosMonster = (monster->getPosition().x + (monster->getBounds().width/2)) / 20;
+    int yPosMonster = (monster->getPosition().y + (monster->getBounds().height/2)) / 20;
     GridCell * sourceMonster = &grid[xPosMonster][yPosMonster];
 
     q.push(sourcePlayer);
@@ -200,7 +199,6 @@ void Game::reversedBFSPathAlgorithm() {
         yPos = p->getPosition().y / 20;
 
         if (p == sourceMonster) {
-            std::cout << "found monster\n";
             return;
         }
         // Check upper cell
@@ -237,19 +235,7 @@ void Game::reversedBFSPathAlgorithm() {
         }
 
     }
-    for (int x = 0; x < grid.size(); x++)
-    {
-        for (int y = 0; y < grid[2].size(); y++)
-        {
-            std::cout << visited[x][y] << "";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << grid.size() << std::endl;
-    std::cout << grid[0].size() << std::endl;
-    std::cout << std::endl;
-    std::cout << "q was empty\n";
-    // window.close();
+    
 };
 
 void Game::run() {
