@@ -117,20 +117,12 @@ void Game::loadSubVectors() {
 }
 
 sf::Vector2f Game::findShortestStep() {
-  std::vector<int> checksToDo = {1, 2, 3, 4};
-  std::vector<int> checks;
   int myXPos = 0;
   int myYPos = 0;
   int myXPosRU = 0;
   int myYPosRU = 0;
   int smallestValue = 9000000;
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
-
-  // for (int checker : checksToDo) {
-  //   int val = rand() % checksToDo.size() + 1;
-  //   checks.push_back(checksToDo[val]);
-  //   checksToDo.erase(checksToDo.begin() + val - 1);
-  // }
 
   sf::Vector2f monsterPosition = monster->getPosition();
   myXPos = (monsterPosition.x - 1) / 20;
@@ -140,9 +132,8 @@ sf::Vector2f Game::findShortestStep() {
   grid[myXPos][myYPos].value = 5000;
 
   // check up
-  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue &&
-      (myYPosRU - 1) >= 0 &&
-      grid[myXPosRU][myYPosRU - 1].value <= smallestValue) {
+  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue &&
+      grid[myXPosRU][myYPosRU - 1].value < smallestValue) {
     smallestValue = grid[myXPos][myYPos - 1].value;
     moveDirection.x = 0;
     moveDirection.y = -1;
@@ -150,10 +141,9 @@ sf::Vector2f Game::findShortestStep() {
     // << "\n";
   }
   // Check down
-  if ((myYPos + 1) < grid[myXPos].size() &&
-      grid[myXPos][myYPos + 1].value <= smallestValue &&
-      (myYPosRU + 1) < grid[myXPosRU].size() &&
-      grid[myXPosRU][myYPosRU + 1].value <= smallestValue) {
+  if ((myYPosRU + 1) < grid[myXPosRU].size() &&
+      grid[myXPos][myYPos + 1].value < smallestValue &&
+      grid[myXPosRU][myYPosRU + 1].value < smallestValue) {
     smallestValue = grid[myXPos][myYPos + 1].value;
     moveDirection.x = 0;
     moveDirection.y = 1;
@@ -162,9 +152,8 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
   }
   // Check left
-  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value <= smallestValue &&
-      (myXPosRU - 1) >= 0 &&
-      grid[myXPosRU - 1][myYPosRU].value <= smallestValue) {
+  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue &&
+      grid[myXPosRU - 1][myYPosRU].value < smallestValue) {
     smallestValue = grid[myXPos - 1][myYPos].value;
     moveDirection.x = -1;
     moveDirection.y = 0;
@@ -173,10 +162,9 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
   }
   // Check right
-  if ((myXPos + 1) < grid.size() &&
-      grid[myXPos + 1][myYPos].value <= smallestValue &&
-      (myXPosRU + 1) < grid.size() &&
-      grid[myXPosRU + 1][myYPosRU].value <= smallestValue) {
+  if ((myXPosRU + 1) < grid.size() &&
+      grid[myXPos + 1][myYPos].value < smallestValue &&
+      grid[myXPosRU + 1][myYPosRU].value < smallestValue) {
     smallestValue = grid[myXPos + 1][myYPos].value;
     moveDirection.x = 1;
     moveDirection.y = 0;
@@ -184,7 +172,7 @@ sf::Vector2f Game::findShortestStep() {
     // <<
     // "\n";
 
-  } else if (moveDirection.x == 0 && moveDirection.y == 0){
+  } else if (moveDirection.x == 0 && moveDirection.y == 0) {
     reversedBFSPathAlgorithm();
   }
 
@@ -232,7 +220,7 @@ void Game::reversedBFSPathAlgorithm() {
     if (p == sourceMonster) {
       return;
     }
-    
+
     // Check upper cell
     if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
       grid[xPos][yPos - 1].value = p->value + 1;
