@@ -225,7 +225,17 @@ void Game::reversedBFSPathAlgorithm() {
     }
 };
 
-// void Game::draw(IObjects)
+void Game::draw(std::vector<std::shared_ptr<IObject>> & drawables){
+    for(std::shared_ptr<IObject> drawable : drawables){
+        drawable->draw(window);
+    }
+}
+void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements){
+    for(std::shared_ptr<UIElement> uiElement : uiElements){
+        uiElement->draw(window);
+    }
+}
+
 
 // void Game::draw(UIELements)
 
