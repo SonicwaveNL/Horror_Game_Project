@@ -115,6 +115,11 @@ class GridCell : public IRectangle {
     ///Function to check if cell is walkable
     ///@return bool
     bool isWalkable();
+    
+    ///\brief
+    ///Function to check if a gridcell contains an SFML object
+    ///@return bool
+    bool contains();
     ///\brief
     ///= operator.
     GridCell & operator=(const GridCell & rhs) {

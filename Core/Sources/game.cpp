@@ -121,21 +121,27 @@ sf::Vector2f Game::findShortestStep() {
   std::vector<int> checks;
   int myXPos = 0;
   int myYPos = 0;
+  int myXPosRU = 0;
+  int myYPosRU = 0;
   int smallestValue = 9000000;
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
-  for (int checker : checksToDo) {
-    int val = rand() % checksToDo.size() + 1;
-    checks.push_back(checksToDo[val]);
-    checksToDo.erase(checksToDo.begin() + val - 1);
-  }
+  // for (int checker : checksToDo) {
+  //   int val = rand() % checksToDo.size() + 1;
+  //   checks.push_back(checksToDo[val]);
+  //   checksToDo.erase(checksToDo.begin() + val - 1);
+  // }
 
   sf::Vector2f monsterPosition = monster->getPosition();
-  myXPos = monsterPosition.x/ 20;
-  myYPos = monsterPosition.y /20;
-  grid[myXPos][myYPos].value = 2300;
+  myXPos = monsterPosition.x / 20;
+  myYPos = monsterPosition.y / 20;
+  myXPosRU = (monsterPosition.x + 20) / 20;
+  myYPosRU = (monsterPosition.y + 20) / 20;
+  grid[myXPos][myYPos].value = 5000;
   // check up
-  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue) {
+  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue &&
+      (myYPosRU - 1) >= 0 &&
+      grid[myXPosRU][myYPosRU - 1].value <= smallestValue) {
     smallestValue = grid[myXPos][myYPos - 1].value;
     moveDirection.x = 0;
     moveDirection.y = -1;
@@ -144,7 +150,9 @@ sf::Vector2f Game::findShortestStep() {
   }
   // Check down
   if ((myYPos + 1) < grid[myXPos].size() &&
-      grid[myXPos][myYPos + 1].value <= smallestValue) {
+      grid[myXPos][myYPos + 1].value <= smallestValue &&
+      (myYPosRU + 1) < grid[myXPosRU].size() &&
+      grid[myXPosRU][myYPosRU + 1].value <= smallestValue) {
     smallestValue = grid[myXPos][myYPos + 1].value;
     moveDirection.x = 0;
     moveDirection.y = 1;
@@ -153,7 +161,9 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
   }
   // Check left
-  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value <= smallestValue) {
+  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value <= smallestValue &&
+      (myXPosRU - 1) >= 0 &&
+      grid[myXPosRU - 1][myYPosRU].value <= smallestValue) {
     smallestValue = grid[myXPos - 1][myYPos].value;
     moveDirection.x = -1;
     moveDirection.y = 0;
@@ -163,7 +173,9 @@ sf::Vector2f Game::findShortestStep() {
   }
   // Check right
   if ((myXPos + 1) < grid.size() &&
-      grid[myXPos + 1][myYPos].value <= smallestValue) {
+      grid[myXPos + 1][myYPos].value <= smallestValue &&
+      (myXPosRU + 1) < grid.size() &&
+      grid[myXPosRU + 1][myYPosRU].value <= smallestValue) {
     smallestValue = grid[myXPos + 1][myYPos].value;
     moveDirection.x = 1;
     moveDirection.y = 0;
@@ -178,7 +190,10 @@ sf::Vector2f Game::findShortestStep() {
 void Game::reversedBFSPathAlgorithm() {
   for (auto &item : grid) {
     for (auto &y : item) {
-      if (y.isWalkable()) y.value = 0;
+      if (y.isWalkable())
+        y.value = 0;
+      else
+        y.value = 5000;
     }
   }
   std::queue<GridCell *> q;
@@ -281,10 +296,16 @@ void Game::run() {
       reversedBFSPathAlgorithm();
     }
 
-    ////Draw the grid.
+    // Draw the grid.
     for (auto &me : drawables) {
       me->draw(window);
     }
+
+    // for ( auto & row : grid){
+    //   for(auto & item : row){
+    //     item.draw(window);
+    //   }
+    // }
     // Do the actions.
     for (auto &action : playingActions) {
       action();
