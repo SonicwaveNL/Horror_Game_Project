@@ -16,7 +16,7 @@ class Monster : public IRectangle {
  private:
   sf::Texture texture;
   sf::Sprite sprite;
-  sf::Vector2f lastMoveDirection;
+  // sf::Vector2f lastMoveDirection;
 
  public:
   ///\brief
@@ -37,8 +37,7 @@ class Monster : public IRectangle {
   Monster(sf::Vector2f position, std::vector<std::shared_ptr<IObject>>& objects,
           sf::Color color = sf::Color::Blue, float speed = 4.8,
           objectType type = objectType::Monster)
-      : IRectangle(position, objects, color, speed, type),
-        lastMoveDirection(-1, -1){};
+      : IRectangle(position, objects, color, speed, type){};
 
   ///\brief
   /// Draw IRectangle on window

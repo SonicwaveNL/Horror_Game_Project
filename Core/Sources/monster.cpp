@@ -1,15 +1,15 @@
 #include <../Headers/monster.hpp>
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
-  if (direction.x != 0 || direction.y != 0)
-  {
-    lastMoveDirection.x = direction.x;
-    lastMoveDirection.y = direction.y;
-  }
+  // if (direction.x != 0 || direction.y != 0)
+  // {
+  //   lastMoveDirection.x = direction.x;
+  //   lastMoveDirection.y = direction.y;
+  // }
 
   prevPosition = iRect.getPosition();
 
-  iRect.setPosition(iRect.getPosition() + lastMoveDirection * speed);
+  iRect.setPosition(iRect.getPosition() + direction * speed);
   for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
       collision(*obj);
@@ -39,8 +39,7 @@ void Monster::collision(IObject& obj) {
 }
 
 void Monster::move(sf::Vector2f position) {
-        prevPosition = iRect.getPosition();
-
+    prevPosition = iRect.getPosition();
     iRect.setPosition(position);
 }
 

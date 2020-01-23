@@ -133,11 +133,12 @@ sf::Vector2f Game::findShortestStep() {
   // }
 
   sf::Vector2f monsterPosition = monster->getPosition();
-  myXPos = monsterPosition.x / 20;
-  myYPos = monsterPosition.y / 20;
-  myXPosRU = (monsterPosition.x + 20) / 20;
-  myYPosRU = (monsterPosition.y + 20) / 20;
+  myXPos = (monsterPosition.x - 1) / 20;
+  myYPos = (monsterPosition.y - 1) / 20;
+  myXPosRU = (monsterPosition.x + 19) / 20;
+  myYPosRU = (monsterPosition.y + 19) / 20;
   grid[myXPos][myYPos].value = 5000;
+
   // check up
   if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue &&
       (myYPosRU - 1) >= 0 &&
@@ -182,7 +183,11 @@ sf::Vector2f Game::findShortestStep() {
     // std::cout << "found smaller value in right cell "  << smallestValue
     // <<
     // "\n";
+
+  } else if (moveDirection.x == 0 && moveDirection.y == 0){
+    reversedBFSPathAlgorithm();
   }
+
   // std::cout << moveDirection.x << ", " << moveDirection.y << "\n";
   return moveDirection;
 }
@@ -190,10 +195,11 @@ sf::Vector2f Game::findShortestStep() {
 void Game::reversedBFSPathAlgorithm() {
   for (auto &item : grid) {
     for (auto &y : item) {
-      if (y.isWalkable())
+      if (y.isWalkable()) {
         y.value = 0;
-      else
+      } else {
         y.value = 5000;
+      }
     }
   }
   std::queue<GridCell *> q;
@@ -226,6 +232,7 @@ void Game::reversedBFSPathAlgorithm() {
     if (p == sourceMonster) {
       return;
     }
+    
     // Check upper cell
     if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
       grid[xPos][yPos - 1].value = p->value + 1;

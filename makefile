@@ -38,7 +38,7 @@ main: action.o door.o fileFactory.o game.o gridCell.o inputHandler.o inputListen
 	$(gcc) -o Booh action.o door.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o main.o $(LIBS)
 
 clean:
-	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o Booh
+	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o fileFactory.o gridCell.o iObject.o iRectangle.o switch.o monster.o Booh
 
 run: main
 	./Booh
