@@ -289,15 +289,15 @@ void Game::run() {
     while( window.isOpen()){
         window.clear();
 
-        for( auto & row: grid ){
-            for( auto & item: row){
-                item.draw(window);
-            }
-        }
-
-        // for (auto & me : drawables) {
-        //     me->draw(window);
+        // for( auto & row: grid ){
+        //     for( auto & item: row){
+        //         item.draw(window);
+        //     }
         // }
+
+        for (auto & me : drawables) {
+            me->draw(window);
+        }
 
         window.display();
 

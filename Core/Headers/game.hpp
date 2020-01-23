@@ -15,6 +15,7 @@
 #include <support.hpp>
 #include <vector>
 #include <fileFactory.hpp>
+#include <uiElement.hpp>
 
 ///@file
 

@@ -11,6 +11,7 @@ enum class inputType { keyboard, controller };
 
 enum class objectType {
     Abstract,
+    UIElement,
     GridCell,
     Floor,
     Wall,
