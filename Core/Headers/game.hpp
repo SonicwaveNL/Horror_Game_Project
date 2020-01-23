@@ -44,7 +44,7 @@ class Game {
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
 
-    Action menuActions[3] = {
+    Action menuActions[4] = {
         Action([=]()->bool{return 
                 Play->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
                 sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
@@ -59,10 +59,11 @@ class Game {
                 Quit->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
                 sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
             },
-            [=](){currentState = gameState::Quit;})
+            [=](){currentState = gameState::Quit;}),
+        Action(sf::Keyboard::Escape, [=](){currentState = gameState::Quit;})
     };
 
-    Action playingActions[5] = {
+    Action playingActions[6] = {
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
         Action(actionKeyword::down,
@@ -88,7 +89,9 @@ class Game {
                     std::static_pointer_cast<Door>(winFactors[0]);
                 door->setOpenState(true);
             }
-        })};
+        }),
+        Action(actionKeyword::escape, [=](){currentState = gameState::Menu;})
+    };
 
     Action editorActions[8] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
@@ -105,7 +108,7 @@ class Game {
                    grid[index[0]][index[1]].setCellType(cellType);
                }),
         Action(sf::Keyboard::Escape,
-               [=] { factory.writeToFile(grid, "level1.txt"); window.close();})};
+               [=] { factory.writeToFile(grid, "custom.txt"); currentState = gameState::Menu;})};
 
     ///\brief
     /// Loads the objects from the 'main' vector into their appropriate

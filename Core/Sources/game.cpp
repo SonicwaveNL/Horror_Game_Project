@@ -225,7 +225,60 @@ void Game::reversedBFSPathAlgorithm() {
     }
 };
 
+// void Game::draw(IObjects)
+
+// void Game::draw(UIELements)
+
 void Game::run() {
+
+    while(window.isOpen()){
+        switch (currentState)  {
+        case gameState::Menu:
+        // draw(elemets)
+            //draw ui
+            //listen menu actions
+            break;
+
+        case gameState::SelectMap:
+            //select map
+            // for length vector names
+            //     create UIElement
+            //     every itteration ++ y pos
+            //draw ui
+            //listen to actions
+            break;
+
+        case gameState::Play:
+            //start playing
+            //show instructions once*
+            //draw objects
+        // draw(objects)
+            //draw ui
+        // draw(eleemtsn)
+            //listen actions
+            // add actions to remove instructions
+            break;
+
+        case gameState::Editor:
+            //show instructions once*
+            //draw objects
+            //draw ui
+            //listen actions
+            // add actions to remove instructions
+            break;
+
+        case gameState::Quit:
+            //draw ui
+            //listen actions new actions list for QUIT
+            //prompt choice
+            break;
+
+        default:
+            //return menu
+            break;
+        }
+    }
+
     // while (window.isOpen()) {
     //     for (auto & action : playingActions) {
     //         action();
