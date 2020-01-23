@@ -3,7 +3,29 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+// #include <dirent.h>
+// #include <sys/types.h>
+// #include <vector>
+// #include <string>
 ///@file
+
+// std::vector<std::string> getMapNames(const char * path) {
+//     struct dirent * entry;
+//     std::vector<std::string> returnVector;
+//     DIR * dir = opendir(path);
+
+//     if (dir == NULL) {
+//         return returnVector;
+//     }
+//     while ((entry = readdir(dir)) != NULL) {
+//         std::string fileName = entry->d_name;
+//         if( fileName.find(".txt") < std::string::npos && fileName.find("level") < std::string::npos ){
+//             returnVector.push_back( fileName );
+//         }
+//     }
+//     closedir(dir);
+//     return returnVector;
+// }
 
 ///\brief
 /// Enum class that contains input types.

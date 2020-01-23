@@ -1,23 +1,10 @@
 #include <uiElement.hpp>
 
-void UIElement::move(sf::Vector2f direction){
-    return;
-}
-
-void UIElement::moveIfPossible(sf::Vector2f direction){
-    return;
-}
-
-bool UIElement::intersect(IObject & obj){
-    return iRect.getGlobalBounds().intersects(obj.getBounds());
-}
-
 bool UIElement::intersect(sf::Vector2f position){
     return iRect.getGlobalBounds().contains(position);
 }
 
 void UIElement::setPosition(sf::Vector2f direction){
-    prevPosition = iRect.getPosition();
     iRect.setPosition(iRect.getPosition());
     setLabelPosition();
 }
@@ -36,12 +23,6 @@ void UIElement::draw(sf::RenderWindow & window){
     window.draw(label);
 }
 
-void UIElement::collision(IObject & obj){ 
-    if(!intersect(obj)){
-        return;
-    }
-}
-
 sf::FloatRect UIElement::getBounds(){
     return iRect.getGlobalBounds();
 }
@@ -57,3 +38,7 @@ void UIElement::setBorderColor(sf::Color color){
 void UIElement::setText(std::string text){
     label.setString(text);
 }
+
+std::string UIElement::getText(){
+    return label.getString();
+};

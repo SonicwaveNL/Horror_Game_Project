@@ -37,31 +37,19 @@ class Game {
 
     std::shared_ptr<Monster> monster;
     std::shared_ptr<Player> player;
-    std::shared_ptr<UIElement> Play;
-    std::shared_ptr<UIElement> Editor;
-    std::shared_ptr<UIElement> Quit;
+    
+    std::vector<std::shared_ptr<UIElement>> MenuUI;
+    std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
+    std::vector<std::shared_ptr<UIElement>> PlayUI;
+    std::vector<std::shared_ptr<UIElement>> EditorUI;
+
+    std::shared_ptr<UIElement> Yes;
+    std::shared_ptr<UIElement> No;
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
-
-    Action menuActions[4] = {
-        Action([=]()->bool{return 
-                Play->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
-                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-            },
-            [=](){currentState = gameState::Play;}),
-        Action([=]()->bool{return
-                Editor->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
-                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-            },
-            [=](){currentState = gameState::Editor;}),
-        Action([=]()->bool{return
-                Quit->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
-                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-            },
-            [=](){currentState = gameState::Quit;}),
-        Action(sf::Keyboard::Escape, [=](){currentState = gameState::Quit;})
-    };
+    std::string chosenMap = "custom.txt";
+    bool loaded = false;
 
     Action playingActions[6] = {
         Action(actionKeyword::up,
@@ -90,7 +78,7 @@ class Game {
                 door->setOpenState(true);
             }
         }),
-        Action(actionKeyword::escape, [=](){currentState = gameState::Menu;})
+        Action(actionKeyword::escape, [=](){currentState = gameState::Menu; loaded=false;})
     };
 
     Action editorActions[8] = {
@@ -108,7 +96,7 @@ class Game {
                    grid[index[0]][index[1]].setCellType(cellType);
                }),
         Action(sf::Keyboard::Escape,
-               [=] { factory.writeToFile(grid, "custom.txt"); currentState = gameState::Menu;})};
+               [=] { factory.writeToFile(grid, "Core/Saves/custom.txt"); loaded =false; currentState = gameState::Menu;})};
 
     ///\brief
     /// Loads the objects from the 'main' vector into their appropriate
@@ -119,28 +107,29 @@ class Game {
 
     void draw(std::vector<std::shared_ptr<IObject>> & drawables);
     void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
-
-
+    void draw(std::vector<std::vector<GridCell>> & grid);
 
   public:
-    ///\brief
-    /// Game constructor
-    ///\details
-    /*Loads a map into the grid.*/
-    Game() {
+
+    Game(){
         grid = createGrid(window.getSize());
-        std::cout << "Created grid x,y : " << grid.size() << ", " << grid[0].size() << '\n'; 
-        std::ifstream file("level1.txt");
-        if( file ){
-            std::cout << "FILE GOOD HUB HUBA \n";
-            factory.loadMatrixFromFile(grid,file);
-        }
-        factory.objectsToDrawables(drawables, grid);
-        loadSubVectors();
-        // player = std::static_pointer_cast<Player>(characters[0]);
-        // monster = std::static_pointer_cast<Monster>(characters[1]);
-        // reversedBFSPathAlgorithm();
-        
+        std::ifstream file;
+
+        file.open("Core/Saves/menu.txt");
+        MenuUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/mapSelection.txt");
+        MapSelectionUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/play.txt");
+        PlayUI = factory.fileToUi(file);
+        file.close();
+         
+        file.open("Core/Saves/editor.txt");
+        EditorUI = factory.fileToUi(file);
+        file.close();
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);

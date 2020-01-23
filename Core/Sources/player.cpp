@@ -44,7 +44,6 @@ void Player::collision(IObject & obj) {
         case objectType::Door:{
             Door * d = dynamic_cast<Door*>(&obj);
             if(d->getOpenState()){
-                std::cout << "You won the game!" << std::endl;
                 iRect.setPosition(prevPosition);
                 win = true;
             }

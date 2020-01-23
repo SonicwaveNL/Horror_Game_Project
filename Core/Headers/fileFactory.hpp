@@ -71,7 +71,6 @@ class FileFactory {
     /*turns te information in the given file into drawable shared pointers and returns these in a vector*/
     ///@param file
     /*std::ifstream &*/
-    std::vector<std::shared_ptr<UIElement>> fileToUi( std::ifstream & file );
+    std::vector<std::shared_ptr<UIElement>> fileToUi( std::istream & file );
 };
-
 #endif

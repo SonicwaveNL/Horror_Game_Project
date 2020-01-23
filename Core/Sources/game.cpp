@@ -236,138 +236,113 @@ void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements){
     }
 }
 
-
-// void Game::draw(UIELements)
+void Game::draw(std::vector<std::vector<GridCell>> & _grid){
+    for(auto & row : _grid){
+        for(auto & cell : row){
+            cell.draw(window);
+        }
+    }
+}
 
 void Game::run() {
-
     while(window.isOpen()){
+    window.clear();
         switch (currentState)  {
         case gameState::Menu:
-        // draw(elemets)
-            //draw ui
-            //listen menu actions
+            draw(MenuUI);  
+            for (auto & ele : MenuUI){
+                if(ele->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                    auto tmp = ele->getText();
+                    if(tmp == "Play"){
+                        currentState = gameState::SelectMap;
+                        std::cout << "Play\n";
+                        break;
+                    } else if(tmp == "Editor"){
+                        currentState = gameState::Editor;
+                        std::cout << "Editor\n";
+                        break;
+                    } else if(tmp == "Quit"){
+                        std::cout << "Quit\n";
+                        currentState = gameState::Quit;
+                        break;
+                    }
+                }
+            }
             break;
 
         case gameState::SelectMap:
-            //select map
-            // for length vector names
-            //     create UIElement
-            //     every itteration ++ y pos
-            //draw ui
-            //listen to actions
+            draw(MapSelectionUI);
+            for(auto & ele : MapSelectionUI){
+                if(ele->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                    if(ele->getText() != "Select Map"){
+                        chosenMap = ele->getText();
+                        currentState = gameState::Play;
+                        break;
+                    }
+                }
+            }
             break;
 
         case gameState::Play:
-            //start playing
+            static size_t counter = 0;
+            if(!loaded){
+                std::cout << "Loaded game.\n";
+                std::ifstream file("Core/Saves/"+chosenMap);
+                if( file ){
+                    factory.loadMatrixFromFile(grid,file);
+                } else {
+                    currentState = gameState::Menu;
+                    break;
+                }
+                factory.objectsToDrawables(drawables, grid);
+                loadSubVectors();
+                player = std::static_pointer_cast<Player>(characters[0]);
+                monster = std::static_pointer_cast<Monster>(characters[1]);
+                // reversedBFSPathAlgorithm();
+                loaded = true;
+            }
             //show instructions once*
-            //draw objects
-        // draw(objects)
-            //draw ui
-        // draw(eleemtsn)
-            //listen actions
+            draw(drawables);
+            draw(PlayUI);
+            for(auto & action : playingActions){
+                action();
+            }
+            findShortestStep();
+            if (counter >= 50){
+                reversedBFSPathAlgorithm();
+                counter =0;
+            } else {
+                // counter++;
+            }
+
+            if(player->checkWin()){
+                currentState = gameState::Menu;
+                std::cout << "You won the game!" << std::endl;
+                break;
+            }
+            
             // add actions to remove instructions
             break;
 
         case gameState::Editor:
             //show instructions once*
-            //draw objects
-            //draw ui
-            //listen actions
+            draw(grid);
+            for(auto & action : editorActions){
+                action();
+            }
             // add actions to remove instructions
             break;
 
         case gameState::Quit:
-            //draw ui
-            //listen actions new actions list for QUIT
-            //prompt choice
+            window.close();
             break;
 
         default:
-            //return menu
+            currentState = gameState::Menu;
             break;
-        }
-    }
-
-    // while (window.isOpen()) {
-    //     for (auto & action : playingActions) {
-    //         action();
-    //     }
-
-    //     window.clear();
-    //     for (auto & me : drawables) {
-    //         me->draw(window);
-    //     }
-    //     window.display();
-
-    //     if (player->checkWin()) {
-    //         window.close();
-    //     }
-
-    //     sf::sleep(sf::milliseconds(20));
-
-    //     sf::Event event;
-    //     while (window.pollEvent(event)) {
-    //         if (event.type == sf::Event::Closed) {
-    //             window.close();
-    //         }
-    //     }
-    // }
-
-    // int pathFindCounter = 0;
-
-    // while (window.isOpen()) {
-    //     window.clear();
-
-    //     monster->moveIfPossible(findShortestStep());
-    //     pathFindCounter++;
-
-    //     if (pathFindCounter == 50) {
-    //         pathFindCounter = 0;
-    //         reversedBFSPathAlgorithm();
-    //     }
-
-    //     ////Draw the grid.
-    //     for (auto & me : drawables) {
-    //             me->draw(window);
-         
-    //     }
-    //     // Do the actions.
-    //     for (auto & action : playingActions) {
-    //         action();
-    //     }
-
-    //     // Draw window.
-    //     window.display();
-
-    //     sf::sleep(sf::milliseconds(20));
-    //     sf::Event event;
-    //     while (window.pollEvent(event)) {
-    //         if (event.type == sf::Event::Closed) {
-    //             window.close();
-    //         }
-    //     }
-    // }
-
-    while( window.isOpen()){
-        window.clear();
-
-        // for( auto & row: grid ){
-        //     for( auto & item: row){
-        //         item.draw(window);
-        //     }
-        // }
-
-        for (auto & me : drawables) {
-            me->draw(window);
         }
 
         window.display();
-
-        for (auto & action : editorActions) {
-            action();
-        }
-
         sf::sleep(sf::milliseconds(20));
         sf::Event event;
         while (window.pollEvent(event)) {
