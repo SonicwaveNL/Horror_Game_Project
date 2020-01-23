@@ -42,7 +42,9 @@ objectType GridCell::getCellType() { return cellType; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 
-
+bool GridCell::isWalkable(){
+    return cellType != objectType::Wall;
+}
 
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);

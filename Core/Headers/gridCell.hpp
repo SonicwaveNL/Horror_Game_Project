@@ -22,7 +22,6 @@ class GridCell : public IRectangle {
   public:
     int value = 0;
     bool visited = false;
-    bool isWalkAble = true;
 
     ///\brief
     /// GridCell constructor.
@@ -35,10 +34,6 @@ class GridCell : public IRectangle {
              objectType type = objectType::GridCell)
         : IRectangle(position, objects, color, speed, type) {
         iRect.setSize(sf::Vector2f(20.f, 20.f));
-        if(type == objectType::Wall){
-          isWalkAble = false;
-          value = 100000;
-        }
     };
 
     ///\brief
@@ -115,7 +110,11 @@ class GridCell : public IRectangle {
     /// Gets the type of the GridCell.
     ///@return objectType
     objectType getCellType();
-
+    
+    ///\brief
+    ///Function to check if cell is walkable
+    ///@return bool
+    bool isWalkable();
     ///\brief
     ///= operator.
     GridCell & operator=(const GridCell & rhs) {

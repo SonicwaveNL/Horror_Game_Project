@@ -131,8 +131,8 @@ sf::Vector2f Game::findShortestStep() {
   }
 
   sf::Vector2f monsterPosition = monster->getPosition();
-  myXPos = (monsterPosition.x + (monster->getBounds().width / 2)) / 20;
-  myYPos = (monsterPosition.y + (monster->getBounds().height / 2)) / 20;
+  myXPos = monsterPosition.x/ 20;
+  myYPos = monsterPosition.y /20;
   grid[myXPos][myYPos].value = 2300;
   // check up
   if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue) {
@@ -178,7 +178,7 @@ sf::Vector2f Game::findShortestStep() {
 void Game::reversedBFSPathAlgorithm() {
   for (auto &item : grid) {
     for (auto &y : item) {
-      if (y.isWalkAble) y.value = 0;
+      if (y.isWalkable()) y.value = 0;
     }
   }
   std::queue<GridCell *> q;
@@ -191,14 +191,12 @@ void Game::reversedBFSPathAlgorithm() {
   // Fill the visited array with "isWalkAble" bools
   for (int x = 0; x < grid.size(); x++) {
     for (int y = 0; y < grid[x].size(); y++) {
-      visited[x][y] = !grid[x][y].isWalkAble;
+      visited[x][y] = !grid[x][y].isWalkable();
     }
   }
 
-  int xPosMonster =
-      (monster->getPosition().x + (monster->getBounds().width / 2)) / 20;
-  int yPosMonster =
-      (monster->getPosition().y + (monster->getBounds().height / 2)) / 20;
+  int xPosMonster = monster->getPosition().x / 20;
+  int yPosMonster = monster->getPosition().y / 20;
   GridCell *sourceMonster = &grid[xPosMonster][yPosMonster];
 
   q.push(sourcePlayer);
