@@ -119,22 +119,21 @@ void Game::loadSubVectors() {
 sf::Vector2f Game::findShortestStep() {
   int myXPos = 0;
   int myYPos = 0;
-  int myXPosRU = 0;
-  int myYPosRU = 0;
+  //int myXPosRU = 0;
+  //int myYPosRU = 0;
   int smallestValue = 9000000;
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
   sf::Vector2f monsterPosition = monster->getPosition();
   myXPos = (monsterPosition.x) / 20;
   myYPos = (monsterPosition.y) / 20;
-  myXPosRU = (monsterPosition.x + 20) / 20;
-  myYPosRU = (monsterPosition.y + 20) / 20;
+  //myXPosRU = (monsterPosition.x + 20) / 20;
+  //myYPosRU = (monsterPosition.y + 20) / 20;
   grid[myXPos][myYPos].value = 5000;
 
   if((grid[myXPos][myYPos].getPosition().x) + 20 <= monsterPosition.x +20 && (grid[myXPos][myYPos].getPosition().y +20) <= monsterPosition.y+20){
   // check up
-  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue &&
-      grid[myXPosRU][myYPosRU - 1].value < smallestValue) {
+  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue) {
     smallestValue = grid[myXPos][myYPos - 1].value;
     moveDirection.x = 0;
     moveDirection.y = -1;
@@ -142,9 +141,8 @@ sf::Vector2f Game::findShortestStep() {
     // << "\n";
   }
   // Check down
-  if ((myYPosRU + 1) < grid[myXPosRU].size() &&
-      grid[myXPos][myYPos + 1].value < smallestValue &&
-      grid[myXPosRU][myYPosRU + 1].value < smallestValue) {
+  if ((myYPos + 1) < grid[myXPos].size() &&
+      grid[myXPos][myYPos + 1].value < smallestValue) {
     smallestValue = grid[myXPos][myYPos + 1].value;
     moveDirection.x = 0;
     moveDirection.y = 1;
@@ -153,8 +151,7 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
   }
   // Check left
-  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue &&
-      grid[myXPosRU - 1][myYPosRU].value < smallestValue) {
+  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue) {
     smallestValue = grid[myXPos - 1][myYPos].value;
     moveDirection.x = -1;
     moveDirection.y = 0;
@@ -163,9 +160,8 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
   }
   // Check right
-  if ((myXPosRU + 1) < grid.size() &&
-      grid[myXPos + 1][myYPos].value < smallestValue &&
-      grid[myXPosRU + 1][myYPosRU].value < smallestValue) {
+  if ((myXPos + 1) < grid.size() &&
+      grid[myXPos + 1][myYPos].value < smallestValue) {
     smallestValue = grid[myXPos + 1][myYPos].value;
     moveDirection.x = 1;
     moveDirection.y = 0;
@@ -174,8 +170,12 @@ sf::Vector2f Game::findShortestStep() {
     // "\n";
 
   }
-  }else{
-    std::cout << "x: " << myXPos << ", y:" << myYPos << "  x2: " << myXPosRU << ", y2:" << myYPosRU << std::endl;
+  }
+  if (moveDirection.x == 0 && moveDirection.y == 0 )
+  {
+    std::cout << "no direction found\n";
+    reversedBFSPathAlgorithm();
+    throw 8;
   }
   // std::cout << moveDirection.x << ", " << moveDirection.y << "\n";
   return moveDirection;
