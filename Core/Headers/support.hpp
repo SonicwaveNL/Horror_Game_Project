@@ -11,6 +11,7 @@ enum class inputType { keyboard, controller };
 
 enum class gameState {
     Menu,
+    SelectMap,
     Play,
     Editor,
     Quit
