@@ -117,6 +117,11 @@ class Game {
      * at index 0, monsters after that etc.*/
     void loadSubVectors();
 
+    void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+    void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
+
+
+
   public:
     ///\brief
     /// Game constructor
