@@ -2,6 +2,7 @@
 #define SUPPORT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 ///@file
 
 ///\brief
