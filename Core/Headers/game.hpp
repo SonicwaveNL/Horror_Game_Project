@@ -25,7 +25,11 @@ class Game {
   private:
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
         sf::Style::Fullscreen};
+
+    FileFactory factory;
+
     std::vector<std::shared_ptr<IObject>> drawables;
+    std::vector<std::vector<GridCell>> grid;
 
     std::vector<std::shared_ptr<IObject>> characters;
     std::vector<std::shared_ptr<IObject>> winFactors;
@@ -33,9 +37,30 @@ class Game {
 
     std::shared_ptr<Monster> monster;
     std::shared_ptr<Player> player;
-    std::vector<std::vector<GridCell>> grid;
+    std::shared_ptr<UIElement> Play;
+    std::shared_ptr<UIElement> Editor;
+    std::shared_ptr<UIElement> Quit;
+
     objectType cellType = objectType::Floor;
-    FileFactory factory;
+    gameState currentState = gameState::Menu;
+
+    Action menuActions[3] = {
+        Action([=]()->bool{return 
+                Play->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
+                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+            },
+            [=](){currentState = gameState::Play;}),
+        Action([=]()->bool{return
+                Editor->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
+                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+            },
+            [=](){currentState = gameState::Editor;}),
+        Action([=]()->bool{return
+                Quit->intersect(window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
+                sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+            },
+            [=](){currentState = gameState::Quit;})
+    };
 
     Action playingActions[5] = {
         Action(actionKeyword::up,

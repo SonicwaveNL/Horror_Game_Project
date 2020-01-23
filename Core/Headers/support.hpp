@@ -9,6 +9,13 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
+enum class gameState {
+    Menu,
+    Play,
+    Editor,
+    Quit
+};
+
 enum class objectType {
     Abstract,
     UIElement,
