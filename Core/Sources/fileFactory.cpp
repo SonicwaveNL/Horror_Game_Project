@@ -107,3 +107,41 @@ void FileFactory::objectsToDrawables(
         }
     }
 }
+
+std::vector<std::shared_ptr<UIElement>> FileFactory::fileToUi( std::ifstream & file ){
+    const struct { const char * name; sf::Color color; } colors[]{
+        { "yellow", sf::Color::Yellow },
+        { "red", sf::Color::Red },
+        { "blue", sf::Color::Blue },
+        { "black", sf::Color::Black },
+        { "cyan", sf::Color::Cyan },
+        { "green", sf::Color::Green },
+        { "white", sf::Color::White },
+        { "magenta", sf::Color::Magenta },
+        { "transparent", sf::Color::Transparent }
+    };
+    std::vector<std::shared_ptr<UIElement> > returnVector;
+    std::string name, text, colorStringLabel, colorStringRect;
+    sf::Vector2f position;
+    sf::Color sfColorLabel, sfColorRect;
+
+    while( !file.eof() ){
+        file >> name;
+        file >> position;
+        file >> colorStringRect;
+        file >> text;
+        file >> colorStringLabel;
+
+        for( auto & color: colors){
+            if( colorStringLabel == color.name ){
+                sfColorLabel = color.color;
+            }
+            if( colorStringRect == color.name ){
+                sfColorRect = color.color;
+            }
+        }
+        returnVector.push_back(std::make_shared<UIElement>(position, text, sfColorLabel, sfColorRect));
+    }
+    return returnVector;
+}
+
