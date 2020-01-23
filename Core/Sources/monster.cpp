@@ -1,12 +1,7 @@
+#include <math.h>
 #include <../Headers/monster.hpp>
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
-  // if (direction.x != 0 || direction.y != 0)
-  // {
-  //   lastMoveDirection.x = direction.x;
-  //   lastMoveDirection.y = direction.y;
-  // }
-
   prevPosition = iRect.getPosition();
 
   iRect.setPosition(iRect.getPosition() + direction * speed);
@@ -35,23 +30,15 @@ void Monster::collision(IObject& obj) {
     // win = False;
     return;
   }
-  
 }
 
 void Monster::move(sf::Vector2f position) {
-    prevPosition = iRect.getPosition();
-    iRect.setPosition(position);
+  prevPosition = iRect.getPosition();
+  iRect.setPosition(position);
 }
 
+void Monster::draw(sf::RenderWindow& window) { window.draw(iRect); }
 
-void Monster::draw(sf::RenderWindow& window) {
-  window.draw(iRect);
-}
+sf::FloatRect Monster::getBounds() { return iRect.getGlobalBounds(); }
 
-sf::FloatRect Monster::getBounds() {
-  return iRect.getGlobalBounds();
-}
-
-sf::Vector2f Monster::getPosition() {
-  return iRect.getPosition();
-}
+sf::Vector2f Monster::getPosition() { return iRect.getPosition(); }

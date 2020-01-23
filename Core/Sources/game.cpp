@@ -125,12 +125,13 @@ sf::Vector2f Game::findShortestStep() {
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
   sf::Vector2f monsterPosition = monster->getPosition();
-  myXPos = (monsterPosition.x - 1) / 20;
-  myYPos = (monsterPosition.y - 1) / 20;
-  myXPosRU = (monsterPosition.x + 19) / 20;
-  myYPosRU = (monsterPosition.y + 19) / 20;
+  myXPos = (monsterPosition.x) / 20;
+  myYPos = (monsterPosition.y) / 20;
+  myXPosRU = (monsterPosition.x + 20) / 20;
+  myYPosRU = (monsterPosition.y + 20) / 20;
   grid[myXPos][myYPos].value = 5000;
 
+  if((grid[myXPos][myYPos].getPosition().x) + 20 <= monsterPosition.x +20 && (grid[myXPos][myYPos].getPosition().y +20) <= monsterPosition.y+20){
   // check up
   if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue &&
       grid[myXPosRU][myYPosRU - 1].value < smallestValue) {
@@ -172,10 +173,10 @@ sf::Vector2f Game::findShortestStep() {
     // <<
     // "\n";
 
-  } else if (moveDirection.x == 0 && moveDirection.y == 0) {
-    reversedBFSPathAlgorithm();
   }
-
+  }else{
+    std::cout << "x: " << myXPos << ", y:" << myYPos << "  x2: " << myXPosRU << ", y2:" << myYPosRU << std::endl;
+  }
   // std::cout << moveDirection.x << ", " << moveDirection.y << "\n";
   return moveDirection;
 }
@@ -201,8 +202,11 @@ void Game::reversedBFSPathAlgorithm() {
   for (int x = 0; x < grid.size(); x++) {
     for (int y = 0; y < grid[x].size(); y++) {
       visited[x][y] = !grid[x][y].isWalkable();
+      //std::cout << visited[x][y];
     }
+    //std::cout << std::endl;
   }
+    //window.close();
 
   int xPosMonster = monster->getPosition().x / 20;
   int yPosMonster = monster->getPosition().y / 20;
@@ -286,7 +290,7 @@ void Game::run() {
     monster->moveIfPossible(findShortestStep());
     pathFindCounter++;
 
-    if (pathFindCounter == 50) {
+    if (pathFindCounter == 10) {
       pathFindCounter = 0;
       reversedBFSPathAlgorithm();
     }

@@ -71,6 +71,8 @@ class IRectangle : public IObject {
     ///@return void
     virtual void collision(IObject & obj) = 0;
 
+
+
     ///\brief
     /// Get IObject GlobalBounds.
     ///\details
