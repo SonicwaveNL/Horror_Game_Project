@@ -3,7 +3,9 @@
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
   prevPosition = iRect.getPosition();
-
+  
+  
+  oldDirection = direction;
   iRect.setPosition(iRect.getPosition() + direction * speed);
   for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
@@ -30,6 +32,10 @@ void Monster::collision(IObject& obj) {
     // win = False;
     return;
   }
+}
+
+void Monster::moveOld(){
+  iRect.setPosition(iRect.getPosition() + oldDirection * speed);
 }
 
 void Monster::move(sf::Vector2f position) {

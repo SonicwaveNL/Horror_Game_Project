@@ -119,60 +119,59 @@ void Game::loadSubVectors() {
 sf::Vector2f Game::findShortestStep() {
   int myXPos = 0;
   int myYPos = 0;
-  //int myXPosRU = 0;
-  //int myYPosRU = 0;
+  // int myXPosRU = 0;
+  // int myYPosRU = 0;
   int smallestValue = 9000000;
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
   sf::Vector2f monsterPosition = monster->getPosition();
   myXPos = (monsterPosition.x) / 20;
   myYPos = (monsterPosition.y) / 20;
-  //myXPosRU = (monsterPosition.x + 20) / 20;
-  //myYPosRU = (monsterPosition.y + 20) / 20;
+  // myXPosRU = (monsterPosition.x + 20) / 20;
+  // myYPosRU = (monsterPosition.y + 20) / 20;
   grid[myXPos][myYPos].value = 5000;
 
-  if((grid[myXPos][myYPos].getPosition().x) + 20 <= monsterPosition.x +20 && (grid[myXPos][myYPos].getPosition().y +20) <= monsterPosition.y+20){
-  // check up
-  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue) {
-    smallestValue = grid[myXPos][myYPos - 1].value;
-    moveDirection.x = 0;
-    moveDirection.y = -1;
-    // std::cout << "found smaller value in upper cell " << smallestValue
-    // << "\n";
+  if ((grid[myXPos][myYPos].getPosition().x) + 20 <= monsterPosition.x + 20 &&
+      (grid[myXPos][myYPos].getPosition().y + 20) <= monsterPosition.y + 20) {
+    // check up
+    if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue) {
+      smallestValue = grid[myXPos][myYPos - 1].value;
+      moveDirection.x = 0;
+      moveDirection.y = -1;
+      // std::cout << "found smaller value in upper cell " << smallestValue
+      // << "\n";
+    }
+    // Check down
+    if ((myYPos + 1) < grid[myXPos].size() &&
+        grid[myXPos][myYPos + 1].value < smallestValue) {
+      smallestValue = grid[myXPos][myYPos + 1].value;
+      moveDirection.x = 0;
+      moveDirection.y = 1;
+      // std::cout << "found smaller value in lower cell "  << smallestValue
+      // <<
+      // "\n";
+    }
+    // Check left
+    if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue) {
+      smallestValue = grid[myXPos - 1][myYPos].value;
+      moveDirection.x = -1;
+      moveDirection.y = 0;
+      // std::cout << "found smaller value in left cell "  << smallestValue
+      // <<
+      // "\n";
+    }
+    // Check right
+    if ((myXPos + 1) < grid.size() &&
+        grid[myXPos + 1][myYPos].value < smallestValue) {
+      smallestValue = grid[myXPos + 1][myYPos].value;
+      moveDirection.x = 1;
+      moveDirection.y = 0;
+      // std::cout << "found smaller value in right cell "  << smallestValue
+      // <<
+      // "\n";
+    }
   }
-  // Check down
-  if ((myYPos + 1) < grid[myXPos].size() &&
-      grid[myXPos][myYPos + 1].value < smallestValue) {
-    smallestValue = grid[myXPos][myYPos + 1].value;
-    moveDirection.x = 0;
-    moveDirection.y = 1;
-    // std::cout << "found smaller value in lower cell "  << smallestValue
-    // <<
-    // "\n";
-  }
-  // Check left
-  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue) {
-    smallestValue = grid[myXPos - 1][myYPos].value;
-    moveDirection.x = -1;
-    moveDirection.y = 0;
-    // std::cout << "found smaller value in left cell "  << smallestValue
-    // <<
-    // "\n";
-  }
-  // Check right
-  if ((myXPos + 1) < grid.size() &&
-      grid[myXPos + 1][myYPos].value < smallestValue) {
-    smallestValue = grid[myXPos + 1][myYPos].value;
-    moveDirection.x = 1;
-    moveDirection.y = 0;
-    // std::cout << "found smaller value in right cell "  << smallestValue
-    // <<
-    // "\n";
-
-  }
-  }
-  if (moveDirection.x == 0 && moveDirection.y == 0 )
-  {
+  if (moveDirection.x == 0 && moveDirection.y == 0) {
     std::cout << "no direction found\n";
     reversedBFSPathAlgorithm();
     throw 8;
@@ -202,11 +201,11 @@ void Game::reversedBFSPathAlgorithm() {
   for (int x = 0; x < grid.size(); x++) {
     for (int y = 0; y < grid[x].size(); y++) {
       visited[x][y] = !grid[x][y].isWalkable();
-      //std::cout << visited[x][y];
+      // std::cout << visited[x][y];
     }
-    //std::cout << std::endl;
+    // std::cout << std::endl;
   }
-    //window.close();
+  // window.close();
 
   int xPosMonster = monster->getPosition().x / 20;
   int yPosMonster = monster->getPosition().y / 20;
@@ -283,14 +282,34 @@ void Game::run() {
   // }
 
   int pathFindCounter = 0;
-
   while (window.isOpen()) {
     window.clear();
 
-    monster->moveIfPossible(findShortestStep());
+    sf::Vector2f monsterPosition = monster->getPosition();
+    int myXPos = (monsterPosition.x) / 20;
+    int myYPos = (monsterPosition.y) / 20;
+
+    bool onValidWall = false;
+    for (int x = 0; x < grid.size(); x++) {
+      for (int y = 0; y < grid[x].size(); y++) {
+        if (monster->getPosition() == grid[x][y].getPosition()) {
+          onValidWall = true;
+          break;
+        }
+      }
+      if (onValidWall) {
+        break;
+      }
+    }
+    if (onValidWall) {
+      monster->moveIfPossible(findShortestStep());
+    } else {
+      monster->moveOld();
+    }
+
     pathFindCounter++;
 
-    if (pathFindCounter == 10) {
+    if (pathFindCounter == 1) {
       pathFindCounter = 0;
       reversedBFSPathAlgorithm();
     }
