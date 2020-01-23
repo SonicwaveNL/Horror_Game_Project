@@ -11,11 +11,13 @@ class IRectangle : public IObject {
   public:
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
-               sf::Color color = sf::Color::Transparent, float speed = 0,
-               objectType type = objectType::Abstract)
+               sf::Color color = sf::Color::Transparent, 
+               float speed = 0,
+               objectType type = objectType::Abstract,
+               sf::Vector2f size = sf::Vector2f(20.f, 20.f))
         : IObject(objects, color, speed, type) {
         iRect.setPosition(position);
-        iRect.setSize(sf::Vector2f(20.f, 20.f));
+        iRect.setSize(size);
         setColor(color);
     }
 

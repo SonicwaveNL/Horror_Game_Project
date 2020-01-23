@@ -3,31 +3,31 @@
 std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
     char c;
     if (!(input >> c)) {
-        std::cout << "KILL ME1\n";
+        // std::cout << "KILL ME1\n";
     }
     if (c != '(') {
-        std::cout << "KILL ME2\n";
+        // std::cout << "KILL ME2\n";
     }
     if (!(input >> rhs.x)) {
-        std::cout << "KILL ME3\n";
+        // std::cout << "KILL ME3\n";
     }
     if (!(input >> c)) { // adjust so only , are correct
-        std::cout << "KILL ME4\n";
+        // std::cout << "KILL ME4\n";
         
     } else {
         if (c != ',') {
-        std::cout << "KILL ME5\n";
+        // std::cout << "KILL ME5\n";
         }
     }
     if (!(input >> rhs.y)) {
-        std::cout << "KILL ME6\n";
+        // std::cout << "KILL ME6\n";
         
     }
     if (!(input >> c)) {
-        std::cout << "KILL ME7\n";
+        // std::cout << "KILL ME7\n";
     }
     if (c != ')') {
-        std::cout << "KILL ME8z\n";
+        // std::cout << "KILL ME8\n";
     }
     return input;
 }
@@ -73,6 +73,7 @@ void FileFactory::objectsToDrawables(
     std::vector<std::shared_ptr<IObject>> & drawables,
     std::vector<std::vector<GridCell>> & matrix) {
     objectType soort;
+    drawables.clear();
     for (auto & row : matrix) {
         for (auto & item : row) {
             soort = item.getCellType();
@@ -107,3 +108,41 @@ void FileFactory::objectsToDrawables(
         }
     }
 }
+
+std::vector<std::shared_ptr<UIElement>> FileFactory::fileToUi( std::istream & file ){
+    const struct { const char * name; sf::Color color; } colors[]{
+        { "yellow", sf::Color::Yellow },
+        { "red", sf::Color::Red },
+        { "blue", sf::Color::Blue },
+        { "black", sf::Color::Black },
+        { "cyan", sf::Color::Cyan },
+        { "green", sf::Color::Green },
+        { "white", sf::Color::White },
+        { "magenta", sf::Color::Magenta },
+        { "transparent", sf::Color::Transparent }
+    };
+    std::vector<std::shared_ptr<UIElement> > returnVector;
+    std::string name, text, colorStringLabel, colorStringRect;
+    sf::Vector2f position;
+    sf::Color sfColorLabel, sfColorRect;
+
+    while( !file.eof() ){
+        file >> name;
+        file >> position;        
+        file >> colorStringRect;
+        file >> text;
+        file >> colorStringLabel;
+
+        for( auto & color: colors){
+            if( colorStringLabel == color.name ){
+                sfColorLabel = color.color;
+            }
+            if( colorStringRect == color.name ){
+                sfColorRect = color.color;
+            }
+        }
+        returnVector.push_back(std::make_shared<UIElement>(position, text, sfColorLabel, sfColorRect));
+    }
+    return returnVector;
+}
+
