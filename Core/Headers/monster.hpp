@@ -35,7 +35,7 @@ class Monster : public IRectangle {
   ///@param speed
   /*The walking speed of the monster*/
   Monster(sf::Vector2f position, std::vector<std::shared_ptr<IObject>>& objects,
-          sf::Color color = sf::Color::Blue, float speed = 5,
+          sf::Color color = sf::Color::Blue, float speed = 4,
           objectType type = objectType::Monster)
       : IRectangle(position, objects, color, speed, type){};
 
