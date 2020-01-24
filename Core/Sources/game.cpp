@@ -1,421 +1,396 @@
 #include <../Headers/game.hpp>
 
 std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
-    std::cout << windowSize.x << " " << windowSize.x / 20 << std::endl;
-    unsigned int amountOfColumn = windowSize.x / 20;
-    unsigned int amountOfRow = windowSize.y / 20;
-    unsigned int amountOfRect = amountOfRow * amountOfColumn;
-    float x = 0;
-    float y = 0;
+  std::cout << windowSize.x << " " << windowSize.x / 20 << std::endl;
+  unsigned int amountOfColumn = windowSize.x / 20;
+  unsigned int amountOfRow = windowSize.y / 20;
+  unsigned int amountOfRect = amountOfRow * amountOfColumn;
+  float x = 0;
+  float y = 0;
 
-    std::vector<std::vector<GridCell>> shapeMatrix;
+  std::vector<std::vector<GridCell>> shapeMatrix;
 
-    for (size_t i = 0; i < amountOfColumn; i++) {
-        shapeMatrix.push_back(std::vector<GridCell>());
-        int posX = (int)x / 20;
-        for (size_t j = 0; j < amountOfRow; j++) {
-            int posY = (int)y / 20;
-            shapeMatrix[posX].push_back(
-                GridCell((sf::Vector2f(x, y)), drawables));
-            if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
-                j == (amountOfRow - 1)) {
-                shapeMatrix[posX][posY].setCellType(objectType::Wall);
-            }
-            y += 20;
-        }
-        x += 20;
-        y = 0;
+  for (size_t i = 0; i < amountOfColumn; i++) {
+    shapeMatrix.push_back(std::vector<GridCell>());
+    int posX = (int)x / 20;
+    for (size_t j = 0; j < amountOfRow; j++) {
+      int posY = (int)y / 20;
+      shapeMatrix[posX].push_back(GridCell((sf::Vector2f(x, y)), drawables));
+      if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
+          j == (amountOfRow - 1)) {
+        shapeMatrix[posX][posY].setCellType(objectType::Wall);
+      }
+      y += 20;
     }
-    shapeMatrix[30][30].setCellType(objectType::Player);
-    shapeMatrix[20][20].setCellType(objectType::Monster);
-    shapeMatrix[10][10].setCellType(objectType::Wall);
-    return shapeMatrix;
+    x += 20;
+    y = 0;
+  }
+  shapeMatrix[30][30].setCellType(objectType::Player);
+  shapeMatrix[20][20].setCellType(objectType::Monster);
+  shapeMatrix[10][10].setCellType(objectType::Wall);
+  return shapeMatrix;
 }
 
 std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos) {
-    int xPos = int(mousePos.x) / 20;
-    int yPos = int(mousePos.y) / 20;
-    std::array<int, 2> arr = {xPos, yPos};
-    return arr;
+  int xPos = int(mousePos.x) / 20;
+  int yPos = int(mousePos.y) / 20;
+  std::array<int, 2> arr = {xPos, yPos};
+  return arr;
 }
 
 void Game::loadSubVectors() {
-    // Clear sub-vectors to make sure there are no duplicates in the sub-vectors
-    characters.clear();
-    winFactors.clear();
-    gameObjects.clear();
+  // Clear sub-vectors to make sure there are no duplicates in the sub-vectors
+  characters.clear();
+  winFactors.clear();
+  gameObjects.clear();
 
-    // Caches for objects that should be placed last in the vectors, but ocurred
-    // before the objects that should be placed before it. These get placed
-    // after the original ones.
-    std::vector<std::shared_ptr<IObject>> monsterCache;
-    std::vector<std::shared_ptr<IObject>> switchCache;
+  // Caches for objects that should be placed last in the vectors, but ocurred
+  // before the objects that should be placed before it. These get placed
+  // after the original ones.
+  std::vector<std::shared_ptr<IObject>> monsterCache;
+  std::vector<std::shared_ptr<IObject>> switchCache;
 
-    // Loop through the objects and try to add them to their appropriate vector,
-    // according to their type. Objects will get stored in the cache if they
-    // ocurred before the objects that should ocur before it.
-    for (std::shared_ptr<IObject> obj : drawables) {
-        switch (obj->getType()) {
-            case objectType::Player:
-                if (characters.size() >= 1) {
-                    characters[0] = obj;
-                } else {
-                    characters.push_back(obj);
-                }
-                break;
-            case objectType::Monster:
-                if (characters.size() >= 1) {
-                    characters.push_back(obj);
-                } else {
-                    monsterCache.push_back(obj);
-                }
-                break;
-            case objectType::Switch:
-                if (winFactors.size() >= 1) {
-                    winFactors.push_back(obj);
-                } else {
-                    switchCache.push_back(obj);
-                }
-                break;
-            case objectType::Door:
-                if (winFactors.size() >= 1) {
-                    winFactors[0] = obj;
-                } else {
-                    winFactors.push_back(obj);
-                }
-
-                break;
-
-            case objectType::Wall:
-                gameObjects.push_back(obj);
-                break;
-        }
-    }
-
-    // Add the monsters in cache to the character list, after player was added
-    // on index 0. If this didn't happen, throw an error
-    if (monsterCache.size() >= 1) {
+  // Loop through the objects and try to add them to their appropriate vector,
+  // according to their type. Objects will get stored in the cache if they
+  // ocurred before the objects that should ocur before it.
+  for (std::shared_ptr<IObject> obj : drawables) {
+    switch (obj->getType()) {
+      case objectType::Player:
         if (characters.size() >= 1) {
-            for (std::shared_ptr<IObject> obj : monsterCache) {
-                characters.push_back(obj);
-            }
+          characters[0] = obj;
         } else {
-            LoadPlayerError mapError;
-            throw mapError;
+          characters.push_back(obj);
         }
-    }
-
-    if (switchCache.size() >= 1) {
+        break;
+      case objectType::Monster:
+        if (characters.size() >= 1) {
+          characters.push_back(obj);
+        } else {
+          monsterCache.push_back(obj);
+        }
+        break;
+      case objectType::Switch:
         if (winFactors.size() >= 1) {
-            for (std::shared_ptr<IObject> obj : switchCache) {
-                winFactors.push_back(obj);
-            }
+          winFactors.push_back(obj);
         } else {
-            LoadDoorError mapError;
-            throw mapError;
+          switchCache.push_back(obj);
         }
+        break;
+      case objectType::Door:
+        if (winFactors.size() >= 1) {
+          winFactors[0] = obj;
+        } else {
+          winFactors.push_back(obj);
+        }
+
+        break;
+
+      case objectType::Wall:
+        gameObjects.push_back(obj);
+        break;
     }
+  }
+
+  // Add the monsters in cache to the character list, after player was added
+  // on index 0. If this didn't happen, throw an error
+  if (monsterCache.size() >= 1) {
+    if (characters.size() >= 1) {
+      for (std::shared_ptr<IObject> obj : monsterCache) {
+        characters.push_back(obj);
+      }
+    } else {
+      LoadPlayerError mapError;
+      throw mapError;
+    }
+  }
+
+  if (switchCache.size() >= 1) {
+    if (winFactors.size() >= 1) {
+      for (std::shared_ptr<IObject> obj : switchCache) {
+        winFactors.push_back(obj);
+      }
+    } else {
+      LoadDoorError mapError;
+      throw mapError;
+    }
+  }
 }
 
 sf::Vector2f Game::findShortestStep() {
-    int myXPos = 0;
-    int myYPos = 0;
-    // int myXPosRU = 0;
-    // int myYPosRU = 0;
-    int smallestValue = 9000000;
-    sf::Vector2f moveDirection = sf::Vector2f(0, 0);
+  int myXPos = 0;
+  int myYPos = 0;
+  int smallestValue = 9000000;
+  sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
-    sf::Vector2f monsterPosition = monster->getPosition();
-    myXPos = (monsterPosition.x) / 20;
-    myYPos = (monsterPosition.y) / 20;
-    // myXPosRU = (monsterPosition.x + 20) / 20;
-    // myYPosRU = (monsterPosition.y + 20) / 20;
-    grid[myXPos][myYPos].value = 5000;
+  //find the gridcell where the monster is and set that step value very high
+  //so the next step doesn't force him back
+  sf::Vector2f monsterPosition = monster->getPosition();
+  myXPos = (monsterPosition.x) / 20;
+  myYPos = (monsterPosition.y) / 20;
+  grid[myXPos][myYPos].value = 5000;
 
-    if ((grid[myXPos][myYPos].getPosition().x) + 20 <= monsterPosition.x + 20 &&
-        (grid[myXPos][myYPos].getPosition().y + 20) <= monsterPosition.y + 20) {
-        // check up
-        if ((myYPos - 1) >= 0 &&
-            grid[myXPos][myYPos - 1].value < smallestValue) {
-            smallestValue = grid[myXPos][myYPos - 1].value;
-            moveDirection.x = 0;
-            moveDirection.y = -1;
-            // std::cout << "found smaller value in upper cell " <<
-            // smallestValue
-            // << "\n";
-        }
-        // Check down
-        if ((myYPos + 1) < grid[myXPos].size() &&
-            grid[myXPos][myYPos + 1].value < smallestValue) {
-            smallestValue = grid[myXPos][myYPos + 1].value;
-            moveDirection.x = 0;
-            moveDirection.y = 1;
-            // std::cout << "found smaller value in lower cell "  <<
-            // smallestValue
-            // <<
-            // "\n";
-        }
-        // Check left
-        if ((myXPos - 1) >= 0 &&
-            grid[myXPos - 1][myYPos].value < smallestValue) {
-            smallestValue = grid[myXPos - 1][myYPos].value;
-            moveDirection.x = -1;
-            moveDirection.y = 0;
-            // std::cout << "found smaller value in left cell "  <<
-            // smallestValue
-            // <<
-            // "\n";
-        }
-        // Check right
-        if ((myXPos + 1) < grid.size() &&
-            grid[myXPos + 1][myYPos].value < smallestValue) {
-            smallestValue = grid[myXPos + 1][myYPos].value;
-            moveDirection.x = 1;
-            moveDirection.y = 0;
-            // std::cout << "found smaller value in right cell "  <<
-            // smallestValue
-            // <<
-            // "\n";
-        }
-    }
-    if (moveDirection.x == 0 && moveDirection.y == 0) {
-        std::cout << "no direction found\n";
-        reversedBFSPathAlgorithm();
-        throw 8;
-    }
-    // std::cout << moveDirection.x << ", " << moveDirection.y << "\n";
-    return moveDirection;
+  // check up
+  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue) {
+    smallestValue = grid[myXPos][myYPos - 1].value;
+    moveDirection.x = 0;
+    moveDirection.y = -1;
+  }
+  // Check down
+  if ((myYPos + 1) < grid[myXPos].size() &&
+      grid[myXPos][myYPos + 1].value < smallestValue) {
+    smallestValue = grid[myXPos][myYPos + 1].value;
+    moveDirection.x = 0;
+    moveDirection.y = 1;
+  }
+  // Check left
+  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue) {
+    smallestValue = grid[myXPos - 1][myYPos].value;
+    moveDirection.x = -1;
+    moveDirection.y = 0;
+  }
+  // Check right
+  if ((myXPos + 1) < grid.size() &&
+      grid[myXPos + 1][myYPos].value < smallestValue) {
+    smallestValue = grid[myXPos + 1][myYPos].value;
+    moveDirection.x = 1;
+    moveDirection.y = 0;
+  }
+  return moveDirection;
 }
 
 void Game::reversedBFSPathAlgorithm() {
-    for (auto & item : grid) {
-        for (auto & y : item) {
-            if (y.isWalkable()) {
-                y.value = 0;
-            } else {
-                y.value = 5000;
-            }
-        }
+  
+  for (auto &item : grid) {
+    for (auto &y : item) {
+      if (y.isWalkable()) {
+        y.value = 0;
+        y.visited = false;
+      } else {
+        y.visited = true;
+        y.value = 5000;
+      }
     }
-    std::queue<GridCell *> q;
-    int xPos = player->getPosition().x / 20;
-    int yPos = player->getPosition().y / 20;
+  }
 
-    GridCell * sourcePlayer = &grid[xPos][yPos];
-    bool visited[grid.size()][grid[0].size()];
+  std::queue<GridCell *> q;
+  int xPos = player->getPosition().x / 20;
+  int yPos = player->getPosition().y / 20;
+  GridCell *sourcePlayer = &grid[xPos][yPos];
+  //bool visited[grid.size()][grid[0].size()];
 
-    // Fill the visited array with "isWalkAble" bools
-    for (int x = 0; x < grid.size(); x++) {
-        for (int y = 0; y < grid[x].size(); y++) {
-            visited[x][y] = !grid[x][y].isWalkable();
-            // std::cout << visited[x][y];
-        }
-        // std::cout << std::endl;
+  // Fill the visited array with "isWalkAble" bools
+  // for (int x = 0; x < grid.size(); x++) {
+  //   for (int y = 0; y < grid[x].size(); y++) {
+  //     visited[x][y] = !grid[x][y].isWalkable();
+  //     std::cout << visited[x][y];
+  //   }
+  //   std::cout << std::endl;
+  // }
+  // window.close();
+
+  int xPosMonster = monster->getPosition().x / 20;
+  int yPosMonster = monster->getPosition().y / 20;
+  GridCell *sourceMonster = &grid[xPosMonster][yPosMonster];
+
+  q.push(sourcePlayer);
+  grid[xPosMonster][yPosMonster].visited = true;
+  //visited[xPosMonster][yPosMonster] = true;
+
+  while (!q.empty()) {
+    GridCell *p = q.front();
+    q.pop();
+    xPos = p->getPosition().x / 20;
+    yPos = p->getPosition().y / 20;
+
+    if (p == sourceMonster) {
+      return;
     }
-    // window.close();
 
-    int xPosMonster = monster->getPosition().x / 20;
-    int yPosMonster = monster->getPosition().y / 20;
-    GridCell * sourceMonster = &grid[xPosMonster][yPosMonster];
-
-    q.push(sourcePlayer);
-    visited[xPosMonster][yPosMonster] = true;
-
-    while (!q.empty()) {
-        GridCell * p = q.front();
-        q.pop();
-        xPos = p->getPosition().x / 20;
-        yPos = p->getPosition().y / 20;
-
-        if (p == sourceMonster) {
-            return;
-        }
-
-        // Check upper cell
-        if ((yPos - 1) >= 0 && visited[xPos][yPos - 1] == false) {
-            grid[xPos][yPos - 1].value = p->value + 1;
-            q.push(&grid[xPos][yPos - 1]);
-            visited[xPos][yPos - 1] = true;
-        }
-
-        // Check lower cell
-        if ((yPos + 1) < grid[xPos].size() &&
-            visited[xPos][yPos + 1] == false) {
-            grid[xPos][yPos + 1].value = p->value + 1;
-            q.push(&grid[xPos][yPos + 1]);
-            visited[xPos][yPos + 1] = true;
-        }
-
-        // Check left cell
-        if ((xPos - 1) >= 0 && visited[xPos - 1][yPos] == false) {
-            grid[xPos - 1][yPos].value = p->value + 1;
-            q.push(&grid[xPos - 1][yPos]);
-            visited[xPos - 1][yPos] = true;
-        }
-
-        // Check right cell
-        if ((xPos + 1) < grid.size() && visited[xPos + 1][yPos] == false) {
-            grid[xPos + 1][yPos].value = p->value + 1;
-            q.push(&grid[xPos + 1][yPos]);
-
-            visited[xPos + 1][yPos] = true;
-        }
+    // set upper cell
+    if ((yPos - 1) >= 0 && grid[xPos][yPos - 1].visited == false) {
+      grid[xPos][yPos - 1].value = p->value + 1;
+      q.push(&grid[xPos][yPos - 1]);
+      grid[xPos][yPos - 1].visited = true;
+      //visited[xPos][yPos - 1] = true;
     }
+
+    // set lower cell
+    if ((yPos + 1) < grid[xPos].size() && grid[xPos][yPos + 1].visited == false) {
+      grid[xPos][yPos + 1].value = p->value + 1;
+      q.push(&grid[xPos][yPos + 1]);
+      grid[xPos][yPos + 1].visited = true;
+      //visited[xPos][yPos + 1] = true;
+    }
+
+    // set left cell
+    if ((xPos - 1) >= 0 && grid[xPos - 1][yPos].visited == false) {
+      grid[xPos - 1][yPos].value = p->value + 1;
+      q.push(&grid[xPos - 1][yPos]);
+      grid[xPos - 1][yPos].visited = true;
+      //visited[xPos - 1][yPos] = true;
+    }
+
+    // set right cell
+    if ((xPos + 1) < grid.size() && grid[xPos + 1][yPos].visited == false) {
+      grid[xPos + 1][yPos].value = p->value + 1;
+      q.push(&grid[xPos + 1][yPos]);
+      grid[xPos + 1][yPos].visited = true;
+      //visited[xPos + 1][yPos] = true;
+    }
+  }
 };
 
-void Game::draw(std::vector<std::shared_ptr<IObject>> & drawables) {
-    for (std::shared_ptr<IObject> drawable : drawables) {
-        drawable->draw(window);
-    }
+void Game::draw(std::vector<std::shared_ptr<IObject>> &drawables) {
+  for (std::shared_ptr<IObject> drawable : drawables) {
+    drawable->draw(window);
+  }
 }
-void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements) {
-    for (std::shared_ptr<UIElement> uiElement : uiElements) {
-        uiElement->draw(window);
-    }
+void Game::draw(std::vector<std::shared_ptr<UIElement>> &uiElements) {
+  for (std::shared_ptr<UIElement> uiElement : uiElements) {
+    uiElement->draw(window);
+  }
 }
 
-void Game::draw(std::vector<std::vector<GridCell>> & _grid) {
-    for (auto & row : _grid) {
-        for (auto & cell : row) {
-            cell.draw(window);
-        }
+void Game::draw(std::vector<std::vector<GridCell>> &_grid) {
+  for (auto &row : _grid) {
+    for (auto &cell : row) {
+      cell.draw(window);
     }
+  }
 }
 
 void Game::run() {
-    while (window.isOpen()) {
-        window.clear();
-        switch (currentState) {
-            case gameState::Menu:
-                draw(MenuUI);
-                for (auto & ele : MenuUI) {
-                    if (ele->intersect(window.mapPixelToCoords(
-                            sf::Mouse::getPosition(window))) &&
-                        sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        auto tmp = ele->getText();
-                        if (tmp == "Play") {
-                            currentState = gameState::SelectMap;
-                            std::cout << "Play\n";
-                            break;
-                        } else if (tmp == "Editor") {
-                            currentState = gameState::Editor;
-                            std::cout << "Editor\n";
-                            break;
-                        } else if (tmp == "Quit") {
-                            std::cout << "Quit\n";
-                            currentState = gameState::Quit;
-                            break;
-                        }
-                    }
-                }
-                break;
-
-            case gameState::SelectMap:
-                draw(MapSelectionUI);
-                for (auto & ele : MapSelectionUI) {
-                    if (ele->intersect(window.mapPixelToCoords(
-                            sf::Mouse::getPosition(window))) &&
-                        sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        if (ele->getText() != "MapSelection") {
-                            chosenMap = ele->getText();
-                            currentState = gameState::Play;
-                            break;
-                        }
-                    }
-                }
-                break;
-
-            case gameState::Play:
-                static size_t counter = 0;
-                if (!loaded) {
-                    std::cout << "Loaded game.\n";
-                    std::ifstream file("Core/Saves/" + chosenMap);
-                    if (file) {
-                        factory.loadMatrixFromFile(grid, file);
-                    } else {
-                        currentState = gameState::Menu;
-                        break;
-                    }
-                    factory.objectsToDrawables(drawables, grid);
-                    loadSubVectors();
-                    player = std::static_pointer_cast<Player>(characters[0]);
-                    monster = std::static_pointer_cast<Monster>(characters[1]);
-                    reversedBFSPathAlgorithm();
-                    loaded = true;
-                }
-                // show instructions once*
-                draw(drawables);
-                draw(PlayUI);
-                for (auto & action : playingActions) {
-                    action();
-                }
-
-                {
-                sf::Vector2f monsterPosition = monster->getPosition();
-                int myXPos = (monsterPosition.x) / 20;
-                int myYPos = (monsterPosition.y) / 20;
-
-
-                
-                bool onValidWall = false;
-                for (int x = 0; x < grid.size(); x++) {
-                for (int y = 0; y < grid[x].size(); y++) {
-                    if (monster->getPosition() == grid[x][y].getPosition()) {
-                    onValidWall = true;
-                    break;
-                    }
-                }
-                if (onValidWall) {
-                    break;
-                }
-                }
-                if (onValidWall) {
-                monster->moveIfPossible(findShortestStep());
-                } else {
-                monster->moveOld();
-                }      
-                }
-                if (counter >= 50) {
-                    reversedBFSPathAlgorithm();
-                    counter = 0;
-                } else {
-                    counter++;
-                }
-
-                if (player->checkWin()) {
-                    currentState = gameState::Menu;
-                    std::cout << "You won the game!" << std::endl;
-                    break;
-                }
-
-                // add actions to remove instructions
-                break;
-
-            case gameState::Editor:
-                // show instructions once*
-                draw(grid);
-                for (auto & action : editorActions) {
-                    action();
-                }
-                // add actions to remove instructions
-                break;
-
-            case gameState::Quit:
-                window.close();
-                break;
-
-            default:
-                currentState = gameState::Menu;
-                break;
-        }
-
-        window.display();
-        sf::sleep(sf::milliseconds(20));
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
+  while (window.isOpen()) {
+    window.clear();
+    switch (currentState) {
+      case gameState::Menu:
+        draw(MenuUI);
+        for (auto &ele : MenuUI) {
+          if (ele->intersect(
+                  window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
+              sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            auto tmp = ele->getText();
+            if (tmp == "Play") {
+              currentState = gameState::SelectMap;
+              std::cout << "Play\n";
+              break;
+            } else if (tmp == "Editor") {
+              currentState = gameState::Editor;
+              std::cout << "Editor\n";
+              break;
+            } else if (tmp == "Quit") {
+              std::cout << "Quit\n";
+              currentState = gameState::Quit;
+              break;
             }
+          }
         }
+        break;
+
+      case gameState::SelectMap:
+        draw(MapSelectionUI);
+        for (auto &ele : MapSelectionUI) {
+          if (ele->intersect(
+                  window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
+              sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            if (ele->getText() != "MapSelection") {
+              chosenMap = ele->getText();
+              currentState = gameState::Play;
+              break;
+            }
+          }
+        }
+        break;
+
+      case gameState::Play:
+        static size_t counter = 0;
+        if (!loaded) {
+          std::cout << "Loaded game.\n";
+          std::ifstream file("Core/Saves/" + chosenMap);
+          if (file) {
+            factory.loadMatrixFromFile(grid, file);
+          } else {
+            currentState = gameState::Menu;
+            break;
+          }
+          factory.objectsToDrawables(drawables, grid);
+          loadSubVectors();
+          player = std::static_pointer_cast<Player>(characters[0]);
+          monster = std::static_pointer_cast<Monster>(characters[1]);
+          reversedBFSPathAlgorithm();
+          loaded = true;
+        }
+        // show instructions once*
+        draw(drawables);
+        draw(PlayUI);
+        for (auto &action : playingActions) {
+          action();
+        }
+
+        {
+          sf::Vector2f monsterPosition = monster->getPosition();
+          int myXPos = (monsterPosition.x) / 20;
+          int myYPos = (monsterPosition.y) / 20;
+
+          bool onValidWall = false;
+          for (int x = 0; x < grid.size(); x++) {
+            for (int y = 0; y < grid[x].size(); y++) {
+              if (monster->getPosition() == grid[x][y].getPosition()) {
+                onValidWall = true;
+                break;
+              }
+            }
+            if (onValidWall) {
+              break;
+            }
+          }
+          if (onValidWall) {
+            monster->moveIfPossible(findShortestStep());
+          } else {
+            monster->moveOld();
+          }
+        }
+        if (counter >= 30) {
+          reversedBFSPathAlgorithm();
+          counter = 0;
+        } else {
+          counter++;
+        }
+
+        if (player->checkWin()) {
+          currentState = gameState::Menu;
+          std::cout << "You won the game!" << std::endl;
+          break;
+        }
+
+        // add actions to remove instructions
+        break;
+
+      case gameState::Editor:
+        // show instructions once*
+        draw(grid);
+        for (auto &action : editorActions) {
+          action();
+        }
+        // add actions to remove instructions
+        break;
+
+      case gameState::Quit:
+        window.close();
+        break;
+
+      default:
+        currentState = gameState::Menu;
+        break;
     }
+
+    window.display();
+    sf::sleep(sf::milliseconds(20));
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
+    }
+  }
 };
