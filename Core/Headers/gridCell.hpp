@@ -20,7 +20,7 @@ class GridCell : public IRectangle {
     objectType cellType = objectType::Floor;
 
   public:
-    int value = 0;
+    int64_t value = 0;
     bool visited = false;
 
     ///\brief

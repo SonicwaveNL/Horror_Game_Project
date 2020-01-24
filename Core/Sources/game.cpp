@@ -1,7 +1,6 @@
 #include <../Headers/game.hpp>
 
 std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
-  std::cout << windowSize.x << " " << windowSize.x / 20 << std::endl;
   unsigned int amountOfColumn = windowSize.x / 20;
   unsigned int amountOfRow = windowSize.y / 20;
   unsigned int amountOfRect = amountOfRow * amountOfColumn;
@@ -117,40 +116,40 @@ void Game::loadSubVectors() {
 }
 
 sf::Vector2f Game::findShortestStep() {
-  int myXPos = 0;
-  int myYPos = 0;
-  int smallestValue = 9000000;
+  int64_t windowSurfaceSizeTImesTwo =
+      (window.getSize().x * window.getSize().y) * 2;
+  int myXPos = monster->getPosition().x / 20;
+  int myYPos = monster->getPosition().y / 20;
+  grid[myXPos][myYPos].value = windowSurfaceSizeTImesTwo;
+  int64_t smallestValue = windowSurfaceSizeTImesTwo;
   sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
-  //find the gridcell where the monster is and set that step value very high
-  //so the next step doesn't force him back
-  sf::Vector2f monsterPosition = monster->getPosition();
-  myXPos = (monsterPosition.x) / 20;
-  myYPos = (monsterPosition.y) / 20;
-  grid[myXPos][myYPos].value = 5000;
-
   // check up
-  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue) {
+  if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value < smallestValue &&
+      grid[myXPos][myYPos - 1].visited) {
     smallestValue = grid[myXPos][myYPos - 1].value;
     moveDirection.x = 0;
     moveDirection.y = -1;
   }
   // Check down
   if ((myYPos + 1) < grid[myXPos].size() &&
-      grid[myXPos][myYPos + 1].value < smallestValue) {
+      grid[myXPos][myYPos + 1].value < smallestValue &&
+      grid[myXPos][myYPos + 1].visited) {
     smallestValue = grid[myXPos][myYPos + 1].value;
     moveDirection.x = 0;
     moveDirection.y = 1;
   }
   // Check left
-  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue) {
+  if ((myXPos - 1) >= 0 && grid[myXPos - 1][myYPos].value < smallestValue &&
+      grid[myXPos - 1][myYPos].visited) {
     smallestValue = grid[myXPos - 1][myYPos].value;
     moveDirection.x = -1;
     moveDirection.y = 0;
   }
   // Check right
   if ((myXPos + 1) < grid.size() &&
-      grid[myXPos + 1][myYPos].value < smallestValue) {
+      grid[myXPos + 1][myYPos].value < smallestValue &&
+      grid[myXPos + 1][myYPos].visited) {
     smallestValue = grid[myXPos + 1][myYPos].value;
     moveDirection.x = 1;
     moveDirection.y = 0;
@@ -159,15 +158,16 @@ sf::Vector2f Game::findShortestStep() {
 }
 
 void Game::reversedBFSPathAlgorithm() {
-  
-  for (auto &item : grid) {
-    for (auto &y : item) {
-      if (y.isWalkable()) {
-        y.value = 0;
-        y.visited = false;
+  int64_t windowSurfaceSizeTImesTwo =
+      (window.getSize().x * window.getSize().y) * 2;
+  for (auto &column : grid) {
+    for (auto &cell : column) {
+      if (cell.isWalkable()) {
+        cell.value = 0;
+        cell.visited = false;
       } else {
-        y.visited = true;
-        y.value = 5000;
+        cell.visited = true;
+        cell.value = windowSurfaceSizeTImesTwo;
       }
     }
   }
@@ -176,25 +176,14 @@ void Game::reversedBFSPathAlgorithm() {
   int xPos = player->getPosition().x / 20;
   int yPos = player->getPosition().y / 20;
   GridCell *sourcePlayer = &grid[xPos][yPos];
-  //bool visited[grid.size()][grid[0].size()];
-
-  // Fill the visited array with "isWalkAble" bools
-  // for (int x = 0; x < grid.size(); x++) {
-  //   for (int y = 0; y < grid[x].size(); y++) {
-  //     visited[x][y] = !grid[x][y].isWalkable();
-  //     std::cout << visited[x][y];
-  //   }
-  //   std::cout << std::endl;
-  // }
-  // window.close();
 
   int xPosMonster = monster->getPosition().x / 20;
   int yPosMonster = monster->getPosition().y / 20;
   GridCell *sourceMonster = &grid[xPosMonster][yPosMonster];
+  sourceMonster->value = windowSurfaceSizeTImesTwo;
+  sourceMonster->visited = true;
 
   q.push(sourcePlayer);
-  grid[xPosMonster][yPosMonster].visited = true;
-  //visited[xPosMonster][yPosMonster] = true;
 
   while (!q.empty()) {
     GridCell *p = q.front();
@@ -211,15 +200,14 @@ void Game::reversedBFSPathAlgorithm() {
       grid[xPos][yPos - 1].value = p->value + 1;
       q.push(&grid[xPos][yPos - 1]);
       grid[xPos][yPos - 1].visited = true;
-      //visited[xPos][yPos - 1] = true;
     }
 
     // set lower cell
-    if ((yPos + 1) < grid[xPos].size() && grid[xPos][yPos + 1].visited == false) {
+    if ((yPos + 1) < grid[xPos].size() &&
+        grid[xPos][yPos + 1].visited == false) {
       grid[xPos][yPos + 1].value = p->value + 1;
       q.push(&grid[xPos][yPos + 1]);
       grid[xPos][yPos + 1].visited = true;
-      //visited[xPos][yPos + 1] = true;
     }
 
     // set left cell
@@ -227,7 +215,6 @@ void Game::reversedBFSPathAlgorithm() {
       grid[xPos - 1][yPos].value = p->value + 1;
       q.push(&grid[xPos - 1][yPos]);
       grid[xPos - 1][yPos].visited = true;
-      //visited[xPos - 1][yPos] = true;
     }
 
     // set right cell
@@ -235,7 +222,6 @@ void Game::reversedBFSPathAlgorithm() {
       grid[xPos + 1][yPos].value = p->value + 1;
       q.push(&grid[xPos + 1][yPos]);
       grid[xPos + 1][yPos].visited = true;
-      //visited[xPos + 1][yPos] = true;
     }
   }
 };
@@ -266,6 +252,8 @@ void Game::run() {
       case gameState::Menu:
         draw(MenuUI);
         for (auto &ele : MenuUI) {
+          int value = 0;
+          bool visited = false;
           if (ele->intersect(
                   window.mapPixelToCoords(sf::Mouse::getPosition(window))) &&
               sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -350,7 +338,7 @@ void Game::run() {
             monster->moveOld();
           }
         }
-        if (counter >= 30) {
+        if (counter >= 50) {
           reversedBFSPathAlgorithm();
           counter = 0;
         } else {

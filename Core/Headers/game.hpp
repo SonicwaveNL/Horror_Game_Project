@@ -1,8 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <stdlib.h>
-#include <time.h>
 #include <IException.hpp>
 #include <SFML/Graphics.hpp>
 #include <experimental/filesystem>

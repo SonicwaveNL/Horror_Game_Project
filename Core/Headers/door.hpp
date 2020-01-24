@@ -33,7 +33,7 @@ class Door : public IRectangle {
     ///@param type
     /* (Default=Type::Door) This defines the object type for the system. *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object, segmentation faults WILL occur.*/
     Door(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Color color = sf::Color::White, float speed = 0,
+         sf::Color color = sf::Color::Cyan, float speed = 0,
          objectType type = objectType::Door)
         : IRectangle(position, objects, color, speed, type){};
 
