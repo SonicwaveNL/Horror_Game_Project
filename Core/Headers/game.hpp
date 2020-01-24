@@ -81,7 +81,7 @@ class Game {
         Action(actionKeyword::escape, [=](){currentState = gameState::Menu; loaded=false;})
     };
 
-    Action editorActions[8] = {
+    Action editorActions[9] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
         Action(sf::Keyboard::Num1, [=]() { cellType = objectType::Wall; }),
         Action(sf::Keyboard::Num2, [=]() { cellType = objectType::Switch; }),
@@ -94,6 +94,13 @@ class Game {
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
                    int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
                    grid[index[0]][index[1]].setCellType(cellType);
+               }),
+        Action(sf::Mouse::Button::Right,
+               [&]() {
+                   sf::Vector2f mousePos =
+                       window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
+                   grid[index[0]][index[1]].setCellType(objectType::Floor);
                }),
         Action(sf::Keyboard::Escape,
                [=] { factory.writeToFile(grid, "Core/Saves/custom.txt"); loaded =false; currentState = gameState::Menu;})};
