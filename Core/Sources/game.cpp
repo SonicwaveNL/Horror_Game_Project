@@ -310,7 +310,7 @@ void Game::run() {
         }
         // show instructions once*
         draw(drawables);
-        draw(PlayUI);
+        //draw(PlayUI);
         for (auto &action : playingActions) {
           action();
         }
