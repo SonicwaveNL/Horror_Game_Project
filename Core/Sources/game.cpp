@@ -154,11 +154,11 @@ sf::Vector2f Game::findShortestStep() {
     moveDirection.x = 1;
     moveDirection.y = 0;
   }
-  if (smallestValue <= 5) {
-    monster->setSpeed(10);
-  } else {
-    monster->setSpeed(5);
-  }
+  // if (smallestValue <= 5) {
+  //   monster->setSpeed(10);
+  // } else {
+  //   monster->setSpeed(5);
+  // }
 
   return moveDirection;
 }
@@ -166,6 +166,7 @@ sf::Vector2f Game::findShortestStep() {
 void Game::reversedBFSPathAlgorithm() {
   int64_t windowSurfaceSizeTImesTwo =
       (window.getSize().x * window.getSize().y) * 2;
+      
   for (auto &column : grid) {
     for (auto &cell : column) {
       if (cell.isWalkable()) {
