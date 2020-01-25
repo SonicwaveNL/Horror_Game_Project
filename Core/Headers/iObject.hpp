@@ -44,7 +44,6 @@ protected:
     ///@param direction
     /*sf::Vector2f*/
     virtual void move(sf::Vector2f direction) = 0;
-
     ///\brief
     /// Move IObject to direction, if possible.
     ///\details
@@ -102,6 +101,12 @@ protected:
     virtual sf::FloatRect getBounds() = 0;
 
     objectType getType();
+    
+    ///\brief
+    ///Function to change the speed
+    ///@param newSpeed
+    /*integer*/
+    virtual void setSpeed(int newSpeed);
 
 };
 

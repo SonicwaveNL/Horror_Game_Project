@@ -23,6 +23,7 @@
 /// Game class to present demo
 class Game {
   private:
+    int difficulty = 100;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
         sf::Style::Fullscreen};
 

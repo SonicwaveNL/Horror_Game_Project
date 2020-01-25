@@ -154,6 +154,12 @@ sf::Vector2f Game::findShortestStep() {
     moveDirection.x = 1;
     moveDirection.y = 0;
   }
+  if (smallestValue <= 5) {
+    monster->setSpeed(10);
+  } else {
+    monster->setSpeed(5);
+  }
+
   return moveDirection;
 }
 
@@ -310,35 +316,25 @@ void Game::run() {
         }
         // show instructions once*
         draw(drawables);
-        //draw(PlayUI);
+        // draw(PlayUI);
         for (auto &action : playingActions) {
           action();
         }
-
+        //monster movement loop
         {
           sf::Vector2f monsterPosition = monster->getPosition();
           int myXPos = (monsterPosition.x) / 20;
           int myYPos = (monsterPosition.y) / 20;
 
-          bool onValidWall = false;
-          for (int x = 0; x < grid.size(); x++) {
-            for (int y = 0; y < grid[x].size(); y++) {
-              if (monster->getPosition() == grid[x][y].getPosition()) {
-                onValidWall = true;
-                break;
-              }
-            }
-            if (onValidWall) {
-              break;
-            }
-          }
-          if (onValidWall) {
+          // bool onValidWall = false;
+          if (monster->getPosition() == grid[myXPos][myYPos].getPosition()) {
             monster->moveIfPossible(findShortestStep());
           } else {
             monster->moveOld();
           }
         }
-        if (counter >= 50) {
+        // difficulty of the AI
+        if (counter >= difficulty) {
           reversedBFSPathAlgorithm();
           counter = 0;
         } else {
