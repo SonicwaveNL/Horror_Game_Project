@@ -51,11 +51,6 @@ class UIElement {
     void setLabelPosition();
 
     ///\brief
-    /// Set the color of the object.
-    ///@param color
-    /*sf::Color the new color of the object.*/
-
-    ///\brief
     /// Draw the object to the given window.
     ///@param window
     /*The window the object should be drawn to.*/

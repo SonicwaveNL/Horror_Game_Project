@@ -59,11 +59,6 @@ class Wall : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    ///Sets the new color of the object.
-    ///@param color
-    /*The new sf::Color of the object*/
-
-    ///\brief
     ///'Teleport' the wall to a specific location.
     ///\details
     /*This function is not affected by the 'speed' member, as it teleports to

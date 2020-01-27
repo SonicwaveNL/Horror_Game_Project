@@ -56,10 +56,6 @@ class Monster : public IRectangle {
   void move(sf::Vector2f possition) override;
 
   void moveOld();
-  ///\brief
-  /// Set the color of the object.
-  ///@param color
-  /*The new color of the object.*/
 
   ///\brief
   /// Move Monster to direction, if possible.
