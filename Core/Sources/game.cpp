@@ -254,6 +254,7 @@ void Game::markGridCellsToDraw() {
       if ((yPos - i) >= 0 && grid[xPos][yPos - i].ableToDraw == false &&
           grid[xPos][yPos - i].behindWall == false) {
         if (grid[xPos][yPos - i].getCellType() == objectType::Wall) {
+          grid[xPos][yPos - i].ableToDraw = true;
           for (int a = i + 1; a < viewDistance; a++) {
             if (yPos - a >= 0) {
               grid[xPos][yPos - a].behindWall = true;
@@ -273,6 +274,7 @@ void Game::markGridCellsToDraw() {
           grid[xPos][yPos + i].ableToDraw == false &&
           grid[xPos][yPos + i].behindWall == false) {
         if (grid[xPos][yPos + i].getCellType() == objectType::Wall) {
+          grid[xPos][yPos + i].ableToDraw = true;
           for (int a = i + 1; a < viewDistance; a++) {
             if (yPos + a < grid[xPos].size()) {
               grid[xPos][yPos + a].behindWall = true;
@@ -291,6 +293,7 @@ void Game::markGridCellsToDraw() {
       if ((xPos - i) >= 0 && grid[xPos - i][yPos].ableToDraw == false &&
           grid[xPos - i][yPos].behindWall == false) {
         if (grid[xPos - i][yPos].getCellType() == objectType::Wall) {
+          grid[xPos - i][yPos].ableToDraw = true;
           for (int a = i + 1; a < viewDistance; a++) {
             if (xPos - a >= 0) {
               grid[xPos - a][yPos].behindWall = true;
@@ -310,6 +313,7 @@ void Game::markGridCellsToDraw() {
           grid[xPos + i][yPos].ableToDraw == false &&
           grid[xPos + i][yPos].behindWall == false) {
         if (grid[xPos + i][yPos].getCellType() == objectType::Wall) {
+          grid[xPos + i][yPos].ableToDraw = true;
           for (int a = i; a < viewDistance; a++) {
             if (xPos + a < grid.size()) {
               grid[xPos + a][yPos].behindWall = true;
