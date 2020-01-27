@@ -222,6 +222,8 @@ class Game {
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
 
+    void markGridCellsToDraw();
+
     ///\brief
     /// Runs the game demo
     void run();

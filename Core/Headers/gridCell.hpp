@@ -24,6 +24,12 @@ class GridCell : public IRectangle {
     int64_t value = 0;
     bool visited = false;
 
+    //bool for the lantarn
+    bool ableToDraw = true;
+    bool behindWall = false;
+    int drawValue = 0;
+
+
     ///\brief
     /// GridCell constructor.
     ///\details

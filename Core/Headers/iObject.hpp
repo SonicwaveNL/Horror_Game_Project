@@ -69,6 +69,8 @@ class IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+    virtual sf::Vector2f getPosition() = 0;
+
     ///\brief
     /// Sets the new color of the object.
     ///@param color

@@ -58,6 +58,8 @@ class IRectangle : public IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+    sf::Vector2f getPosition() override;
+
     void setColor(sf::Color color) override;
 
     ///\brief
@@ -90,9 +92,6 @@ class IRectangle : public IObject {
     /*A vector2f containing the new size of the object.s*/
     void setSize(sf::Vector2f size);
 
-    ///\brief
-    /// Function to get the position.
-    virtual sf::Vector2f getPosition() = 0;
 };
 
 #endif
