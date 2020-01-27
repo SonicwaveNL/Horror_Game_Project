@@ -36,6 +36,8 @@ class Wall : public IRectangle {
         type
       ) {}
 
+    ///\brief
+    ///Wall constructor, supports texture.
     Wall(
       sf::Vector2f position, 
       std::vector<std::shared_ptr<IObject>> & objects,
@@ -73,11 +75,6 @@ class Wall : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    ///Sets the new color of the object.
-    ///@param color
-    /*The new sf::Color of the object*/
-
-    ///\brief
     ///'Teleport' the wall to a specific location.
     ///\details
     /*This function is not affected by the 'speed' member, as it teleports to
@@ -112,6 +109,7 @@ class Wall : public IRectangle {
     /*Returns the rectangle the object is surrounded by.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
+    
     ///\brief
     ///Function to get the position.
     sf::Vector2f getPosition() override;

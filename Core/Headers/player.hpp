@@ -42,7 +42,9 @@ class Player : public IRectangle {
         objects, 
         color, 
         speed, type){}
-  
+
+    ///\brief
+    ///Player constructor, supports texture.
     Player(
       sf::Vector2f position,
       std::vector<std::shared_ptr<IObject>> & objects,
@@ -74,11 +76,6 @@ class Player : public IRectangle {
     void move(sf::Vector2f direction) override;
 
     ///\brief
-    ///Set the color of the object.
-    ///@param color
-    /*The new color of the object.*/
-
-    ///\brief
     /// Move Player to direction, if possible.
     ///\details
     /*Move Player to given sf::Vector2f direction, if possible.*/
@@ -102,8 +99,10 @@ class Player : public IRectangle {
     ///@param obj
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
+
     ///\brief
     ///Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
     ///\brief

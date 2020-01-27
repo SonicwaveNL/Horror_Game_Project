@@ -31,8 +31,7 @@ class Game {
     FileFactory factory;
 
     std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
-    sf::Image textureSource;
-    sf::Image bgSource;
+    sf::Image textureSource, bgSource;
     sf::Texture bgTexture;
     sf::Sprite bgSprite;
 
@@ -51,9 +50,6 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
-
-    // std::shared_ptr<UIElement> Yes;
-    // std::shared_ptr<UIElement> No;
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
@@ -124,10 +120,27 @@ class Game {
      * at index 0, monsters after that etc.*/
     void loadSubVectors();
 
+    ///\brief
+    ///Loads a tileset.
+    ///\details
+    /*Used to load a tileset into a container provided the tiles are 16x16 pixels.*/
+    ///@param file
+    /*std::string*/
+    ///@param source
+    /*sf::Image &*/
+    ///@return std::unordered_map<objectType, std::vector<sf::Texture>>
     std::unordered_map<objectType, std::vector<sf::Texture>> loadTextures(std::string file, sf::Image & source);
 
+    ///\brief
+    ///Draw function for IObjects
     void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+
+    ///\brief
+    ///Draw function for UIElements
     void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
+
+    ///\brief
+    ///Draw function for GridCells
     void draw(std::vector<std::vector<GridCell>> & grid);
 
   public:
@@ -137,7 +150,7 @@ class Game {
         bgTexture.loadFromImage(bgSource,sf::IntRect{sf::Vector2i{0,0},sf::Vector2i{window.getSize().x,window.getSize().y}});
         bgSprite.setTexture(bgTexture);
         bgSprite.setPosition(sf::Vector2f{0,0});
-        
+
         gameTextures = loadTextures("Resources/Textures/"+textureFile , textureSource);
 
         grid = createGrid(window.getSize());

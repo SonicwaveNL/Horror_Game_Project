@@ -26,9 +26,6 @@ class GridCell : public IRectangle {
 
     ///\brief
     /// GridCell constructor.
-    ///\details
-    /*The GridCell will be constructed having the following default values:
-      Color : White, Size : 20x20 */
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
              sf::Color color = sf::Color::Transparent, float speed = 0,
@@ -37,6 +34,8 @@ class GridCell : public IRectangle {
         iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
     };
 
+    ///\brief
+    ///GridCell constructor, supports texture.
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
               sf::Texture * texture,
@@ -86,8 +85,10 @@ class GridCell : public IRectangle {
     ///@param position
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
+
     ///\brief
     /// Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
     ///\brief
@@ -106,11 +107,6 @@ class GridCell : public IRectangle {
     sf::FloatRect getBounds() override;
 
     ///\brief
-    /// Sets the color of the IObject.
-    ///@param color
-    /*sf::Color*/
-
-    ///\brief
     /// Sets the type of the GridCell.
     ///@param type
     /*objectType*/
@@ -122,6 +118,10 @@ class GridCell : public IRectangle {
     /*objectType*/
     void setCellType(objectType type, sf::Texture * texture);
 
+    ///\brief
+    ///Sets the texture of the GridCell.
+    ///@param texture
+    /*sf::Texture* */
     void setTexture(sf::Texture * texture);
 
     ///\brief

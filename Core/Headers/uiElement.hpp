@@ -16,6 +16,8 @@ class UIElement {
     sf::Color fontColor;
 
   public:
+    ///\brief
+    ///UIElement constructor.
     UIElement(sf::Vector2f position,
               std::string labelText = "Placeholder",
               sf::Color labelColor = sf::Color::Cyan,
@@ -48,12 +50,9 @@ class UIElement {
     /*sf::Vector2f containing the new position of the object.*/
     void setPosition(sf::Vector2f target) ;
 
-    void setLabelPosition();
-
     ///\brief
-    /// Set the color of the object.
-    ///@param color
-    /*sf::Color the new color of the object.*/
+    ///Sets the position of the label relative to the sf::RectangleShape. 
+    void setLabelPosition();
 
     ///\brief
     /// Draw the object to the given window.
@@ -70,9 +69,16 @@ class UIElement {
     /// Function to get the position.
     sf::Vector2f getPosition();
 
+    ///\brief
+    ///Sets the sf::RectangleShape\'s border color.
     void setBorderColor(sf::Color color);
 
+    ///\brief
+    ///Sets the text of the label.
     void setText(std::string text);
+
+    ///\brief
+    ///Gets the text from the label.
     std::string getText();
 };
 

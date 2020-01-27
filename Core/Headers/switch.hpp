@@ -13,11 +13,16 @@ class Switch : public IRectangle {
  private:
     bool active = false;
   public:
+
+    ///\brief
+    ///Switch constructor
     Switch(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Color color = sf::Color::Green, float speed = 0, objectType type = objectType::Switch)
         : IRectangle(position, objects, color, speed, type) {}
 
+    ///\brief
+    ///Switch constructor, supports texture.
     Switch(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Texture * texture,
@@ -53,11 +58,6 @@ class Switch : public IRectangle {
     ///@param target
     /*sf::Vector2f containing the new position of the object.*/
     void setPosition(sf::Vector2f target) override;
-
-    ///\brief
-    ///Set the color of the object.
-    ///@param color
-    /*sf::Color the new color of the object.*/
 
     ///\brief
     ///Draw the object to the given window.

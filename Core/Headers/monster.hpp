@@ -36,6 +36,8 @@ class Monster : public IRectangle {
           float speed = 5, objectType type = objectType::Monster)
       : IRectangle(position, objects, color, speed, type){};
 
+    ///\brief
+    ///Monster constructor, supports texture.
   Monster(sf::Vector2f position,
           std::vector<std::shared_ptr<IObject>>& objects,
           sf::Texture * texture,
@@ -59,11 +61,6 @@ class Monster : public IRectangle {
   ///@param direction
   /*sf::Vector2f*/
   void move(sf::Vector2f possition) override;
-
-  ///\brief
-  ///Set the color of the object.
-  ///@param color
-  /*The new color of the object.*/
 
   ///\brief
   /// Move Monster to direction, if possible.
@@ -104,6 +101,7 @@ class Monster : public IRectangle {
   /*Get the GlobalBounds of the Monster object.*/
   ///@return sf::FloatRect
   sf::FloatRect getBounds() override;
+  
   ///\brief
   /// Function to get the position.
   sf::Vector2f getPosition() override;

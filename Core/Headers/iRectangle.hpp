@@ -4,6 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <iObject.hpp>
 
+///@file
+///\brief
+///The IRectangle class for rectangular shapes, inherits from IObjects.
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
@@ -11,6 +14,8 @@ class IRectangle : public IObject {
     sf::Sprite sprite;
 
   public:
+    ///\brief
+    ///IRectangle constructor.
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
                sf::Color color = sf::Color::Transparent, 
@@ -23,6 +28,8 @@ class IRectangle : public IObject {
         setColor(color);
     }
 
+    ///\brief
+    ///IRectangle constructor, supports texture.
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
                sf::Texture * texture,
@@ -72,6 +79,10 @@ class IRectangle : public IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+    ///\brief
+    ///Sets the color
+    ///@param color
+    /*sf::Color*/
     void setColor(sf::Color color) override;
 
     ///\brief
