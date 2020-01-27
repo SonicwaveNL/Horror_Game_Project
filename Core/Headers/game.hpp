@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <experimental/filesystem>
+#include <unordered_map>
 #include <action.hpp>
 #include <gridCell.hpp>
 #include <iObject.hpp>
@@ -10,7 +11,7 @@
 #include <monster.hpp>
 #include <player.hpp>
 #include <switch.hpp>
-#include <IException.hpp>
+#include <iException.hpp>
 #include <queue>
 #include <support.hpp>
 #include <vector>
@@ -23,12 +24,16 @@
 /// Game class to present demo
 class Game {
   private:
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-        sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};//,
+        // sf::Style::Fullscreen};
 
     FileFactory factory;
 
+    std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
+    sf::Image textureSource;
+
     std::vector<std::shared_ptr<IObject>> drawables;
+    
     std::vector<std::vector<GridCell>> grid;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -43,12 +48,15 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
 
-    std::shared_ptr<UIElement> Yes;
-    std::shared_ptr<UIElement> No;
+    // std::shared_ptr<UIElement> Yes;
+    // std::shared_ptr<UIElement> No;
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
+
     std::string chosenMap = "custom.txt";
+    std::string textureFile = "boohTileset.png";
+
     bool loaded = false;
 
     Action playingActions[6] = {
@@ -92,14 +100,14 @@ class Game {
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
+                   int index[2] = {int(mousePos.x) / PIXEL16, int(mousePos.y) / PIXEL16};
                    grid[index[0]][index[1]].setCellType(cellType);
                }),
         Action(sf::Mouse::Button::Right,
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
+                   int index[2] = {int(mousePos.x) / PIXEL16, int(mousePos.y) / PIXEL16};
                    grid[index[0]][index[1]].setCellType(objectType::Floor);
                }),
         Action(sf::Keyboard::Escape,
@@ -112,6 +120,8 @@ class Game {
      * at index 0, monsters after that etc.*/
     void loadSubVectors();
 
+    std::unordered_map<objectType, std::vector<sf::Texture>> loadTextures(std::string file, sf::Image & source);
+
     void draw(std::vector<std::shared_ptr<IObject>> & drawables);
     void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
     void draw(std::vector<std::vector<GridCell>> & grid);
@@ -119,6 +129,8 @@ class Game {
   public:
 
     Game(){
+        gameTextures = loadTextures("Resources/Textures/"+textureFile , textureSource);
+
         grid = createGrid(window.getSize());
         std::ifstream file;
 
@@ -137,6 +149,7 @@ class Game {
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
         file.close();
+        
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);

@@ -24,9 +24,13 @@ class CorruptFileException : public std::exception {
 };
 
 class UnknownTypeException : public std::exception {
-    virtual const char * what() const throw() {
-        return "Type can not be converted to object.";
-    }
+    private:
+         const char * msg ;
+    public:
+        UnknownTypeException( const char * msg= "ndef"):msg(msg){};
+        virtual const char * what() const throw() {
+            return msg;
+        }
 };
 
 #endif // IEXCEPTION_HPP

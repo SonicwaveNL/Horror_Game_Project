@@ -3,31 +3,31 @@
 std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
     char c;
     if (!(input >> c)) {
-        // std::cout << "KILL ME1\n";
+        // throw UnknownTypeException("1");
     }
     if (c != '(') {
-        // std::cout << "KILL ME2\n";
+        // throw UnknownTypeException("2");
     }
     if (!(input >> rhs.x)) {
-        // std::cout << "KILL ME3\n";
+        // throw UnknownTypeException("3");
     }
     if (!(input >> c)) { // adjust so only , are correct
-        // std::cout << "KILL ME4\n";
+        // throw UnknownTypeException("4");
         
     } else {
         if (c != ',') {
-        // std::cout << "KILL ME5\n";
+            // throw UnknownTypeException("5");
         }
     }
     if (!(input >> rhs.y)) {
-        // std::cout << "KILL ME6\n";
+        // throw UnknownTypeException("6");
         
     }
     if (!(input >> c)) {
-        // std::cout << "KILL ME7\n";
+        // throw UnknownTypeException("7");
     }
     if (c != ')') {
-        // std::cout << "KILL ME8\n";
+        // throw UnknownTypeException("8");
     }
     return input;
 }
@@ -62,8 +62,8 @@ void FileFactory::loadMatrixFromFile(
         file >> position;
         for(auto & item : types) {
             if (name == item.writeAble) {
-                matrix[position.x / 20][position.y / 20].setCellType(item.itemType);
-                matrix[position.x / 20][position.y / 20].setPosition(position);
+                matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(item.itemType);
+                matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(position);
             }
         }
     }
@@ -71,39 +71,40 @@ void FileFactory::loadMatrixFromFile(
 
 void FileFactory::objectsToDrawables(
     std::vector<std::shared_ptr<IObject>> & drawables,
-    std::vector<std::vector<GridCell>> & matrix) {
+    std::vector<std::vector<GridCell>> & matrix,
+    std::unordered_map<objectType, std::vector<sf::Texture>> & loadedTextures) {
     objectType soort;
     drawables.clear();
     for (auto & row : matrix) {
         for (auto & item : row) {
             soort = item.getCellType();
             if (soort == objectType::Abstract) {
-                // throw exception
+                throw UnknownTypeException();
                 continue;
             } else if (soort == objectType::GridCell) {
-                // throw exception
+                throw UnknownTypeException();
                 continue;
             } else if (soort == objectType::Floor) {
                 continue;
             } else if (soort == objectType::Wall) {
                 drawables.push_back(
-                    std::make_shared<Wall>(item.getPosition(), drawables));
+                    std::make_shared<Wall>(item.getPosition(), drawables, &loadedTextures[objectType::Wall][0]));
 
             } else if (soort == objectType::Switch) {
                 drawables.push_back(
-                    std::make_shared<Switch>(item.getPosition(), drawables));
+                    std::make_shared<Switch>(item.getPosition(), drawables, &loadedTextures[objectType::Switch][0]));
 
             } else if (soort == objectType::Door) {
                 drawables.push_back(
-                    std::make_shared<Door>(item.getPosition(), drawables));
+                    std::make_shared<Door>(item.getPosition(), drawables, &loadedTextures[objectType::Door][0]));
 
             } else if (soort == objectType::Player) {
                 drawables.push_back(
-                    std::make_shared<Player>(item.getPosition(), drawables));
+                    std::make_shared<Player>(item.getPosition(), drawables, &loadedTextures[objectType::Player][0]));
 
             } else if (soort == objectType::Monster) {
                 drawables.push_back(
-                    std::make_shared<Monster>(item.getPosition(), drawables));
+                    std::make_shared<Monster>(item.getPosition(), drawables, &loadedTextures[objectType::Monster][0]));
             }
         }
     }

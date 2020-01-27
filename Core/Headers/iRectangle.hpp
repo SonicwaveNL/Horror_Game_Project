@@ -7,6 +7,8 @@
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
+    sf::Texture * texture;
+    sf::Sprite sprite;
 
   public:
     IRectangle(sf::Vector2f position,
@@ -14,12 +16,28 @@ class IRectangle : public IObject {
                sf::Color color = sf::Color::Transparent, 
                float speed = 0,
                objectType type = objectType::Abstract,
-               sf::Vector2f size = sf::Vector2f(20.f, 20.f))
+               sf::Vector2f size = sf::Vector2f(16.f, 16.f))
         : IObject(objects, color, speed, type) {
         iRect.setPosition(position);
         iRect.setSize(size);
         setColor(color);
     }
+
+    IRectangle(sf::Vector2f position,
+               std::vector<std::shared_ptr<IObject>> & objects,
+               sf::Texture * texture,
+               sf::Color color = sf::Color::Transparent, 
+               float speed = 0,
+               objectType type = objectType::Abstract,
+               sf::Vector2f size = sf::Vector2f(16.f, 16.f))
+        : IObject(objects, color, speed, type),
+        texture(texture) {
+        iRect.setPosition(position);
+        iRect.setSize(size);
+        setColor(color);
+        sprite.setPosition(position);
+        sprite.setTexture(*texture);
+    } 
 
     ///\brief
     /// Move IObject to direction.

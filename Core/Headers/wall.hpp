@@ -36,6 +36,20 @@ class Wall : public IRectangle {
         type
       ) {}
 
+    Wall(
+      sf::Vector2f position, 
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Texture * texture,
+      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Wall
+    ): 
+      IRectangle(
+        position, 
+        objects, 
+        texture,
+        color,
+        speed,
+        type
+      ) {}
 
 
     ///\brief

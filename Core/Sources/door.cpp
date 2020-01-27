@@ -27,7 +27,10 @@ bool Door::getOpenState(){
     return isOpen;
 }
 
-void Door::draw(sf::RenderWindow & window) { window.draw(iRect); }
+void Door::draw(sf::RenderWindow & window) { 
+    window.draw(iRect); 
+    window.draw(sprite);
+    }
 
 sf::FloatRect Door::getBounds() { return iRect.getGlobalBounds(); }
 

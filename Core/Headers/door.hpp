@@ -13,8 +13,6 @@
  * finishes the level when a player interacts with it.*/
 class Door : public IRectangle {
   private:
-    sf::Texture texture;
-    sf::Sprite sprite;
     bool isOpen = false;
 
   public:
@@ -36,6 +34,12 @@ class Door : public IRectangle {
          sf::Color color = sf::Color::White, float speed = 0,
          objectType type = objectType::Door)
         : IRectangle(position, objects, color, speed, type){};
+
+    Door(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+          sf::Texture * texture,
+         sf::Color color = sf::Color::White, float speed = 0,
+         objectType type = objectType::Door)
+        : IRectangle(position, objects, texture, color, speed, type){};
 
 
     ///\brief

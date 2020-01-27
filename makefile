@@ -17,8 +17,8 @@ build: main
 
 action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 door.o: door.cpp door.hpp iRectangle.hpp
-fileFactory.o: fileFactory.hpp fileFactory.cpp support.hpp gridCell.hpp wall.hpp player.hpp monster.hpp switch.hpp door.hpp uiElement.hpp
-game.o: game.cpp game.hpp action.hpp gridCell.hpp iObject.hpp monster.hpp player.hpp support.hpp switch.hpp uiElement.hpp
+fileFactory.o: fileFactory.hpp fileFactory.cpp support.hpp gridCell.hpp wall.hpp player.hpp monster.hpp switch.hpp door.hpp uiElement.hpp iException.hpp
+game.o: game.cpp game.hpp action.hpp gridCell.hpp iObject.hpp monster.hpp player.hpp support.hpp switch.hpp uiElement.hpp iException.hpp
 gridCell.o: gridCell.hpp gridCell.cpp iRectangle.hpp
 inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp inputListener.hpp
 inputListener.o: inputListener.hpp inputListener.cpp

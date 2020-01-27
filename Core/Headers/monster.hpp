@@ -2,8 +2,9 @@
 #define MONSTER_HPP
 
 #include <SFML/Graphics.hpp>
-#include <door.hpp>
+#include <unordered_map>
 #include <iRectangle.hpp>
+#include <door.hpp>
 #include <wall.hpp>
 
 ///@file
@@ -13,10 +14,6 @@
 ///\details
 /*A Monster class, this is the monster who follows the player*/
 class Monster : public IRectangle {
- private:
-  sf::Texture texture;
-  sf::Sprite sprite;
-
  public:
   ///\brief
   /// Monster object constructor.
@@ -38,6 +35,14 @@ class Monster : public IRectangle {
           sf::Color color = sf::Color::Blue,
           float speed = 5, objectType type = objectType::Monster)
       : IRectangle(position, objects, color, speed, type){};
+
+  Monster(sf::Vector2f position,
+          std::vector<std::shared_ptr<IObject>>& objects,
+          sf::Texture * texture,
+          sf::Color color = sf::Color::Blue,
+          float speed = 5, objectType type = objectType::Monster)
+      : IRectangle(position, objects, texture, color, speed, type){};
+
 
   ///\brief
   /// Draw IRectangle on window

@@ -15,7 +15,7 @@ void Player::moveIfPossible(sf::Vector2f direction) {
 
 void Player::move(sf::Vector2f direction) {
     prevPosition = iRect.getPosition();
-    iRect.setPosition(iRect.getPosition() + direction * speed);
+    setPosition(iRect.getPosition() + direction * speed);
 }
 
 
@@ -27,6 +27,7 @@ bool Player::intersect(IObject & obj) {
 void Player::setPosition(sf::Vector2f target) {
     prevPosition = iRect.getPosition();
     iRect.setPosition(target);
+    sprite.setPosition(target);
 }
 
 sf::Vector2f Player :: getPosition(){
@@ -53,7 +54,10 @@ void Player::collision(IObject & obj) {
     }
 }
 
-void Player::draw(sf::RenderWindow & window) { window.draw(iRect); }
+void Player::draw(sf::RenderWindow & window) { 
+    window.draw(iRect); 
+    window.draw(sprite);
+}
 
 sf::FloatRect Player::getBounds() { return iRect.getGlobalBounds(); }
 

@@ -16,8 +16,6 @@
 class Player : public IRectangle {
   private:
     bool win = false;
-    sf::Texture texture;
-    sf::Sprite sprite;
 
   public:
     ///\brief
@@ -45,6 +43,19 @@ class Player : public IRectangle {
         color, 
         speed, type){}
   
+    Player(
+      sf::Vector2f position,
+      std::vector<std::shared_ptr<IObject>> & objects,
+      sf::Texture * texture,
+      sf::Color color = sf::Color(255, 98, 0), 
+      float speed = 5, objectType type = objectType::Player
+      ): 
+      IRectangle(
+        position, 
+        objects, 
+        texture,
+        color, 
+        speed, type){}
 
     ///\brief
     /// Draw IObject on window

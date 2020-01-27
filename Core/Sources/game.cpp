@@ -1,41 +1,38 @@
 #include <../Headers/game.hpp>
 
 std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
-    std::cout <<"window " << windowSize.x << " " << windowSize.y << std::endl;
-    unsigned int amountOfColumn = windowSize.x / 20;
-    unsigned int amountOfRow = windowSize.y / 20;
+    unsigned int amountOfColumn = windowSize.x / PIXEL16;
+    unsigned int amountOfRow = windowSize.y / PIXEL16;
     unsigned int amountOfRect = amountOfRow * amountOfColumn;
     float x = 0;
     float y = 0;
-
-    std::cout << "Creating size x,y : " << amountOfColumn << ',' << amountOfRow << '\n'; 
 
     std::vector<std::vector<GridCell>> shapeMatrix;
 
     for (size_t i = 0; i < amountOfColumn; i++) {
         shapeMatrix.push_back(std::vector<GridCell>());
-        int posX = (int)x / 20;
+        int posX = (int)x / PIXEL16;
         for (size_t j = 0; j < amountOfRow; j++) {
-            int posY = (int)y / 20;
+            int posY = (int)y / PIXEL16;
             shapeMatrix[posX].push_back(
-                GridCell((sf::Vector2f(x, y)), drawables));
+                GridCell((sf::Vector2f(x, y)), drawables, &gameTextures[objectType::Switch][1]));
             if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
                 j == (amountOfRow - 1)) {
                 shapeMatrix[posX][posY].setCellType(objectType::Wall);
             }
-            y += 20;
+            y += PIXEL16;
         }
-        x += 20;
+        x += PIXEL16;
         y = 0;
     }
     shapeMatrix[30][30].setCellType(objectType::Player);
-    shapeMatrix[20][20].setCellType(objectType::Monster);
+    shapeMatrix[PIXEL16][PIXEL16].setCellType(objectType::Monster);
     return shapeMatrix;
 }
 
 std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos) {
-    int xPos = int(mousePos.x) / 20;
-    int yPos = int(mousePos.y) / 20;
+    int xPos = int(mousePos.x) / PIXEL16;
+    int yPos = int(mousePos.y) / PIXEL16;
     std::array<int, 2> arr = {xPos, yPos};
     return arr;
 }
@@ -45,8 +42,6 @@ void Game::loadSubVectors() {
     characters.clear();
     winFactors.clear();
     gameObjects.clear();
-
-    std::cout << " Load Size " << drawables.size();
 
     // Caches for objects that should be placed last in the vectors, but ocurred
     // before the objects that should be placed before it. These get placed
@@ -128,8 +123,8 @@ sf::Vector2f Game::findShortestStep() {
     sf::Vector2f moveDirection = sf::Vector2f(0, 0);
 
     sf::Vector2f monsterPosition = monster->getPosition();
-    myXPos = monsterPosition.x / 20;
-    myYPos = monsterPosition.y / 20;
+    myXPos = monsterPosition.x / PIXEL16;
+    myYPos = monsterPosition.y / PIXEL16;
 
     // Check up
     if ((myYPos - 1) >= 0 && grid[myXPos][myYPos - 1].value <= smallestValue) {
@@ -166,8 +161,8 @@ sf::Vector2f Game::findShortestStep() {
 
 void Game::reversedBFSPathAlgorithm() {
     std::queue<GridCell *> q;
-    int xPos = player->getPosition().x / 20;
-    int yPos = player->getPosition().y / 20;
+    int xPos = player->getPosition().x / PIXEL16;
+    int yPos = player->getPosition().y / PIXEL16;
 
     GridCell * source = &grid[yPos][xPos];
     bool visited[grid.size()][grid[0].size()];
@@ -179,8 +174,8 @@ void Game::reversedBFSPathAlgorithm() {
         }
     }
 
-    int xPosMonster = monster->getPosition().x / 20;
-    int yPosMonster = monster->getPosition().y / 20;
+    int xPosMonster = monster->getPosition().x / PIXEL16;
+    int yPosMonster = monster->getPosition().y / PIXEL16;
     GridCell * sourceMonster = &grid[yPosMonster][xPosMonster];
 
     q.push(source);
@@ -223,6 +218,33 @@ void Game::reversedBFSPathAlgorithm() {
             visited[xPos + 1][yPos] = true;
         }
     }
+};
+
+std::unordered_map<objectType, std::vector<sf::Texture>> Game::loadTextures(std::string file, sf::Image & source){
+  std::unordered_map<objectType, std::vector<sf::Texture>> tmpCont;
+  source.loadFromFile(file);
+  sf::Vector2i textureSize= {16,16};
+
+  const std::array<objectType,6> objArr = {
+      objectType::Wall,
+      objectType::Floor,
+      objectType::Door,
+      objectType::Switch,
+      objectType::Player,
+      objectType::Monster
+    };
+
+    for (size_t i = 0; i < (source.getSize().y/16); i++){
+        for (size_t j = 0; j < (source.getSize().x/16); j++){
+            sf::Texture tmp;
+            if (!tmp.loadFromImage(source, sf::IntRect(sf::Vector2i{16*j,16*i},sf::Vector2i{16,16}))){
+                throw CorruptFileException();
+            } else {
+                tmpCont[objArr[i]].push_back(tmp);
+            }
+        }        
+    }
+  return tmpCont;
 };
 
 void Game::draw(std::vector<std::shared_ptr<IObject>> & drawables){
@@ -294,7 +316,7 @@ void Game::run() {
                     currentState = gameState::Menu;
                     break;
                 }
-                factory.objectsToDrawables(drawables, grid);
+                factory.objectsToDrawables(drawables, grid, gameTextures);
                 loadSubVectors();
                 player = std::static_pointer_cast<Player>(characters[0]);
                 monster = std::static_pointer_cast<Monster>(characters[1]);

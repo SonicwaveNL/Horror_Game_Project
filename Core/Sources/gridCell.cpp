@@ -46,5 +46,5 @@ sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);
-    // window.draw(sprite);
+    window.draw(sprite);
 }

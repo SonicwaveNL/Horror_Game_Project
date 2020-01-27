@@ -19,6 +19,7 @@ void Monster::setPosition(sf::Vector2f target) {
   prevPosition = iRect.getPosition();
   // position = target;
   iRect.setPosition(target);
+  sprite.setPosition(target);
 }
 
 void Monster::collision(IObject& obj) {
@@ -32,14 +33,14 @@ void Monster::collision(IObject& obj) {
 }
 
 void Monster::move(sf::Vector2f position) {
-        prevPosition = iRect.getPosition();
-
-    iRect.setPosition(position);
+    prevPosition = iRect.getPosition();
+    setPosition(position);
 }
 
 
 void Monster::draw(sf::RenderWindow& window) {
   window.draw(iRect);
+  window.draw(sprite);
 }
 
 sf::FloatRect Monster::getBounds() {

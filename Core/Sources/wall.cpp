@@ -14,7 +14,10 @@ bool Wall::intersect(IObject & obj) {
 
 void Wall::collision(IObject & obj) { return; }
 
-void Wall::draw(sf::RenderWindow & window) { window.draw(iRect); }
+void Wall::draw(sf::RenderWindow & window) { 
+    window.draw(iRect); 
+    window.draw(sprite);
+}
 
 sf::FloatRect Wall::getBounds() { return iRect.getGlobalBounds(); }
 

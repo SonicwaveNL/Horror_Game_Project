@@ -2,6 +2,7 @@
 #define IOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -33,9 +34,7 @@ protected:
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0,
             objectType type = objectType::Abstract)
-        : objects(objects), color(color), speed(speed), type(type) {
-
-        }
+        : objects(objects), color(color), speed(speed), type(type) {}
 
     ///\brief
     /// Move IObject to direction.
