@@ -154,12 +154,6 @@ sf::Vector2f Game::findShortestStep() {
     moveDirection.x = 1;
     moveDirection.y = 0;
   }
-  // if (smallestValue <= 5) {
-  //   monster->setSpeed(10);
-  // } else {
-  //   monster->setSpeed(5);
-  // }
-
   return moveDirection;
 }
 

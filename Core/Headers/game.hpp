@@ -181,7 +181,7 @@ class Game {
     used for this game. It basically finds the shortest path from the player to
     the Monster (hence "reversed") so the Monster can then use the
     findShortestStep() algorithm to see which direction is the fastest to the
-    player. The algorithm itterates over all cells in the grid and checks which
+    player. The algorithm iterates over all cells in the grid and checks which
     cells are walkable and which ones aren't. It simultaneously checks on which
     cell the player is and saves that. It then checks all walkable cells from
     the player to the monster using a queue and fills each cell with the
