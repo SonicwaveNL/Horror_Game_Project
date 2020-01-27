@@ -23,20 +23,10 @@ class Wall : public IRectangle {
     ///@param color
     /*An SFML colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Wall
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        color,
-        speed,
-        type
-      ) {}
-
-
+    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White, float speed = 0,
+         objectType type = objectType::Wall)
+        : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief
     /// Move IObject to direction.
@@ -57,11 +47,6 @@ class Wall : public IRectangle {
     /*The direction to move in, which will get multiplied by the object's speed
      * when it moves.*/
     void moveIfPossible(sf::Vector2f direction) override;
-
-    ///\brief
-    ///Sets the new color of the object.
-    ///@param color
-    /*The new sf::Color of the object*/
 
     ///\brief
     ///'Teleport' the wall to a specific location.
@@ -98,8 +83,12 @@ class Wall : public IRectangle {
     /*Returns the rectangle the object is surrounded by.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
+
     ///\brief
-    ///Function to get the position.
+    /// getPosition function
+    ///\details
+    /*returns the position of the object*/
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 };
 

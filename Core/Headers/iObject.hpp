@@ -12,7 +12,7 @@
 ///\details
 /*An abstract class to handle/create SMFL objects.*/
 class IObject {
-protected:
+  protected:
     sf::Color color;
     sf::Vector2f prevPosition;
     std::vector<std::shared_ptr<IObject>> & objects;
@@ -21,7 +21,7 @@ protected:
 
   public:
     ///\brief
-    ///IObject constructor
+    /// IObject constructor
     ///@param objects
     /*The vector of pointers to the game objects.*/
     ///@param color
@@ -29,13 +29,13 @@ protected:
     ///@param speed
     /*(Default=0) The speed of the object. How fast it moves when it moves*/
     ///@param type
-    /* (Default=Type::Abstract) This defines the object type for the system. *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object, segmentation faults WILL occur.*/
+    /* (Default=Type::Abstract) This defines the object type for the system.
+     * *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object,
+     * segmentation faults WILL occur.*/
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0,
             objectType type = objectType::Abstract)
-        : objects(objects), color(color), speed(speed), type(type) {
-
-        }
+        : objects(objects), color(color), speed(speed), type(type) {}
 
     ///\brief
     /// Move IObject to direction.
@@ -69,9 +69,8 @@ protected:
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
-
     ///\brief
-    ///Sets the new color of the object.
+    /// Sets the new color of the object.
     ///@param color
     /*The new sf::Color of the object*/
     virtual void setColor(sf::Color color) = 0;
@@ -100,14 +99,18 @@ protected:
     ///@return sf::FloatRect
     virtual sf::FloatRect getBounds() = 0;
 
-    objectType getType();
-    
     ///\brief
-    ///Function to change the speed
+    /// getType function
+    ///\details
+    /*function returns the objectType of the object*/
+    ///@return objectType
+    objectType getType();
+
+    ///\brief
+    /// Function to change the speed
     ///@param newSpeed
     /*integer*/
     virtual void setSpeed(int newSpeed);
-
 };
 
 #endif // IOBJECT_HPP

@@ -13,15 +13,14 @@ std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
     }
     if (!(input >> c)) { // adjust so only , are correct
         // std::cout << "KILL ME4\n";
-        
+
     } else {
         if (c != ',') {
-        // std::cout << "KILL ME5\n";
+            // std::cout << "KILL ME5\n";
         }
     }
     if (!(input >> rhs.y)) {
         // std::cout << "KILL ME6\n";
-        
     }
     if (!(input >> c)) {
         // std::cout << "KILL ME7\n";
@@ -58,11 +57,14 @@ void FileFactory::loadMatrixFromFile(
     std::string name;
     while (!file.eof()) {
         file >> name;
-        if (name == "END"){continue;}
+        if (name == "END") {
+            continue;
+        }
         file >> position;
-        for(auto & item : types) {
+        for (auto & item : types) {
             if (name == item.writeAble) {
-                matrix[position.x / 20][position.y / 20].setCellType(item.itemType);
+                matrix[position.x / 20][position.y / 20].setCellType(
+                    item.itemType);
                 matrix[position.x / 20][position.y / 20].setPosition(position);
             }
         }
@@ -109,40 +111,53 @@ void FileFactory::objectsToDrawables(
     }
 }
 
-std::vector<std::shared_ptr<UIElement>> FileFactory::fileToUi( std::istream & file ){
-    const struct { const char * name; sf::Color color; } colors[]{
-        { "yellow", sf::Color::Yellow },
-        { "red", sf::Color::Red },
-        { "blue", sf::Color::Blue },
-        { "black", sf::Color::Black },
-        { "cyan", sf::Color::Cyan },
-        { "green", sf::Color::Green },
-        { "white", sf::Color::White },
-        { "magenta", sf::Color::Magenta },
-        { "transparent", sf::Color::Transparent }
-    };
-    std::vector<std::shared_ptr<UIElement> > returnVector;
+std::vector<std::shared_ptr<UIElement>>
+FileFactory::fileToUi(std::istream & file) {
+    const struct {
+        const char * name;
+        sf::Color color;
+    } colors[]{{"yellow", sf::Color::Yellow},
+               {"red", sf::Color::Red},
+               {"blue", sf::Color::Blue},
+               {"black", sf::Color::Black},
+               {"cyan", sf::Color::Cyan},
+               {"green", sf::Color::Green},
+               {"white", sf::Color::White},
+               {"magenta", sf::Color::Magenta},
+               {"transparent", sf::Color::Transparent}};
+    std::vector<std::shared_ptr<UIElement>> returnVector;
     std::string name, text, colorStringLabel, colorStringRect;
-    sf::Vector2f position;
+    sf::Vector2f position, size;
     sf::Color sfColorLabel, sfColorRect;
 
-    while( !file.eof() ){
+    while (!file.eof()) {
         file >> name;
-        file >> position;        
+        file >> position;
+        file >> size;
         file >> colorStringRect;
         file >> text;
         file >> colorStringLabel;
 
-        for( auto & color: colors){
-            if( colorStringLabel == color.name ){
+        if (name == "END") {
+            continue;
+        }
+
+        for (auto & color : colors) {
+            if (colorStringLabel == color.name) {
                 sfColorLabel = color.color;
             }
-            if( colorStringRect == color.name ){
+            if (colorStringRect == color.name) {
                 sfColorRect = color.color;
             }
         }
-        returnVector.push_back(std::make_shared<UIElement>(position, text, sfColorLabel, sfColorRect));
+
+        if (size == sf::Vector2f(0.f, 0.f)) {
+            returnVector.push_back(std::make_shared<UIElement>(
+                position, text, sfColorRect, sfColorLabel));
+        } else {
+            returnVector.push_back(std::make_shared<UIElement>(
+                position, text, sfColorRect, sfColorLabel, sfColorLabel, size));
+        }
     }
     return returnVector;
 }
-

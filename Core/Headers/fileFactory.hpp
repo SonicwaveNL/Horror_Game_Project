@@ -63,14 +63,16 @@ class FileFactory {
      * given matrix*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
-    void objectsToDrawables( std::vector<std::shared_ptr<IObject>> & drawables, std::vector<std::vector<GridCell>> & matrix);
+    void objectsToDrawables(std::vector<std::shared_ptr<IObject>> & drawables,
+                            std::vector<std::vector<GridCell>> & matrix);
 
     ///\brief
-    ///fileToUi function
+    /// fileToUi function
     ///\details
-    /*turns te information in the given file into drawable shared pointers and returns these in a vector*/
+    /*turns te information in the given file into drawable shared pointers and
+     * returns these in a vector*/
     ///@param file
     /*std::ifstream &*/
-    std::vector<std::shared_ptr<UIElement>> fileToUi( std::istream & file );
+    std::vector<std::shared_ptr<UIElement>> fileToUi(std::istream & file);
 };
 #endif

@@ -1,11 +1,16 @@
 #ifndef UIELEMENT_HPP
 #define UIELEMENT_HPP
 
-#include<SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <string>
 
 #include <support.hpp>
 
+///@file
+///\brief
+/// UiElement class
+///\details
+/*class to create UIElements that can be used in menus*/
 class UIElement {
   private:
     sf::Text label;
@@ -16,8 +21,7 @@ class UIElement {
     sf::Color fontColor;
 
   public:
-    UIElement(sf::Vector2f position,
-              std::string labelText = "Placeholder",
+    UIElement(sf::Vector2f position, std::string labelText = "Placeholder",
               sf::Color labelColor = sf::Color::Cyan,
               sf::Color fontColor = sf::Color::Blue,
               sf::Color borderColor = sf::Color::Magenta,
@@ -46,33 +50,51 @@ class UIElement {
     /// Set the position of the switch to the target.
     ///@param target
     /*sf::Vector2f containing the new position of the object.*/
-    void setPosition(sf::Vector2f target) ;
-
-    void setLabelPosition();
+    void setPosition(sf::Vector2f target);
 
     ///\brief
-    /// Set the color of the object.
-    ///@param color
-    /*sf::Color the new color of the object.*/
+    /// setLabelPosition function
+    ///\details
+    /*function that sets the text insude the rectangle*/
+    void setLabelPosition();
 
     ///\brief
     /// Draw the object to the given window.
     ///@param window
     /*The window the object should be drawn to.*/
-    void draw(sf::RenderWindow & window) ;
+    void draw(sf::RenderWindow & window);
 
     ///\brief
     /// Returns the outer boundaries of the switch object
     ///@return sf::FloatRect
-    sf::FloatRect getBounds() ;
+    sf::FloatRect getBounds();
 
     ///\brief
     /// Function to get the position.
+    ///@return sf::vector2f
     sf::Vector2f getPosition();
 
+    ///\brief
+    /// setBorderColor
+    ///\details
+    /*sets the rectangle around the text to the given color*/
+    ///@param color
+    /*sf::Color*/
     void setBorderColor(sf::Color color);
 
+    ///\brief
+    /// setText function
+    ///\details
+    /*sets the text of the elemetn to the given string*/
+    ///@param text
+    /*std::string*/
     void setText(std::string text);
+
+    ///\brief
+    /// getText function
+    ///\details
+    /*returns the text of the element*/
+    ///@return std::string
     std::string getText();
 };
 

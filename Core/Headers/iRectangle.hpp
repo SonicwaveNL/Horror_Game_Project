@@ -4,6 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <iObject.hpp>
 
+///@file
+///\brief
+/// IRectangle class
+///\details
+/*a class that creates a rectangle using sfml*/
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
@@ -11,8 +16,7 @@ class IRectangle : public IObject {
   public:
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
-               sf::Color color = sf::Color::Transparent, 
-               float speed = 0,
+               sf::Color color = sf::Color::Transparent, float speed = 0,
                objectType type = objectType::Abstract,
                sf::Vector2f size = sf::Vector2f(20.f, 20.f))
         : IObject(objects, color, speed, type) {
@@ -73,8 +77,6 @@ class IRectangle : public IObject {
     ///@return void
     virtual void collision(IObject & obj) = 0;
 
-
-
     ///\brief
     /// Get IObject GlobalBounds.
     ///\details
@@ -83,15 +85,14 @@ class IRectangle : public IObject {
     virtual sf::FloatRect getBounds() = 0;
 
     ///\brief
-    ///Set the size of the object.
+    /// Set the size of the object.
     ///@param size
     /*A vector2f containing the new size of the object.s*/
     void setSize(sf::Vector2f size);
-    
-    ///\brief
-    ///Function to get the position.
-    virtual sf::Vector2f getPosition() = 0;
 
+    ///\brief
+    /// Function to get the position.
+    virtual sf::Vector2f getPosition() = 0;
 };
 
 #endif

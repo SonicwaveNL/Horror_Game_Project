@@ -8,7 +8,7 @@
 ///\brief
 /// ICircle class
 ///\details
-/*class for creating circle using sfml*/
+/*class for creating a circle using sfml*/
 class ICircle : public IObject {
   protected:
     sf::CircleShape iCirc;

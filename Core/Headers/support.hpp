@@ -19,7 +19,8 @@
 //     }
 //     while ((entry = readdir(dir)) != NULL) {
 //         std::string fileName = entry->d_name;
-//         if( fileName.find(".txt") < std::string::npos && fileName.find("level") < std::string::npos ){
+//         if( fileName.find(".txt") < std::string::npos &&
+//         fileName.find("level") < std::string::npos ){
 //             returnVector.push_back( fileName );
 //         }
 //     }
@@ -31,13 +32,7 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
-enum class gameState {
-    Menu,
-    SelectMap,
-    Play,
-    Editor,
-    Quit
-};
+enum class gameState { Menu, SelectMap, Play, Editor, Quit };
 
 enum class objectType {
     Abstract,

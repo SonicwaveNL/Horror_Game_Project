@@ -1,2 +1,2 @@
-UIELEMENT (50,50) yellow Playtest red
+UIELEMENT (50,50) (0,0) yellow Playtest red
 END

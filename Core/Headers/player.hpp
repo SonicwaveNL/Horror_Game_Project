@@ -33,18 +33,11 @@ class Player : public IRectangle {
      * within*/
     ///@param color
     /*a SFML sf::Color, this is the color of the texture.*/
-    Player(
-      sf::Vector2f position,
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color(255, 98, 0), 
-      float speed = 5, objectType type = objectType::Player
-      ): 
-      IRectangle(
-        position, 
-        objects, 
-        color, 
-        speed, type){}
-  
+    Player(sf::Vector2f position,
+           std::vector<std::shared_ptr<IObject>> & objects,
+           sf::Color color = sf::Color(255, 98, 0), float speed = 5,
+           objectType type = objectType::Player)
+        : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief
     /// Draw IObject on window
@@ -61,11 +54,6 @@ class Player : public IRectangle {
     ///@param direction
     /*sf::Vector2f*/
     void move(sf::Vector2f direction) override;
-
-    ///\brief
-    ///Set the color of the object.
-    ///@param color
-    /*The new color of the object.*/
 
     ///\brief
     /// Move Player to direction, if possible.
@@ -91,8 +79,9 @@ class Player : public IRectangle {
     ///@param obj
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
+
     ///\brief
-    ///Function to get the position.
+    /// Function to get the position.
     sf::Vector2f getPosition() override;
 
     ///\brief

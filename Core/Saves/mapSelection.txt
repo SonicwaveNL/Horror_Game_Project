@@ -1,4 +1,4 @@
-UIELEMENT (50,50) yellow MapSelection red
-UIELEMENT (50,250) yellow level1.txt red
-UIELEMENT (50,450) yellow custom.txt red
+UIELEMENT (50,50) (0,0) yellow MapSelection red
+UIELEMENT (50,250) (0,0) yellow level1.txt red
+UIELEMENT (50,450) (0,0) yellow custom.txt red
 END

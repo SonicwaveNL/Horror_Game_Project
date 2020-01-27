@@ -20,12 +20,12 @@
 ///@file
 
 ///\brief
-/// Game class to present demo
+/// Game class, this class runs the entire game with the run function()
 class Game {
   private:
     int difficulty = 100;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-        sf::Style::Fullscreen};
+                            sf::Style::Fullscreen};
 
     FileFactory factory;
 
@@ -38,7 +38,7 @@ class Game {
 
     std::shared_ptr<Monster> monster;
     std::shared_ptr<Player> player;
-    
+
     std::vector<std::shared_ptr<UIElement>> MenuUI;
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
@@ -61,34 +61,38 @@ class Game {
                [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
         Action(actionKeyword::right,
                [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); }),
-        Action(actionKeyword::action1, [=]() {
-            int switchCount = 0;
+        Action(actionKeyword::action1,
+               [=]() {
+                   int switchCount = 0;
 
-            for (size_t i = 1; i < winFactors.size(); i++) {
-                std::shared_ptr<Switch> s =
-                    std::static_pointer_cast<Switch>(winFactors[i]);
-                s->collision(*characters[0]);
+                   for (size_t i = 1; i < winFactors.size(); i++) {
+                       std::shared_ptr<Switch> s =
+                           std::static_pointer_cast<Switch>(winFactors[i]);
+                       s->collision(*characters[0]);
 
-                if (s->isActive()) {
-                    switchCount++;
-                }
-            }
-            if (switchCount == winFactors.size() - 1) {
-                std::shared_ptr<Door> door =
-                    std::static_pointer_cast<Door>(winFactors[0]);
-                door->setOpenState(true);
-            }
-        }),
-        Action(actionKeyword::escape, [=](){currentState = gameState::Menu; loaded=false;})
-    };
+                       if (s->isActive()) {
+                           switchCount++;
+                       }
+                   }
+                   if (switchCount == winFactors.size() - 1) {
+                       std::shared_ptr<Door> door =
+                           std::static_pointer_cast<Door>(winFactors[0]);
+                       door->setOpenState(true);
+                   }
+               }),
+        Action(actionKeyword::escape, [=]() {
+            currentState = gameState::Menu;
+            loaded = false;
+        })};
 
-    Action editorActions[9] = {
+    Action editorActions[10] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
         Action(sf::Keyboard::Num1, [=]() { cellType = objectType::Wall; }),
         Action(sf::Keyboard::Num2, [=]() { cellType = objectType::Switch; }),
         Action(sf::Keyboard::Num3, [=]() { cellType = objectType::Door; }),
         Action(sf::Keyboard::Num4, [=]() { cellType = objectType::Player; }),
         Action(sf::Keyboard::Num5, [=]() { cellType = objectType::Monster; }),
+        Action(sf::Keyboard::Tab, [=]() { draw( EditorUI); }),
         Action(sf::Mouse::Button::Left,
                [&]() {
                    sf::Vector2f mousePos =
@@ -103,8 +107,11 @@ class Game {
                    int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
                    grid[index[0]][index[1]].setCellType(objectType::Floor);
                }),
-        Action(sf::Keyboard::Escape,
-               [=] { factory.writeToFile(grid, "Core/Saves/custom.txt"); loaded =false; currentState = gameState::Menu;})};
+        Action(sf::Keyboard::Escape, [=] {
+            factory.writeToFile(grid, "Core/Saves/custom.txt");
+            loaded = false;
+            currentState = gameState::Menu;
+        })};
 
     ///\brief
     /// Loads the objects from the 'main' vector into their appropriate
@@ -113,13 +120,35 @@ class Game {
      * at index 0, monsters after that etc.*/
     void loadSubVectors();
 
+    ///\brief
+    /// draw function
+    ///\details
+    /*function that prints the given vectors of shared pointers of drawables to
+     * the screen.*/
+    ///@param drawables
+    /*std::vector<std::shared_prt<IObject>> &*/
     void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+
+    ///\brief
+    /// draw function
+    ///\details
+    /*function that prints the given vectors of shared pointers of drawables to
+     * the screen.*/
+    ///@param uiElements
+    /*std::vector<std::shared_prt<UIElement>> &*/
     void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
+
+    ///\brief
+    /// draw function
+    ///\details
+    /*function that prints the given vectors of shared pointers of drawables to
+     * the screen.*/
+    ///@param grid
+    /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
 
   public:
-
-    Game(){
+    Game() {
         grid = createGrid(window.getSize());
         std::ifstream file;
 
@@ -134,7 +163,7 @@ class Game {
         file.open("Core/Saves/play.txt");
         PlayUI = factory.fileToUi(file);
         file.close();
-         
+
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
         file.close();

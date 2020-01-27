@@ -28,4 +28,4 @@ class WindowHandler {
     void draw(std::vector<IObject *> & objects);
 };
 
-#endif // WindowHandler_hpp
+#endif // WindowHandler_hpps
