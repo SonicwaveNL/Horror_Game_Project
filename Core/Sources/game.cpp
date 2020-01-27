@@ -15,18 +15,18 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
         for (size_t j = 0; j < amountOfRow; j++) {
             int posY = (int)y / PIXEL16;
             shapeMatrix[posX].push_back(
-                GridCell((sf::Vector2f(x, y)), drawables, &gameTextures[objectType::Switch][1]));
+                GridCell((sf::Vector2f(x, y)), drawables, &gameTextures[objectType::Floor][0]));
             if (i == 0 || i == (amountOfColumn - 1) || j == 0 ||
                 j == (amountOfRow - 1)) {
-                shapeMatrix[posX][posY].setCellType(objectType::Wall);
+                shapeMatrix[posX][posY].setCellType(objectType::Wall,&gameTextures[objectType::Wall][0]);
             }
             y += PIXEL16;
         }
         x += PIXEL16;
         y = 0;
     }
-    shapeMatrix[30][30].setCellType(objectType::Player);
-    shapeMatrix[PIXEL16][PIXEL16].setCellType(objectType::Monster);
+    shapeMatrix[30][30].setCellType(objectType::Player,&gameTextures[objectType::Player][0]);
+    shapeMatrix[20][20].setCellType(objectType::Monster,&gameTextures[objectType::Monster][0]);
     return shapeMatrix;
 }
 
@@ -85,7 +85,7 @@ void Game::loadSubVectors() {
 
                 break;
 
-            case objectType::Wall:
+            default:
                 gameObjects.push_back(obj);
                 break;
         }
@@ -324,6 +324,7 @@ void Game::run() {
                 loaded = true;
             }
             //show instructions once*
+            window.draw(bgSprite);
             draw(drawables);
             draw(PlayUI);
             for(auto & action : playingActions){
@@ -348,6 +349,7 @@ void Game::run() {
 
         case gameState::Editor:
             //show instructions once*
+            window.draw(bgSprite);
             draw(grid);
             for(auto & action : editorActions){
                 action();

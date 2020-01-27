@@ -38,14 +38,14 @@ void Player::collision(IObject & obj) {
     
     switch(obj.getType()){
         case objectType::Wall:{
-            iRect.setPosition(prevPosition);
+            setPosition(prevPosition);
             break;
         }
 
         case objectType::Door:{
             Door * d = dynamic_cast<Door*>(&obj);
             if(d->getOpenState()){
-                iRect.setPosition(prevPosition);
+                setPosition(prevPosition);
                 win = true;
             }
         break;

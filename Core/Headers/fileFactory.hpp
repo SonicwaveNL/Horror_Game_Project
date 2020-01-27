@@ -10,6 +10,7 @@
 #include <gridCell.hpp>
 #include <wall.hpp>
 #include <player.hpp>
+#include <floor.hpp>
 #include <monster.hpp>
 #include <switch.hpp>
 #include <door.hpp>

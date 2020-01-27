@@ -7,6 +7,7 @@
 #include <action.hpp>
 #include <gridCell.hpp>
 #include <iObject.hpp>
+#include <floor.hpp>
 #include <memory>
 #include <monster.hpp>
 #include <player.hpp>
@@ -24,13 +25,16 @@
 /// Game class to present demo
 class Game {
   private:
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};//,
-        // sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
+        sf::Style::Fullscreen};
 
     FileFactory factory;
 
     std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
     sf::Image textureSource;
+    sf::Image bgSource;
+    sf::Texture bgTexture;
+    sf::Sprite bgSprite;
 
     std::vector<std::shared_ptr<IObject>> drawables;
     
@@ -101,14 +105,14 @@ class Game {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
                    int index[2] = {int(mousePos.x) / PIXEL16, int(mousePos.y) / PIXEL16};
-                   grid[index[0]][index[1]].setCellType(cellType);
+                   grid[index[0]][index[1]].setCellType(cellType,&gameTextures[cellType][0]);
                }),
         Action(sf::Mouse::Button::Right,
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
                    int index[2] = {int(mousePos.x) / PIXEL16, int(mousePos.y) / PIXEL16};
-                   grid[index[0]][index[1]].setCellType(objectType::Floor);
+                   grid[index[0]][index[1]].setCellType(objectType::Floor,&gameTextures[objectType::Floor][0]);
                }),
         Action(sf::Keyboard::Escape,
                [=] { factory.writeToFile(grid, "Core/Saves/custom.txt"); loaded =false; currentState = gameState::Menu;})};
@@ -129,6 +133,11 @@ class Game {
   public:
 
     Game(){
+        bgSource.loadFromFile("Resources/Textures/background.png");
+        bgTexture.loadFromImage(bgSource,sf::IntRect{sf::Vector2i{0,0},sf::Vector2i{window.getSize().x,window.getSize().y}});
+        bgSprite.setTexture(bgTexture);
+        bgSprite.setPosition(sf::Vector2f{0,0});
+        
         gameTextures = loadTextures("Resources/Textures/"+textureFile , textureSource);
 
         grid = createGrid(window.getSize());

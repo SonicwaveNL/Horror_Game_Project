@@ -31,7 +31,7 @@ class GridCell : public IRectangle {
       Color : White, Size : 20x20 */
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
-             sf::Color color = sf::Color::White, float speed = 0,
+             sf::Color color = sf::Color::Transparent, float speed = 0,
              objectType type = objectType::GridCell)
         : IRectangle(position, objects, color, speed, type) {
         iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
@@ -40,7 +40,7 @@ class GridCell : public IRectangle {
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
               sf::Texture * texture,
-             sf::Color color = sf::Color::Blue, float speed = 0,
+             sf::Color color = sf::Color::Transparent, float speed = 0,
              objectType type = objectType::GridCell)
         : IRectangle(position, objects, texture, color, speed, type) {
         iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
@@ -115,6 +115,14 @@ class GridCell : public IRectangle {
     ///@param type
     /*objectType*/
     void setCellType(objectType type);
+
+     ///\brief
+    /// Sets the type of the GridCell.
+    ///@param type
+    /*objectType*/
+    void setCellType(objectType type, sf::Texture * texture);
+
+    void setTexture(sf::Texture * texture);
 
     ///\brief
     /// Gets the type of the GridCell.

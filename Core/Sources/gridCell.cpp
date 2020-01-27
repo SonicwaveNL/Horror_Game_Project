@@ -38,13 +38,40 @@ void GridCell::setCellType(objectType type) {
     cellType = type;
 }
 
+void GridCell::setCellType(objectType type, sf::Texture * texture) { 
+    if(type == objectType::Floor){
+        setColor(sf::Color::Transparent);
+    } else if (type == objectType::Wall) {
+        setColor(sf::Color::Red);
+        setTexture(texture);
+    } else if (type == objectType::Switch) {
+        setColor(sf::Color::Green);
+        setTexture(texture);
+    } else if (type == objectType::Door) {
+        setColor(sf::Color::Magenta);
+        setTexture(texture);
+    } else if (type == objectType::Player) {
+        setColor(sf::Color::Transparent);
+        setTexture(texture);
+    } else if (type == objectType::Monster) {
+        setColor(sf::Color::Transparent);
+        setTexture(texture);
+    }
+    cellType = type;
+}
+
 objectType GridCell::getCellType() { return cellType; }
 
 sf::FloatRect GridCell::getBounds() { return iRect.getGlobalBounds(); }
 
-
+void GridCell::setTexture(sf::Texture * _texture){
+    texture = _texture;
+    sprite.setTexture(*texture);
+}
 
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);
-    window.draw(sprite);
+    if(cellType != objectType::Floor){
+        window.draw(sprite);
+    }
 }

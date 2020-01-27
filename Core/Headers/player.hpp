@@ -35,7 +35,7 @@ class Player : public IRectangle {
       sf::Vector2f position,
       std::vector<std::shared_ptr<IObject>> & objects,
       sf::Color color = sf::Color(255, 98, 0), 
-      float speed = 5, objectType type = objectType::Player
+      float speed = 4, objectType type = objectType::Player
       ): 
       IRectangle(
         position, 
@@ -48,7 +48,7 @@ class Player : public IRectangle {
       std::vector<std::shared_ptr<IObject>> & objects,
       sf::Texture * texture,
       sf::Color color = sf::Color(255, 98, 0), 
-      float speed = 5, objectType type = objectType::Player
+      float speed = 4, objectType type = objectType::Player
       ): 
       IRectangle(
         position, 
