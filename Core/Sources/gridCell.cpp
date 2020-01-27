@@ -69,6 +69,10 @@ void GridCell::setTexture(sf::Texture * _texture){
     sprite.setTexture(*texture);
 }
 
+bool GridCell::isWalkable(){
+    return cellType != objectType::Wall;
+}
+
 void GridCell::draw(sf::RenderWindow & window) {
     window.draw(iRect);
     if(cellType != objectType::Floor){

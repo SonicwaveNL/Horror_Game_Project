@@ -1,11 +1,8 @@
 #include <../Headers/door.hpp>
 
-void Door::moveIfPossible(sf::Vector2f direction) {
-    return;
-}
+void Door::moveIfPossible(sf::Vector2f direction) { return; }
 
-
-void Door::move(sf::Vector2f direction){
+void Door::move(sf::Vector2f direction) {
     prevPosition = iRect.getPosition();
     sf::Vector2f position = iRect.getPosition() + direction * speed;
 
@@ -20,20 +17,14 @@ void Door::setPosition(sf::Vector2f target) { return; }
 
 void Door::collision(IObject & obj) { return; }
 
-void Door::setOpenState(bool state){
-    isOpen = state;
-}
-bool Door::getOpenState(){
-    return isOpen;
-}
+void Door::setOpenState(bool state) { isOpen = state; }
+bool Door::getOpenState() { return isOpen; }
 
-void Door::draw(sf::RenderWindow & window) { 
-    window.draw(iRect); 
+void Door::draw(sf::RenderWindow & window) {
+    window.draw(iRect);
     window.draw(sprite);
-    }
+}
 
 sf::FloatRect Door::getBounds() { return iRect.getGlobalBounds(); }
 
-sf::Vector2f Door::getPosition(){
-    return iRect.getPosition();
-}
+sf::Vector2f Door::getPosition() { return iRect.getPosition(); }

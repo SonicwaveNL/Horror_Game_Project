@@ -20,9 +20,9 @@ class GridCell : public IRectangle {
     objectType cellType = objectType::Floor;
 
   public:
-    int value = 0;
+    // stuff for the AI
+    int64_t value = 0;
     bool visited = false;
-    bool isWalkAble = true;
 
     ///\brief
     /// GridCell constructor.
@@ -35,12 +35,11 @@ class GridCell : public IRectangle {
     };
 
     ///\brief
-    ///GridCell constructor, supports texture.
+    /// GridCell constructor, supports texture.
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
-              sf::Texture * texture,
-             sf::Color color = sf::Color::Transparent, float speed = 0,
-             objectType type = objectType::GridCell)
+             sf::Texture * texture, sf::Color color = sf::Color::Transparent,
+             float speed = 0, objectType type = objectType::GridCell)
         : IRectangle(position, objects, texture, color, speed, type) {
         iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
     };
@@ -112,14 +111,14 @@ class GridCell : public IRectangle {
     /*objectType*/
     void setCellType(objectType type);
 
-     ///\brief
+    ///\brief
     /// Sets the type of the GridCell.
     ///@param type
     /*objectType*/
     void setCellType(objectType type, sf::Texture * texture);
 
     ///\brief
-    ///Sets the texture of the GridCell.
+    /// Sets the texture of the GridCell.
     ///@param texture
     /*sf::Texture* */
     void setTexture(sf::Texture * texture);
@@ -128,6 +127,16 @@ class GridCell : public IRectangle {
     /// Gets the type of the GridCell.
     ///@return objectType
     objectType getCellType();
+
+    ///\brief
+    /// Function to check if cell is walkable
+    ///@return bool
+    bool isWalkable();
+
+    ///\brief
+    /// Function to check if a gridcell contains an SFML object
+    ///@return bool
+    bool contains();
 
     ///\brief
     ///= operator.

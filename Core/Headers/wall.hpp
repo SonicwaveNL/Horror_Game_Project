@@ -23,36 +23,17 @@ class Wall : public IRectangle {
     ///@param color
     /*An SFML colour, which the wall will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Wall
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        color,
-        speed,
-        type
-      ) {}
+    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Color color = sf::Color::White, float speed = 0,
+         objectType type = objectType::Wall)
+        : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief
-    ///Wall constructor, supports texture.
-    Wall(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Texture * texture,
-      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Wall
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        texture,
-        color,
-        speed,
-        type
-      ) {}
-
+    /// Wall constructor, supports texture.
+    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Texture * texture, sf::Color color = sf::Color::White,
+         float speed = 0, objectType type = objectType::Wall)
+        : IRectangle(position, objects, texture, color, speed, type) {}
 
     ///\brief
     /// Move IObject to direction.
@@ -109,9 +90,12 @@ class Wall : public IRectangle {
     /*Returns the rectangle the object is surrounded by.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
-    
+
     ///\brief
-    ///Function to get the position.
+    /// getPosition function
+    ///\details
+    /*returns the position of the object*/
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 };
 

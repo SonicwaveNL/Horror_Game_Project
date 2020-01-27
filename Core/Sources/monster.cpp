@@ -1,8 +1,8 @@
+#include <math.h>
 #include <../Headers/monster.hpp>
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
   prevPosition = iRect.getPosition();
-
   iRect.setPosition(iRect.getPosition() + direction * speed);
   for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
@@ -17,13 +17,12 @@ bool Monster::intersect(IObject& obj) {
 
 void Monster::setPosition(sf::Vector2f target) {
   prevPosition = iRect.getPosition();
-  // position = target;
   iRect.setPosition(target);
   sprite.setPosition(target);
 }
 
 void Monster::collision(IObject& obj) {
-  if (obj.getType() == objectType::Monster) {
+  if (obj.getType() == objectType::Player) {
     std::cout << "Monster attacked player" << std::endl;
     // position = prevPosition;
     // iRect.setPosition(position);
@@ -37,16 +36,15 @@ void Monster::move(sf::Vector2f position) {
     setPosition(position);
 }
 
+void Monster::moveOld(){
+  setPosition(iRect.getPosition() + oldDirection * speed);
+}
 
 void Monster::draw(sf::RenderWindow& window) {
   window.draw(iRect);
   window.draw(sprite);
 }
 
-sf::FloatRect Monster::getBounds() {
-  return iRect.getGlobalBounds();
-}
+sf::FloatRect Monster::getBounds() { return iRect.getGlobalBounds(); }
 
-sf::Vector2f Monster::getPosition() {
-  return iRect.getPosition();
-}
+sf::Vector2f Monster::getPosition() { return iRect.getPosition(); }

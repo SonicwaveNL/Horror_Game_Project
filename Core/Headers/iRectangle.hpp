@@ -6,7 +6,9 @@
 
 ///@file
 ///\brief
-///The IRectangle class for rectangular shapes, inherits from IObjects.
+/// IRectangle class
+///\details
+/*a class that creates a rectangle using sfml*/
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
@@ -15,11 +17,10 @@ class IRectangle : public IObject {
 
   public:
     ///\brief
-    ///IRectangle constructor.
+    /// IRectangle constructor.
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
-               sf::Color color = sf::Color::Transparent, 
-               float speed = 0,
+               sf::Color color = sf::Color::Transparent, float speed = 0,
                objectType type = objectType::Abstract,
                sf::Vector2f size = sf::Vector2f(16.f, 16.f))
         : IObject(objects, color, speed, type) {
@@ -29,22 +30,19 @@ class IRectangle : public IObject {
     }
 
     ///\brief
-    ///IRectangle constructor, supports texture.
+    /// IRectangle constructor, supports texture.
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
-               sf::Texture * texture,
-               sf::Color color = sf::Color::Transparent, 
-               float speed = 0,
-               objectType type = objectType::Abstract,
+               sf::Texture * texture, sf::Color color = sf::Color::Transparent,
+               float speed = 0, objectType type = objectType::Abstract,
                sf::Vector2f size = sf::Vector2f(16.f, 16.f))
-        : IObject(objects, color, speed, type),
-        texture(texture) {
+        : IObject(objects, color, speed, type), texture(texture) {
         iRect.setPosition(position);
         iRect.setSize(size);
         setColor(color);
         sprite.setPosition(position);
         sprite.setTexture(*texture);
-    } 
+    }
 
     ///\brief
     /// Move IObject to direction.
@@ -80,7 +78,7 @@ class IRectangle : public IObject {
     virtual void setPosition(sf::Vector2f target) = 0;
 
     ///\brief
-    ///Sets the color
+    /// Sets the color
     ///@param color
     /*sf::Color*/
     void setColor(sf::Color color) override;
@@ -110,15 +108,14 @@ class IRectangle : public IObject {
     virtual sf::FloatRect getBounds() = 0;
 
     ///\brief
-    ///Set the size of the object.
+    /// Set the size of the object.
     ///@param size
     /*A vector2f containing the new size of the object.s*/
     void setSize(sf::Vector2f size);
-    
-    ///\brief
-    ///Function to get the position.
-    virtual sf::Vector2f getPosition() = 0;
 
+    ///\brief
+    /// Function to get the position.
+    virtual sf::Vector2f getPosition() = 0;
 };
 
 #endif

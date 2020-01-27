@@ -23,34 +23,17 @@ class Floor : public IRectangle {
     ///@param color
     /*An SFML colour, which the Floor will be when the texture isn't loaded.
     Defaults to black.*/
-    Floor(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Floor
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        color,
-        speed,
-        type
-      ) {}
+    Floor(sf::Vector2f position,
+          std::vector<std::shared_ptr<IObject>> & objects,
+          sf::Color color = sf::Color::White, float speed = 0,
+          objectType type = objectType::Floor)
+        : IRectangle(position, objects, color, speed, type) {}
 
-    Floor(
-      sf::Vector2f position, 
-      std::vector<std::shared_ptr<IObject>> & objects,
-      sf::Texture * texture,
-      sf::Color color = sf::Color::White, float speed = 0,objectType type = objectType::Floor
-    ): 
-      IRectangle(
-        position, 
-        objects, 
-        texture,
-        color,
-        speed,
-        type
-      ) {}
-
+    Floor(sf::Vector2f position,
+          std::vector<std::shared_ptr<IObject>> & objects,
+          sf::Texture * texture, sf::Color color = sf::Color::White,
+          float speed = 0, objectType type = objectType::Floor)
+        : IRectangle(position, objects, texture, color, speed, type) {}
 
     ///\brief
     /// Move IObject to direction.
@@ -73,7 +56,7 @@ class Floor : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    ///Sets the new color of the object.
+    /// Sets the new color of the object.
     ///@param color
     /*The new sf::Color of the object*/
 
@@ -113,7 +96,7 @@ class Floor : public IRectangle {
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
     ///\brief
-    ///Function to get the position.
+    /// Function to get the position.
     sf::Vector2f getPosition() override;
 };
 

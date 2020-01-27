@@ -2,9 +2,6 @@
 #include <../Headers/player.hpp>
 
 void Player::moveIfPossible(sf::Vector2f direction) {
-    // sf::Vector2f position = iRect.getPosition() + direction * speed;
-
-    // iRect.setPosition(position);
     move(direction);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {

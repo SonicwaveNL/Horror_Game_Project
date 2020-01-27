@@ -1,2 +1,20 @@
-UIELEMENT (50,50) yellow Quit red
+UIELEMENT (1520,20) (380,130) yellow empty yellow
+
+UIELEMENT (1540,25) (50,50) black FL white
+UIELEMENT (1540,85) (50,50) white 0 black
+
+UIELEMENT (1600,25) (50,50) black WA white
+UIELEMENT (1600,85) (50,50) white 1 black
+
+UIELEMENT (1660,25) (50,50) black SW white
+UIELEMENT (1660,85) (50,50) white 2 black
+
+UIELEMENT (1720,25) (50,50) black DO white
+UIELEMENT (1720,85) (50,50) white 3 black
+
+UIELEMENT (1780,25) (50,50) black PL white
+UIELEMENT (1780,85) (50,50) white 4 black
+
+UIELEMENT (1840,25) (50,50) black MO white
+UIELEMENT (1840,85) (50,50) white 5 black
 END

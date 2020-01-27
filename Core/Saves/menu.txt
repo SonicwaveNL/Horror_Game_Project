@@ -1,4 +1,4 @@
-UIELEMENT (50,50) yellow Play red
-UIELEMENT (50,250) yellow Editor red
-UIELEMENT (50,450) yellow Quit red
+UIELEMENT (50,50) (0,0) yellow Play red
+UIELEMENT (50,250) (0,0) yellow Editor red
+UIELEMENT (50,450) (0,0) yellow Quit red
 END

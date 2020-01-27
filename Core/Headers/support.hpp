@@ -22,7 +22,8 @@
 //     }
 //     while ((entry = readdir(dir)) != NULL) {
 //         std::string fileName = entry->d_name;
-//         if( fileName.find(".txt") < std::string::npos && fileName.find("level") < std::string::npos ){
+//         if( fileName.find(".txt") < std::string::npos &&
+//         fileName.find("level") < std::string::npos ){
 //             returnVector.push_back( fileName );
 //         }
 //     }
@@ -32,18 +33,9 @@
 
 ///\brief
 /// Enum class that contains input types.
-enum class inputType { 
-    keyboard, 
-    controller 
-};
+enum class inputType { keyboard, controller };
 
-enum class gameState {
-    Menu,
-    SelectMap,
-    Play,
-    Editor,
-    Quit
-};
+enum class gameState { Menu, SelectMap, Play, Editor, Quit };
 
 enum class objectType : size_t {
     Wall,
@@ -57,22 +49,13 @@ enum class objectType : size_t {
     GridCell
 };
 
-enum class floorType : size_t {
-    Default
-};
+enum class floorType : size_t { Default };
 
-enum class wallType : size_t {
-    Default
-};
+enum class wallType : size_t { Default };
 
-enum class switchType : size_t {
-    Off,
-    On
-};
+enum class switchType : size_t { Off, On };
 
-enum class doorType : size_t {
-    Default
-};
+enum class doorType : size_t { Default };
 
 enum class playerType : size_t {
     Side1,
