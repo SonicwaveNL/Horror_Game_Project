@@ -248,6 +248,7 @@ void Game::draw(std::vector<std::vector<GridCell>> & _grid) {
 }
 
 void Game::run() {
+    sound.playMusic();
     while (window.isOpen()) {
         window.clear();
         switch (currentState) {
@@ -316,6 +317,14 @@ void Game::run() {
                 for (auto & action : playingActions) {
                     action();
                 }
+
+                if (std::fabs(monster->getPosition().x - player->getPosition().x) <= 50 ||
+                    std::fabs(monster->getPosition().y - player->getPosition().y) <= 50 ) {
+                        sound.setTense();
+                } else {
+                    sound.setNormal();
+                }
+
                 // monster movement loop
                 {
                     sf::Vector2f monsterPosition = monster->getPosition();

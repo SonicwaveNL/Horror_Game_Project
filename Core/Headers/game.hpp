@@ -2,7 +2,9 @@
 #define GAME_HPP
 
 #include <IException.hpp>
+#include <sound.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <experimental/filesystem>
 #include <action.hpp>
 #include <fileFactory.hpp>
@@ -15,6 +17,7 @@
 #include <support.hpp>
 #include <switch.hpp>
 #include <vector>
+#include <math.h>
 #include <uiElement.hpp>
 
 ///@file
@@ -28,6 +31,7 @@ class Game {
                             sf::Style::Fullscreen};
 
     FileFactory factory;
+    Sound sound;
 
     std::vector<std::shared_ptr<IObject>> drawables;
     std::vector<std::vector<GridCell>> grid;
@@ -167,6 +171,7 @@ class Game {
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
         file.close();
+
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
