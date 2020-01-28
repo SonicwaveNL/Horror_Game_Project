@@ -387,7 +387,23 @@ void Game::run() {
                 if (monster->getPosition() == grid[monsterPosition.x / PIXEL16]
                                                   [monsterPosition.y / PIXEL16]
                                                       .getPosition()) {
-                    monster->moveIfPossible(findShortestStep());
+                    auto monsterDirection = findShortestStep();
+                    monster->moveIfPossible(monsterDirection);
+                    if(monsterDirection.x > 0){
+                        monster->setTexture(&gameTextures[objectType::Monster][0]);
+                    }else if(monsterDirection.x < 0){
+                        monster->setTexture(&gameTextures[objectType::Monster][0]);
+
+                    }else{
+                        if(monsterDirection.y > 0){
+                            monster->setTexture(&gameTextures[objectType::Monster][3]);
+
+                        }else if( monsterDirection.y < 0){
+                            monster->setTexture(&gameTextures[objectType::Monster][6]);
+
+                        }
+                    }
+                    
                 } else {
                     monster->moveOld();
                 }

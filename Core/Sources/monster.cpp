@@ -3,6 +3,13 @@
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
     oldDirection = direction;
+     if(direction.x < 0){
+        sprite.setScale(-1, 1);
+        sprite.setOrigin({getBounds().width, 0});
+    }else if(direction.x > 0){
+        sprite.setOrigin({0,0});
+        sprite.setScale(1,1);
+    }
     prevPosition = getPosition();
     setPosition(getPosition() + direction * speed);
     for (std::shared_ptr<IObject> obj : objects) {
