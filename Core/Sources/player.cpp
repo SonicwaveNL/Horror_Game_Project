@@ -48,6 +48,12 @@ void Player::collision(IObject & obj) {
         break;
         }
 
+
+        case objectType::Monster:{
+            lose=true;
+            break;
+        }
+
     }
 }
 
@@ -59,3 +65,6 @@ void Player::draw(sf::RenderWindow & window) {
 sf::FloatRect Player::getBounds() { return iRect.getGlobalBounds(); }
 
 bool Player::checkWin() { return win; }
+bool Player::checkLose(){return lose;}
+
+void Player::reset(){win=false;lose=false;}

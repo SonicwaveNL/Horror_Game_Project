@@ -153,11 +153,9 @@ class Game {
     ///\brief
     /// draw function
     ///\details
-    /*function that prints the given vectors of shared pointers of drawables to
-     * the screen.*/
-    ///@param drawables
-    /*std::vector<std::shared_prt<IObject>> &*/
-    void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+    /*function that draws the game objects in the right order. 
+    It draws the floor underneath the player and enemy, the switches and doors also get drawn underneath the player and enemy, etc.*/
+    void draw();
 
     ///\brief
     /// draw function

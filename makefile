@@ -26,7 +26,7 @@ inputListener.o: inputListener.hpp inputListener.cpp
 iObject.o: iObject.hpp iObject.cpp
 iRectangle.o: iRectangle.hpp iRectangle.cpp iObject.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
-monster.o : monster.hpp monster.cpp door.hpp iRectangle.hpp wall.hpp
+monster.o : monster.hpp monster.cpp door.hpp iRectangle.hpp wall.hpp player.hpp
 player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
 sound.o: sound.hpp sound.cpp
 switch.o: switch.hpp switch.cpp iRectangle.hpp player.hpp

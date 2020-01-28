@@ -16,7 +16,7 @@
 class Player : public IRectangle {
   private:
     bool win = false;
-
+    bool lose = false;
   public:
     ///\brief
     /// Player object constructor.
@@ -41,7 +41,7 @@ class Player : public IRectangle {
     /// Player constructor, supports texture.
     Player(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Texture * texture, sf::Color color = sf::Color(255, 98, 0),
+           sf::Texture * texture, sf::Color color = sf::Color::Transparent,
            float speed = 4, objectType type = objectType::Player)
         : IRectangle(position, objects, texture, color, speed, type) {}
 
@@ -110,6 +110,15 @@ class Player : public IRectangle {
     /// Check the win variable.
     ///@return bool
     bool checkWin();
+
+    ///\brief
+    /// Check the lose variable.
+    ///@return bool
+    bool checkLose();
+
+    ///\brief
+    ///Reset the player lose and win vars
+    void reset();
 };
 
 #endif // PLAYER_HPP
