@@ -70,7 +70,33 @@ class Game {
 
     bool loaded = false;
 
-    Action playingActions[6] = {
+    Action playingActions[7] = {
+        Action(sf::Keyboard::Tab,
+               [=]() {
+                   int switchCount = 0;
+
+                   for (size_t i = 1; i < winFactors.size(); i++) {
+                       std::shared_ptr<Switch> s =
+                           std::static_pointer_cast<Switch>(winFactors[i]);
+                       s->collision(*characters[0]);
+
+                       if (s->isActive()) {
+                           switchCount++;
+                       }
+                   }
+                   std::cout << "switCount: " <<switchCount;
+                   int counter = 0;
+                   for (auto & item : PlayUI) {
+                       if (switchCount >= 0) {
+                           item->setText("*");
+                       }
+                       if (counter < winFactors.size()) {
+                           item->draw(window);
+                       }
+                       counter++;
+                       switchCount--;
+                   }
+               }),
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
         Action(actionKeyword::down,

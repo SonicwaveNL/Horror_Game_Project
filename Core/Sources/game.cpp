@@ -349,10 +349,14 @@ void Game::run() {
                     loaded = true;
                 }
 
+                window.draw(bgSprite);
+                draw(drawables);
+
                 for (auto & action : playingActions) {
                     action();
                 }
 
+                //sound
                 if (std::fabs(monster->getPosition().x -
                               player->getPosition().x) <= 50 ||
                     std::fabs(monster->getPosition().y -
@@ -363,7 +367,6 @@ void Game::run() {
                 }
 
                 // monster movement loop
-
                 sf::Vector2f monsterPosition = monster->getPosition();
 
                 if (monster->getPosition() == grid[monsterPosition.x / PIXEL16]
@@ -372,13 +375,6 @@ void Game::run() {
                     std::cout << "calling find shoretst.....\n";
                     monster->moveIfPossible(findShortestStep());
                 } else {
-                    // std::cout << "monster pos: " << monster->getPosition().x
-                    // << ", "
-                    //           << monster->getPosition().y << std::endl;
-                    // std::cout << "gridPos: " <<
-                    // grid[myXPos][myYPos].getPosition().x
-                    //           << ", " << grid[myXPos][myYPos].getPosition().y
-                    //           << std::endl;
                     std::cout << "calling moveOld.....\n";
                     monster->moveOld();
                 }
@@ -396,12 +392,6 @@ void Game::run() {
                     std::cout << "You won the game!" << std::endl;
                     break;
                 }
-                // show instructions once*
-                window.draw(bgSprite);
-                draw(drawables);
-                draw(PlayUI);
-
-                // add actions to remove instructions
                 break;
             }
 
