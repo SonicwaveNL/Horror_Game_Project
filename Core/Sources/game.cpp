@@ -25,9 +25,9 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
         x += 20;
         y = 0;
     }
-    shapeMatrix[30][30].setCellType(objectType::Player);
-    shapeMatrix[20][20].setCellType(objectType::Monster);
-    shapeMatrix[10][10].setCellType(objectType::Wall);
+    // shapeMatrix[30][30].setCellType(objectType::Player);
+    // shapeMatrix[20][20].setCellType(objectType::Monster);
+    // shapeMatrix[10][10].setCellType(objectType::Wall);
     return shapeMatrix;
 }
 
@@ -299,6 +299,11 @@ void Game::run() {
                     std::cout << "Loaded game.\n";
                     std::ifstream file("Core/Saves/" + chosenMap);
                     if (file) {
+                        for( auto & row : grid){
+                            for( auto & item : row){
+                                item.setCellType(objectType::Floor);
+                            }
+                        }
                         factory.loadMatrixFromFile(grid, file);
                     } else {
                         currentState = gameState::Menu;
@@ -357,13 +362,10 @@ void Game::run() {
                 break;
 
             case gameState::Editor:
-                // show instructions once*
                 draw(grid);
-                // draw(EditorUI);
                 for (auto & action : editorActions) {
                     action();
                 }
-                // add actions to remove instructions
                 break;
 
             case gameState::Quit:

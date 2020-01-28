@@ -7,35 +7,33 @@
 
 ///@file
 ///\brief
-///Sound class
+/// Sound class
 ///\details
 /*class that produces the background music*/
 class Sound {
   private:
     sf::Music music;
+
   public:
     Sound() {
         music.openFromFile("Resources/Sounds/ambient.ogg");
         music.setLoop(true);
     }
 
-    
     ///\brief
-    ///playMusic function
+    /// playMusic function
     ///\details
     /*plays the background music*/
     void playMusic();
 
-    
     ///\brief
-    ///setTense function
+    /// setTense function
     ///\details
     /*setTense function that sets the music to tense mode*/
     void setTense();
 
-    
     ///\brief
-    ///setNormal
+    /// setNormal
     ///\details
     /*setNormal function that sets the msuic to normal mode*/
     void setNormal();
