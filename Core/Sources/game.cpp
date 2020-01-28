@@ -429,30 +429,21 @@ void Game::run() {
             }
             case gameState::WinState: {
                 static int counter = 0;
-                const int countMax = 200;
+                const int countMax = 400;
+
                 auto tmp = *winloseUI[0];
                 auto tmp_button = std::make_shared<UIElement>(tmp);
-                tmp_button->setText("You Won The Game");
-                std::vector<std::shared_ptr<UIElement>> tmp_vector = {
-                    tmp_button};
 
-                draw(tmp_vector);
-                counter++;
+                sf::Font winFont;
+                winFont.loadFromFile("Resources/winlose.ttf");
 
-                if (counter == countMax) {
-                    currentState = gameState::Menu;
-                    player->reset();
-                }
-                break;
-            }
-            case gameState::LoseState: {
-                static int counter = 0;
-                const int countMax = 200;
-                auto tmp = *winloseUI[0];
-                auto tmp_button = std::make_shared<UIElement>(tmp);
-                tmp_button->setText("You Lost The Game");
+                tmp_button->setFont(&winFont);
+                tmp_button->setText("YOU WON!");
                 tmp_button->setTextSize(100);
-                tmp_button->setPosition({(window.getSize().x/2-tmp_button->getBounds().width/2), (window.getSize().y/2-tmp_button->getBounds().height/2)});
+                tmp_button->setPosition({(window.getSize().x / 2 -
+                                          tmp_button->getBounds().width / 2),
+                                         (window.getSize().y / 2 -
+                                          tmp_button->getBounds().height / 2)});
                 std::vector<std::shared_ptr<UIElement>> tmp_vector = {
                     tmp_button};
                 window.draw(loseBgSprite);
@@ -462,6 +453,37 @@ void Game::run() {
                 if (counter == countMax) {
                     currentState = gameState::Menu;
                     player->reset();
+                    counter = 0;
+                }
+                break;
+            }
+            case gameState::LoseState: {
+                static int counter = 0;
+                const int countMax = 400;
+
+                auto tmp = *winloseUI[0];
+                auto tmp_button = std::make_shared<UIElement>(tmp);
+
+                sf::Font winFont;
+                winFont.loadFromFile("Resources/winlose.ttf");
+
+                tmp_button->setFont(&winFont);
+                tmp_button->setText("YOU LOST!");
+                tmp_button->setTextSize(100);
+                tmp_button->setPosition({(window.getSize().x / 2 -
+                                          tmp_button->getBounds().width / 2),
+                                         (window.getSize().y / 2 -
+                                          tmp_button->getBounds().height / 2)});
+                std::vector<std::shared_ptr<UIElement>> tmp_vector = {
+                    tmp_button};
+                window.draw(loseBgSprite);
+                draw(tmp_vector);
+                counter++;
+
+                if (counter == countMax) {
+                    currentState = gameState::Menu;
+                    player->reset();
+                    counter = 0;
                 }
                 break;
             }

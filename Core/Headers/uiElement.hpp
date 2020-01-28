@@ -99,7 +99,17 @@ class UIElement {
     ///@return std::string
     std::string getText();
 
+    ///\brief
+    ///Sets the font size of the text within the UI element
+    ///@param size
+    /*The size in pixels of the font*/
     void setTextSize(int size);
+
+    ///\brief
+    ///Set the font of the text within the UI element
+    ///@param _font
+    /*the sf::Font the new font should be*/
+    void setFont(sf::Font *_font);
 };
 
 #endif

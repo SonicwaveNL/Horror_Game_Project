@@ -191,7 +191,7 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         bgSprite.setTexture(bgTexture);
         bgSprite.setPosition(sf::Vector2f{0, 0});
 
-        loseBgSource.loadFromFile("Resources/Texture/loseBackground.png");
+        loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
         std::cout << "loaded\n";
         loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
                         sf::Vector2i{window.getSize().x, window.getSize().y}} );

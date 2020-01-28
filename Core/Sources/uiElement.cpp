@@ -46,3 +46,8 @@ std::string UIElement::getText(){
 void UIElement::setTextSize(int size){
     label.setCharacterSize((unsigned)size);
 }
+
+void UIElement::setFont(sf::Font* _font){
+    font = *_font;
+    label.setFont(*_font);
+}
