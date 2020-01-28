@@ -77,13 +77,13 @@ class Game {
 
     Action playingActions[6] = {
         Action(actionKeyword::up,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
         Action(actionKeyword::down,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); player->setTexture(&gameTextures[objectType::Player][3]); }),
         Action(actionKeyword::left,
-               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
         Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
         Action(actionKeyword::action1,
                [=]() {
                    int switchCount = 0;
@@ -95,6 +95,7 @@ class Game {
 
                        if (s->isActive()) {
                            switchCount++;
+                           s->setTexture(&gameTextures[objectType::Switch][1]);
                        }
                    }
                    if (switchCount == winFactors.size() - 1) {

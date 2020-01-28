@@ -10,3 +10,8 @@ void IRectangle::setColor(sf::Color color){
 sf::Vector2f IRectangle::getPosition(){
     return iRect.getPosition();
 }
+
+void IRectangle::setTexture(sf::Texture* texture){
+    texture = texture;
+    sprite.setTexture(*texture);
+}

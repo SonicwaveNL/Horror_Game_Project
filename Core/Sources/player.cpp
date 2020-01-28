@@ -2,6 +2,13 @@
 #include <../Headers/player.hpp>
 
 void Player::moveIfPossible(sf::Vector2f direction) {
+    if(direction.x < 0){
+        sprite.setScale(-1, 1);
+        sprite.setOrigin({getBounds().width, 0});
+    }else if(direction.x > 0){
+        sprite.setOrigin({0,0});
+        sprite.setScale(1,1);
+    }
     move(direction);
     for (std::shared_ptr<IObject> obj : objects) {
         if (obj->intersect(*this)) {

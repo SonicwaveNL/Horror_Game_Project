@@ -118,6 +118,8 @@ class IRectangle : public IObject {
     /*A vector2f containing the new size of the object.s*/
     void setSize(sf::Vector2f size);
 
+    void setTexture(sf::Texture* texture);
+
 };
 
 #endif
