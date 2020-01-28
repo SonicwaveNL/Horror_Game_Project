@@ -452,7 +452,7 @@ void Game::run() {
                                           tmp_button->getBounds().height / 2)});
                 std::vector<std::shared_ptr<UIElement>> tmp_vector = {
                     tmp_button};
-                window.draw(loseBgSprite);
+                window.draw(winBgSprite);
                 draw(tmp_vector);
                 counter++;
 

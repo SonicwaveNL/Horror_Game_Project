@@ -45,6 +45,10 @@ class Game {
     sf::Sprite loseBgSprite;
     sf::Texture loseBgTexture;
 
+    sf::Image winBgSource;
+    sf::Sprite winBgSprite;
+    sf::Texture winBgTexture;
+
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::vector<GridCell>> grid;
@@ -223,12 +227,17 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         bgSprite.setPosition(sf::Vector2f{0, 0});
 
         loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
-        std::cout << "loaded\n";
         loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
                         sf::Vector2i{window.getSize().x, window.getSize().y}} );
-        std::cout << "loaded2\n";
         loseBgSprite.setTexture(loseBgTexture);
-        bgSprite.setPosition({0,0});
+        loseBgSprite.setPosition({0,0});
+
+        winBgSource.loadFromFile("Resources/Textures/winBackground.png");
+        winBgTexture.loadFromImage(winBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+        winBgSprite.setTexture(winBgTexture);
+        winBgSprite.setPosition({0,0});
+
 
         gameTextures =
             loadTextures("Resources/Textures/" + textureFile, textureSource);
