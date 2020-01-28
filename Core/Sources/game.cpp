@@ -349,6 +349,11 @@ void Game::run() {
                     std::cout << "Loaded game.\n";
                     std::ifstream file("Core/Saves/" + chosenMap);
                     if (file) {
+                        for (auto & row : grid) {
+                            for (auto & item : row) {
+                                item.setCellType(objectType::Floor);
+                            }
+                        }
                         factory.loadMatrixFromFile(grid, file);
                     } else {
                         currentState = gameState::Menu;
@@ -395,14 +400,13 @@ void Game::run() {
                     counter++;
                 }
 
-                if (player->checkWin()) {
+               if (player->checkWin()) {
                     currentState = gameState::WinState;
                     break;
                 } else if (player->checkLose()) {
                     currentState = gameState::LoseState;
                     break;
                 }
-
                 // show instructions once*
                 window.draw(bgSprite);
                 draw();
@@ -411,6 +415,8 @@ void Game::run() {
                 // add actions to remove instructions
                 break;
             }
+
+
 
             case gameState::Editor: {
                 // show instructions once*

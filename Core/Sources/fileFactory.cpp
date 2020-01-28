@@ -34,7 +34,7 @@ std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
 void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
                               std::string fileName) {
     std::ofstream file;
-    file.open(fileName); //@TODO exception maken en testen of hij al bestaat
+    file.open(fileName);
     for (auto & row : matrix) {
         for (auto & item : row) {
             auto itemSoort = item.getCellType();
@@ -53,6 +53,11 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
 
 void FileFactory::loadMatrixFromFile(
     std::vector<std::vector<GridCell>> & matrix, std::istream & file) {
+    std::vector<std::tuple<std::string, sf::Vector2f>> switches;
+    std::vector<std::tuple<std::string, sf::Vector2f>> players;
+    std::vector<std::tuple<std::string, sf::Vector2f>> doors;
+    std::vector<std::tuple<std::string, sf::Vector2f>> monsters;
+    std::vector<int> choices;
     sf::Vector2f position;
     std::string name;
     while (!file.eof()) {
@@ -61,14 +66,99 @@ void FileFactory::loadMatrixFromFile(
             continue;
         }
         file >> position;
+        ;
         for (auto & item : types) {
             if (name == item.writeAble) {
-                matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(
-                    item.itemType);
-                matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(
-                    position);
+                if (item.itemType == objectType::Player) {
+                    players.push_back(
+                        std::tuple<std::string, sf::Vector2f>(name, position));
+                } else if (item.itemType == objectType::Door) {
+                    doors.push_back(
+                        std::tuple<std::string, sf::Vector2f>(name, position));
+                } else if (item.itemType == objectType::Switch) {
+                    switches.push_back(
+                        std::tuple<std::string, sf::Vector2f>(name, position));
+                } else if (item.itemType == objectType::Monster) {
+                    monsters.push_back(
+                        std::tuple<std::string, sf::Vector2f>(name, position));
+                } else {
+                    matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(
+                        item.itemType);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(
+                        position);
+                }
             }
         }
+    }
+    // switches kiezen en wegschrijven naar grid
+    if (switches.size() <= 4 && switches.size() >= 1) {
+        for (auto item : switches) {
+            matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
+                .setCellType(objectType::Switch);
+            matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
+                .setPosition(std::get<1>(item));
+        }
+    } else {
+        std::vector<int> prevChoices;
+        for (int i = 0; i < 4; i++) {
+            int random = rand() % (switches.size() - 1);
+            while (std::find(prevChoices.begin(), prevChoices.end(), random) !=
+                   prevChoices.end()) {
+                random = rand() % (switches.size() - 1);
+            }
+            matrix[std::get<1>(switches[random]).x / PIXEL16]
+                  [std::get<1>(switches[random]).y / PIXEL16]
+                      .setCellType(objectType::Switch);
+            matrix[std::get<1>(switches[random]).x / PIXEL16]
+                  [std::get<1>(switches[random]).y / PIXEL16]
+                      .setPosition(std::get<1>(switches[random]));
+        }
+        prevChoices.clear();
+    }
+    // player kiezen en wegschrijven naar grid
+    if (players.size() == 1) {
+        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
+            .setCellType(objectType::Player);
+        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
+            .setPosition(std::get<1>(players[0]));
+    } else {
+        int random = rand() % (players.size() - 1);
+        matrix[std::get<1>(players[random]).x / PIXEL16]
+              [std::get<1>(players[random]).y / PIXEL16]
+                  .setCellType(objectType::Player);
+        matrix[std::get<1>(players[random]).x / PIXEL16]
+              [std::get<1>(players[random]).y / PIXEL16]
+                  .setPosition(std::get<1>(players[random]));
+    }
+    // door kiezen en wegschrijven
+    if (doors.size() == 1) {
+        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
+            .setCellType(objectType::Door);
+        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
+            .setPosition(std::get<1>(doors[0]));
+    } else {
+        int random = rand() % (doors.size() - 1);
+        matrix[std::get<1>(doors[random]).x / PIXEL16]
+              [std::get<1>(doors[random]).y / PIXEL16]
+                  .setCellType(objectType::Door);
+        matrix[std::get<1>(doors[random]).x / PIXEL16]
+              [std::get<1>(doors[random]).y / PIXEL16]
+                  .setPosition(std::get<1>(doors[random]));
+    }
+    // monster kiezen en wegschrijven
+    if (monsters.size() == 1) {
+        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
+            .setCellType(objectType::Monster);
+        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
+            .setPosition(std::get<1>(monsters[0]));
+    } else {
+        int random = rand() % (monsters.size() - 1);
+        matrix[std::get<1>(monsters[random]).x / PIXEL16]
+              [std::get<1>(monsters[random]).y / PIXEL16]
+                  .setCellType(objectType::Monster);
+        matrix[std::get<1>(monsters[random]).x / PIXEL16]
+              [std::get<1>(monsters[random]).y / PIXEL16]
+                  .setPosition(std::get<1>(monsters[random]));
     }
 }
 

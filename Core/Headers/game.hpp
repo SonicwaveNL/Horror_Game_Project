@@ -62,6 +62,11 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> EditorUI;
     std::vector<std::shared_ptr<UIElement>> winloseUI;
 
+    std::shared_ptr<UIElement> Yes;
+    std::shared_ptr<UIElement> No;
+
+    int doorCounter, playerCounter, monsterCounter, switchCounter;
+
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
 
@@ -130,9 +135,34 @@ class Game {
                        objectType::Floor, &gameTextures[objectType::Floor][0]);
                }),
         Action(sf::Keyboard::Escape, [=] {
-            factory.writeToFile(grid, "Core/Saves/custom.txt");
-            loaded = false;
-            currentState = gameState::Menu;
+            int doorCounter = 0;
+            int playerCounter = 0;
+            int monsterCounter = 0;
+            int switchCounter = 0;
+            for (auto & row : grid) {
+                for (auto & item : row) {
+                    if (item.getCellType() == objectType::Door) {
+                        doorCounter += 1;
+                    } else if (item.getCellType() == objectType::Player) {
+                        playerCounter += 1;
+                    } else if (item.getCellType() == objectType::Monster) {
+                        monsterCounter += 1;
+                    } else if (item.getCellType() == objectType::Switch) {
+                        switchCounter += 1;
+                    }
+                }
+            }
+            std::cout << "door: " << doorCounter << std::endl;
+            std::cout << "player: " << playerCounter << std::endl;
+            std::cout << "switch: " << switchCounter << std::endl;
+            std::cout << "monster: " << monsterCounter << std::endl;
+            if (monsterCounter > 0 && doorCounter > 0 && playerCounter > 0 &&
+                switchCounter > 0) {
+                factory.writeToFile(grid, "Core/Saves/custom.txt");
+                std::cout << "succesvol geschreven";
+                loaded = false;
+                currentState = gameState::Menu;
+            }
         })};
 
     ///\brief

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <ostream>
+#include <cstdlib> 
+#include <algorithm>
 
 #include <uiElement.hpp>
 #include <support.hpp>
