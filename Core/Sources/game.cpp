@@ -228,11 +228,12 @@ void Game::reversedBFSPathAlgorithm() {
 };
 
 void Game::markGridCellsToDraw() {
-  int viewDistance = 5;
+  int viewDistance = 10;
   for (auto &column : grid) {
     for (auto &item : column) {
       item.ableToDraw = false;
       item.behindWall = false;
+      item.drawValue = 0;
     }
   }
   std::queue<GridCell *> q;
@@ -248,80 +249,188 @@ void Game::markGridCellsToDraw() {
     q.pop();
     xPos = p->getPosition().x / 20;
     yPos = p->getPosition().y / 20;
-
     // set upper cell
-    for (int i = 1; i < viewDistance; i++) {
-      if ((yPos - i) >= 0 && grid[xPos][yPos - i].ableToDraw == false &&
-          grid[xPos][yPos - i].behindWall == false) {
-        if (grid[xPos][yPos - i].getCellType() == objectType::Wall) {
-          for (int a = i + 1; a < viewDistance; a++) {
-            if (yPos - a >= 0) {
-              grid[xPos][yPos - a].behindWall = true;
-            }
-          }
-          break;
-        }
-        grid[xPos][yPos - i].drawValue = p->drawValue + 1;
-        q.push(&grid[xPos][yPos - i]);
-        grid[xPos][yPos - i].ableToDraw = true;
+    if (p->drawValue < viewDistance) {
+      if ((yPos - 1) >= 0 && grid[xPos][yPos-1].ableToDraw == false) {
+        grid[xPos][yPos - 1].drawValue = p->drawValue + 1;
+        q.push(&grid[xPos][yPos - 1]);
+        grid[xPos][yPos - 1].ableToDraw = true;
+      }
+
+      // set lower cell
+      if ((yPos + 1) < grid[xPos].size()&& grid[xPos][yPos+1].ableToDraw == false) {
+        grid[xPos][yPos + 1].drawValue = p->drawValue + 1;
+        q.push(&grid[xPos][yPos + 1]);
+        grid[xPos][yPos + 1].ableToDraw = true;
+      }
+
+      // set left cell
+      if ((xPos - 1) >= 0 && grid[xPos-1][yPos].ableToDraw == false) {
+        grid[xPos - 1][yPos].drawValue = p->drawValue + 1;
+        q.push(&grid[xPos - 1][yPos]);
+        grid[xPos - 1][yPos].ableToDraw = true;
+      }
+
+      // set right cell
+      if ((xPos + 1) < grid.size() && grid[xPos+1][yPos].ableToDraw == false) {
+        grid[xPos + 1][yPos].drawValue = p->drawValue + 1;
+        q.push(&grid[xPos + 1][yPos]);
+        grid[xPos + 1][yPos].ableToDraw = true;
       }
     }
+  // SOORT NIET DOOR MUREN KIJKEN SHIT
+    //     if (p->drawValue < viewDistance) {
+    //       // set uppercell
+    //       if ((yPos - 1) >= 0) {
+    //         grid[xPos][yPos - 1].drawValue = p->drawValue + 1;
+    //         if (grid[xPos][yPos - 1].behindWall == false) {
+    //           q.push(&grid[xPos][yPos - 1]);
+    //           grid[xPos][yPos - 1].ableToDraw = true;
+    //         }
+    //         if (p->getCellType() == objectType::Wall) {
+    //           for (int i = 1; i < viewDistance; i++) {
+    //             if (yPos - i >= 0) {
+    //               grid[xPos][yPos - i].behindWall = true;
+    //             }
+    //           }
+    //         }
+    //       }
+    //       // set lower cell
+    //       if ((yPos + 1) < grid[xPos].size()) {
+    //         if (grid[xPos][yPos + 1].behindWall == false) {
+    //           q.push(&grid[xPos][yPos + 1]);
+    //           grid[xPos][yPos + 1].ableToDraw = true;
+    //         }
+    //         grid[xPos][yPos + 1].drawValue = p->drawValue + 1;
+    //         if (p->getCellType() == objectType::Wall) {
+    //           for (int i = 1; i < viewDistance; i++) {
+    //             if (yPos + i < grid[xPos].size()) {
+    //               grid[xPos][yPos + i].behindWall = true;
+    //             }
+    //           }
+    //         }
+    //       }
+
+    //       // set left cell
+    //       if ((xPos - 1) >= 0) {
+    //         grid[xPos - 1][yPos].drawValue = p->drawValue + 1;
+    //         if (grid[xPos - 1][yPos].behindWall == false) {
+    //           q.push(&grid[xPos - 1][yPos]);
+    //           grid[xPos - 1][yPos].ableToDraw = true;
+    //         }
+    //         if (p->getCellType() == objectType::Wall) {
+    //           for (int i = 1; i < viewDistance; i++) {
+    //             if (xPos - i >= 0) {
+    //               grid[xPos - i][yPos].behindWall = true;
+    //             }
+    //           }
+    //         }
+    //       }
+
+    //       // set right cell
+    //       if ((xPos + 1) < grid.size()) {
+    //         grid[xPos + 1][yPos].drawValue = p->drawValue + 1;
+    //         q.push(&grid[xPos + 1][yPos]);
+    //         if (grid[xPos + 1][yPos].behindWall == false) {
+    //           grid[xPos + 1][yPos].ableToDraw = true;
+    //         }
+    //         if (p->getCellType() == objectType::Wall) {
+    //           for (int i = 1; i < viewDistance; i++) {
+    //             if (xPos + i < grid.size()) {
+    //               grid[xPos + i][yPos].behindWall = true;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+
+    // RARE SHIT
+    // //set upper cell
+    // for (int i = 1; i < viewDistance; i++) {
+    //   if ((yPos - i) >= 0 && grid[xPos][yPos - i].ableToDraw == false &&
+    //       grid[xPos][yPos - i].behindWall == false) {
+    //     if (grid[xPos][yPos - i].getType() == objectType::Wall) {
+    //       for (int a = i + 1; a < viewDistance; a++) {
+    //         if (yPos - a >= 0) {
+    //           grid[xPos][yPos - a].behindWall = true;
+    //           grid[xPos][yPos - a].drawValue = p->drawValue + 1;
+    //           grid[xPos][yPos -a].ableToDraw = false;
+    //         }
+    //       }
+    //       break;
+    //     }
+    //     grid[xPos][yPos - i].drawValue = p->drawValue + 1;
+    //     if (grid[xPos][yPos - i].drawValue <= viewDistance) {
+    //       q.push(&grid[xPos][yPos - i]);
+    //       grid[xPos][yPos - i].ableToDraw = true;
+    //     }
+    //   }
+    // }
 
     // set lower cell
-    for (int i = 1; i < viewDistance; i++) {
-      if ((yPos + i) < grid[xPos].size() &&
-          grid[xPos][yPos + i].ableToDraw == false &&
-          grid[xPos][yPos + i].behindWall == false) {
-        if (grid[xPos][yPos + i].getCellType() == objectType::Wall) {
-          for (int a = i + 1; a < viewDistance; a++) {
-            if (yPos + a < grid[xPos].size()) {
-              grid[xPos][yPos + a].behindWall = true;
-            }
-          }
-          break;
-        }
-        grid[xPos][yPos + i].drawValue = p->drawValue + 1;
-        q.push(&grid[xPos][yPos + i]);
-        grid[xPos][yPos + i].ableToDraw = true;
-      }
-    }
+    // for (int i = 1; i < viewDistance; i++) {
+    //   if ((yPos + i) < grid[xPos].size() &&
+    //       grid[xPos][yPos + i].ableToDraw == false &&
+    //       grid[xPos][yPos + i].behindWall == false &&
+    //       grid[xPos][yPos + i].drawValue <= viewDistance) {
+    //     if (grid[xPos][yPos + i].getType() == objectType::Wall) {
+    //       for (int a = i + 1; a < viewDistance; a++) {
+    //         if (yPos + a < grid[xPos].size()) {
+    //           grid[xPos][yPos + a].behindWall = true;
+    //         }
+    //       }
+    //       break;
+    //     }
+    //     grid[xPos][yPos + i].drawValue = p->drawValue + 1;
+    //     if (grid[xPos][yPos + i].drawValue <= viewDistance) {
+    //       q.push(&grid[xPos][yPos + i]);
+    //       grid[xPos][yPos + i].ableToDraw = true;
+    //     }
+    //   }
+    // }
 
     // set left cell
-    for (int i = 1; i < viewDistance; i++) {
-      if ((xPos - i) >= 0 && grid[xPos - i][yPos].ableToDraw == false &&
-          grid[xPos - i][yPos].behindWall == false) {
-        if (grid[xPos - i][yPos].getCellType() == objectType::Wall) {
-          for (int a = i + 1; a < viewDistance; a++) {
-            if (xPos - a >= 0) {
-              grid[xPos - a][yPos].behindWall = true;
-            }
-          }
-          break;
-        }
-        grid[xPos - i][yPos].drawValue = p->drawValue + 1;
-        q.push(&grid[xPos - i][yPos]);
-        grid[xPos - i][yPos].ableToDraw = true;
-      }
-    }
+    // for (int i = 1; i < viewDistance; i++) {
+    //   if ((xPos - i) >= 0 && grid[xPos - i][yPos].ableToDraw == false &&
+    //       grid[xPos - i][yPos].behindWall == false &&
+    //       grid[xPos - i][yPos].drawValue <= viewDistance) {
+    //     if (grid[xPos - i][yPos].getType() == objectType::Wall) {
+    //       for (int a = i + 1; a < viewDistance; a++) {
+    //         if (xPos - a >= 0) {
+    //           grid[xPos - a][yPos].behindWall = true;
+    //         }
+    //       }
+    //       break;
+    //     }
+    //     grid[xPos - i][yPos].drawValue = p->drawValue + 1;
+    //     if (grid[xPos - i][yPos].drawValue <= viewDistance) {
+    //       q.push(&grid[xPos - i][yPos]);
+    //       grid[xPos - i][yPos].ableToDraw = true;
+    //     }
+    //   }
+    // }
 
     // set right cell
-    for (int i = 1; i < viewDistance; i++) {
-      if ((xPos + i) < grid.size() &&
-          grid[xPos + i][yPos].ableToDraw == false &&
-          grid[xPos + i][yPos].behindWall == false) {
-        if (grid[xPos + i][yPos].getCellType() == objectType::Wall) {
-          for (int a = i; a < viewDistance; a++) {
-            if (xPos + a < grid.size()) {
-              grid[xPos + a][yPos].behindWall = true;
-            }
-          }
-          break;
-        }
-        grid[xPos + i][yPos].drawValue = p->drawValue + 1;
-        q.push(&grid[xPos + i][yPos]);
-        grid[xPos + i][yPos].ableToDraw = true;
-      }
-    }
+    // for (int i = 1; i < viewDistance; i++) {
+    //   if ((xPos + i) < grid.size() &&
+    //       grid[xPos + i][yPos].ableToDraw == false &&
+    //       grid[xPos + i][yPos].behindWall == false &&
+    //       grid[xPos + i][yPos].drawValue <= viewDistance) {
+    //     if (grid[xPos + i][yPos].getType() == objectType::Wall) {
+    //       for (int a = i; a < viewDistance; a++) {
+    //         if (xPos + a < grid.size()) {
+    //           grid[xPos + a][yPos].behindWall = true;
+    //         }
+    //       }
+    //       break;
+    //     }
+    //     grid[xPos + i][yPos].drawValue = p->drawValue + 1;
+    //     if (grid[xPos + i][yPos].drawValue <= viewDistance) {
+    //       q.push(&grid[xPos + i][yPos]);
+    //       grid[xPos + i][yPos].ableToDraw = true;
+    //     }
+    //   }
+    // }
   }
 }
 
