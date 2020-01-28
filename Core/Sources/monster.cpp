@@ -2,8 +2,9 @@
 #include <../Headers/monster.hpp>
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
-  prevPosition = iRect.getPosition();
-  iRect.setPosition(iRect.getPosition() + direction * speed);
+  oldDirection = direction;
+  prevPosition = getPosition();
+  setPosition(getPosition() + direction * speed);
   for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
       collision(*obj);
