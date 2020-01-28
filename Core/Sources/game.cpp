@@ -249,7 +249,7 @@ void Game::markGridCellsToDraw() {
     q.pop();
     xPos = p->getPosition().x / 20;
     yPos = p->getPosition().y / 20;
-    // set upper cell
+    //set upper cell
     if (p->drawValue < viewDistance) {
       if ((yPos - 1) >= 0 && grid[xPos][yPos-1].ableToDraw == false) {
         grid[xPos][yPos - 1].drawValue = p->drawValue + 1;
@@ -279,70 +279,70 @@ void Game::markGridCellsToDraw() {
       }
     }
   // SOORT NIET DOOR MUREN KIJKEN SHIT
-    //     if (p->drawValue < viewDistance) {
-    //       // set uppercell
-    //       if ((yPos - 1) >= 0) {
-    //         grid[xPos][yPos - 1].drawValue = p->drawValue + 1;
-    //         if (grid[xPos][yPos - 1].behindWall == false) {
-    //           q.push(&grid[xPos][yPos - 1]);
-    //           grid[xPos][yPos - 1].ableToDraw = true;
-    //         }
-    //         if (p->getCellType() == objectType::Wall) {
-    //           for (int i = 1; i < viewDistance; i++) {
-    //             if (yPos - i >= 0) {
-    //               grid[xPos][yPos - i].behindWall = true;
-    //             }
-    //           }
-    //         }
-    //       }
-    //       // set lower cell
-    //       if ((yPos + 1) < grid[xPos].size()) {
-    //         if (grid[xPos][yPos + 1].behindWall == false) {
-    //           q.push(&grid[xPos][yPos + 1]);
-    //           grid[xPos][yPos + 1].ableToDraw = true;
-    //         }
-    //         grid[xPos][yPos + 1].drawValue = p->drawValue + 1;
-    //         if (p->getCellType() == objectType::Wall) {
-    //           for (int i = 1; i < viewDistance; i++) {
-    //             if (yPos + i < grid[xPos].size()) {
-    //               grid[xPos][yPos + i].behindWall = true;
-    //             }
-    //           }
-    //         }
-    //       }
+        // if (p->drawValue < viewDistance) {
+        //   // set uppercell
+        //   if ((yPos - 1) >= 0) {
+        //     grid[xPos][yPos - 1].drawValue = p->drawValue + 1;
+        //     if (grid[xPos][yPos - 1].behindWall == false) {
+        //       q.push(&grid[xPos][yPos - 1]);
+        //       grid[xPos][yPos - 1].ableToDraw = true;
+        //     }
+        //     if (p->getCellType() == objectType::Wall) {
+        //       for (int i = 1; i < viewDistance; i++) {
+        //         if (yPos - i >= 0) {
+        //           grid[xPos][yPos - i].behindWall = true;
+        //         }
+        //       }
+        //     }
+        //   }
+        //   // set lower cell
+        //   if ((yPos + 1) < grid[xPos].size()) {
+        //     if (grid[xPos][yPos + 1].behindWall == false) {
+        //       q.push(&grid[xPos][yPos + 1]);
+        //       grid[xPos][yPos + 1].ableToDraw = true;
+        //     }
+        //     grid[xPos][yPos + 1].drawValue = p->drawValue + 1;
+        //     if (p->getCellType() == objectType::Wall) {
+        //       for (int i = 1; i < viewDistance; i++) {
+        //         if (yPos + i < grid[xPos].size()) {
+        //           grid[xPos][yPos + i].behindWall = true;
+        //         }
+        //       }
+        //     }
+        //   }
 
-    //       // set left cell
-    //       if ((xPos - 1) >= 0) {
-    //         grid[xPos - 1][yPos].drawValue = p->drawValue + 1;
-    //         if (grid[xPos - 1][yPos].behindWall == false) {
-    //           q.push(&grid[xPos - 1][yPos]);
-    //           grid[xPos - 1][yPos].ableToDraw = true;
-    //         }
-    //         if (p->getCellType() == objectType::Wall) {
-    //           for (int i = 1; i < viewDistance; i++) {
-    //             if (xPos - i >= 0) {
-    //               grid[xPos - i][yPos].behindWall = true;
-    //             }
-    //           }
-    //         }
-    //       }
+        //   // set left cell
+        //   if ((xPos - 1) >= 0) {
+        //     grid[xPos - 1][yPos].drawValue = p->drawValue + 1;
+        //     if (grid[xPos - 1][yPos].behindWall == false) {
+        //       q.push(&grid[xPos - 1][yPos]);
+        //       grid[xPos - 1][yPos].ableToDraw = true;
+        //     }
+        //     if (p->getCellType() == objectType::Wall) {
+        //       for (int i = 1; i < viewDistance; i++) {
+        //         if (xPos - i >= 0) {
+        //           grid[xPos - i][yPos].behindWall = true;
+        //         }
+        //       }
+        //     }
+        //   }
 
-    //       // set right cell
-    //       if ((xPos + 1) < grid.size()) {
-    //         grid[xPos + 1][yPos].drawValue = p->drawValue + 1;
-    //         q.push(&grid[xPos + 1][yPos]);
-    //         if (grid[xPos + 1][yPos].behindWall == false) {
-    //           grid[xPos + 1][yPos].ableToDraw = true;
-    //         }
-    //         if (p->getCellType() == objectType::Wall) {
-    //           for (int i = 1; i < viewDistance; i++) {
-    //             if (xPos + i < grid.size()) {
-    //               grid[xPos + i][yPos].behindWall = true;
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
+        //   // set right cell
+        //   if ((xPos + 1) < grid.size()) {
+        //     grid[xPos + 1][yPos].drawValue = p->drawValue + 1;
+        //     q.push(&grid[xPos + 1][yPos]);
+        //     if (grid[xPos + 1][yPos].behindWall == false) {
+        //       grid[xPos + 1][yPos].ableToDraw = true;
+        //     }
+        //     if (p->getCellType() == objectType::Wall) {
+        //       for (int i = 1; i < viewDistance; i++) {
+        //         if (xPos + i < grid.size()) {
+        //           grid[xPos + i][yPos].behindWall = true;
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
 
     // RARE SHIT
     // //set upper cell
