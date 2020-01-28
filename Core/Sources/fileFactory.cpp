@@ -82,9 +82,9 @@ void FileFactory::loadMatrixFromFile(
                     monsters.push_back(
                         std::tuple<std::string, sf::Vector2f>(name, position));
                 } else {
-                    matrix[position.x / 20][position.y / 20].setCellType(
+                    matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(
                         item.itemType);
-                    matrix[position.x / 20][position.y / 20].setPosition(
+                    matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(
                         position);
                 }
             }
@@ -93,9 +93,9 @@ void FileFactory::loadMatrixFromFile(
     // switches kiezen en wegschrijven naar grid
     if (switches.size() <= 4 && switches.size() >= 1) {
         for (auto item : switches) {
-            matrix[std::get<1>(item).x / 20][std::get<1>(item).y / 20]
+            matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
                 .setCellType(objectType::Switch);
-            matrix[std::get<1>(item).x / 20][std::get<1>(item).y / 20]
+            matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
                 .setPosition(std::get<1>(item));
         }
     } else {
@@ -106,58 +106,58 @@ void FileFactory::loadMatrixFromFile(
                    prevChoices.end()) {
                 random = rand() % (switches.size() - 1);
             }
-            matrix[std::get<1>(switches[random]).x / 20]
-                  [std::get<1>(switches[random]).y / 20]
+            matrix[std::get<1>(switches[random]).x / PIXEL16]
+                  [std::get<1>(switches[random]).y / PIXEL16]
                       .setCellType(objectType::Switch);
-            matrix[std::get<1>(switches[random]).x / 20]
-                  [std::get<1>(switches[random]).y / 20]
+            matrix[std::get<1>(switches[random]).x / PIXEL16]
+                  [std::get<1>(switches[random]).y / PIXEL16]
                       .setPosition(std::get<1>(switches[random]));
         }
         prevChoices.clear();
     }
     // player kiezen en wegschrijven naar grid
     if (players.size() == 1) {
-        matrix[std::get<1>(players[0]).x / 20][std::get<1>(players[0]).y / 20]
+        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
             .setCellType(objectType::Player);
-        matrix[std::get<1>(players[0]).x / 20][std::get<1>(players[0]).y / 20]
+        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
             .setPosition(std::get<1>(players[0]));
     } else {
         int random = rand() % (players.size() - 1);
-        matrix[std::get<1>(players[random]).x / 20]
-              [std::get<1>(players[random]).y / 20]
+        matrix[std::get<1>(players[random]).x / PIXEL16]
+              [std::get<1>(players[random]).y / PIXEL16]
                   .setCellType(objectType::Player);
-        matrix[std::get<1>(players[random]).x / 20]
-              [std::get<1>(players[random]).y / 20]
+        matrix[std::get<1>(players[random]).x / PIXEL16]
+              [std::get<1>(players[random]).y / PIXEL16]
                   .setPosition(std::get<1>(players[random]));
     }
     // door kiezen en wegschrijven
     if (doors.size() == 1) {
-        matrix[std::get<1>(doors[0]).x / 20][std::get<1>(doors[0]).y / 20]
+        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
             .setCellType(objectType::Door);
-        matrix[std::get<1>(doors[0]).x / 20][std::get<1>(doors[0]).y / 20]
+        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
             .setPosition(std::get<1>(doors[0]));
     } else {
         int random = rand() % (doors.size() - 1);
-        matrix[std::get<1>(doors[random]).x / 20]
-              [std::get<1>(doors[random]).y / 20]
+        matrix[std::get<1>(doors[random]).x / PIXEL16]
+              [std::get<1>(doors[random]).y / PIXEL16]
                   .setCellType(objectType::Door);
-        matrix[std::get<1>(doors[random]).x / 20]
-              [std::get<1>(doors[random]).y / 20]
+        matrix[std::get<1>(doors[random]).x / PIXEL16]
+              [std::get<1>(doors[random]).y / PIXEL16]
                   .setPosition(std::get<1>(doors[random]));
     }
     // monster kiezen en wegschrijven
     if (monsters.size() == 1) {
-        matrix[std::get<1>(monsters[0]).x / 20][std::get<1>(monsters[0]).y / 20]
+        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
             .setCellType(objectType::Monster);
-        matrix[std::get<1>(monsters[0]).x / 20][std::get<1>(monsters[0]).y / 20]
+        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
             .setPosition(std::get<1>(monsters[0]));
     } else {
         int random = rand() % (monsters.size() - 1);
-        matrix[std::get<1>(monsters[random]).x / 20]
-              [std::get<1>(monsters[random]).y / 20]
+        matrix[std::get<1>(monsters[random]).x / PIXEL16]
+              [std::get<1>(monsters[random]).y / PIXEL16]
                   .setCellType(objectType::Monster);
-        matrix[std::get<1>(monsters[random]).x / 20]
-              [std::get<1>(monsters[random]).y / 20]
+        matrix[std::get<1>(monsters[random]).x / PIXEL16]
+              [std::get<1>(monsters[random]).y / PIXEL16]
                   .setPosition(std::get<1>(monsters[random]));
     }
 }
