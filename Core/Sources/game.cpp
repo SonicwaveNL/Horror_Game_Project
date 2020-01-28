@@ -291,6 +291,7 @@ void Game::run() {
                             sf::Mouse::getPosition(window))) &&
                         sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         auto tmp = ele->getText();
+                        std::cout << "temp : " << tmp;
                         if (tmp == "Play") {
                             currentState = gameState::SelectMap;
                             std::cout << "Play\n";
@@ -329,7 +330,9 @@ void Game::run() {
                 static size_t counter = 0;
                 if (!loaded) {
                     std::cout << "Loaded game.\n";
-                    std::ifstream file("Core/Saves/" + chosenMap);
+                    std::ifstream file;
+                    file.open("Core/Saves/" + chosenMap);
+                    std::cout << chosenMap << std::endl;
                     if (file) {
                         for (auto & row : grid) {
                             for (auto & item : row) {
@@ -338,7 +341,8 @@ void Game::run() {
                         }
                         factory.loadMatrixFromFile(grid, file);
                     } else {
-                        currentState = gameState::Menu;
+                        std::cout << "in le else";
+                        currentState = gameState::SelectMap;
                         break;
                     }
                     factory.objectsToDrawables(drawables, grid, gameTextures);

@@ -3,31 +3,26 @@
 std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
     char c;
     if (!(input >> c)) {
-        // throw UnknownTypeException("1");
+        throw UnknownTypeException("Not On Coordinate");
+        std::cout << "eerste error op: ";
     }
-    if (c != '(') {
-        // throw UnknownTypeException("2");
-    }
+    std::cout << "should be ( =" << c;
     if (!(input >> rhs.x)) {
-        // throw UnknownTypeException("3");
+        throw UnknownTypeException("Not On Coordinate");
     }
+    std::cout << "should be x =" << rhs.x;
     if (!(input >> c)) { // adjust so only , are correct
-        // throw UnknownTypeException("4");
-
-    } else {
-        if (c != ',') {
-            // throw UnknownTypeException("5");
-        }
+        throw UnknownTypeException("Not On Coordinate");
     }
+    std::cout << "should be , =" << c;
     if (!(input >> rhs.y)) {
-        // throw UnknownTypeException("6");
+        throw UnknownTypeException("Not On Coordinate");
     }
+    std::cout << "should be y =" << rhs.y;
     if (!(input >> c)) {
-        // throw UnknownTypeException("7");
+        throw UnknownTypeException("Not On Coordinate");
     }
-    if (c != ')') {
-        // throw UnknownTypeException("8");
-    }
+    std::cout << "should be ) =" << c << std::endl;
     return input;
 }
 
@@ -60,13 +55,16 @@ void FileFactory::loadMatrixFromFile(
     std::vector<int> choices;
     sf::Vector2f position;
     std::string name;
-    while (!file.eof()) {
+    while (name != "END") {
         file >> name;
-        if (name == "END") {
-            continue;
+        std::cout << "NAME: " << name << std::endl;
+        if (name != "END") {
+            try {
+                file >> position;
+            } catch (std::exception & problem) {
+                problem.what();
+            }
         }
-        file >> position;
-        ;
         for (auto & item : types) {
             if (name == item.writeAble) {
                 if (item.itemType == objectType::Player) {
@@ -82,10 +80,10 @@ void FileFactory::loadMatrixFromFile(
                     monsters.push_back(
                         std::tuple<std::string, sf::Vector2f>(name, position));
                 } else {
-                    matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(
-                        item.itemType);
-                    matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(
-                        position);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setCellType(item.itemType);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setPosition(position);
                 }
             }
         }
@@ -117,10 +115,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // player kiezen en wegschrijven naar grid
     if (players.size() == 1) {
-        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
-            .setCellType(objectType::Player);
-        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
-            .setPosition(std::get<1>(players[0]));
+        matrix[std::get<1>(players[0]).x / PIXEL16]
+              [std::get<1>(players[0]).y / PIXEL16]
+                  .setCellType(objectType::Player);
+        matrix[std::get<1>(players[0]).x / PIXEL16]
+              [std::get<1>(players[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(players[0]));
     } else {
         int random = rand() % (players.size() - 1);
         matrix[std::get<1>(players[random]).x / PIXEL16]
@@ -132,10 +132,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // door kiezen en wegschrijven
     if (doors.size() == 1) {
-        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
-            .setCellType(objectType::Door);
-        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
-            .setPosition(std::get<1>(doors[0]));
+        matrix[std::get<1>(doors[0]).x / PIXEL16]
+              [std::get<1>(doors[0]).y / PIXEL16]
+                  .setCellType(objectType::Door);
+        matrix[std::get<1>(doors[0]).x / PIXEL16]
+              [std::get<1>(doors[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(doors[0]));
     } else {
         int random = rand() % (doors.size() - 1);
         matrix[std::get<1>(doors[random]).x / PIXEL16]
@@ -147,10 +149,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // monster kiezen en wegschrijven
     if (monsters.size() == 1) {
-        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
-            .setCellType(objectType::Monster);
-        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
-            .setPosition(std::get<1>(monsters[0]));
+        matrix[std::get<1>(monsters[0]).x / PIXEL16]
+              [std::get<1>(monsters[0]).y / PIXEL16]
+                  .setCellType(objectType::Monster);
+        matrix[std::get<1>(monsters[0]).x / PIXEL16]
+              [std::get<1>(monsters[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(monsters[0]));
     } else {
         int random = rand() % (monsters.size() - 1);
         matrix[std::get<1>(monsters[random]).x / PIXEL16]
@@ -227,16 +231,15 @@ FileFactory::fileToUi(std::istream & file) {
     sf::Vector2f position, size;
     sf::Color sfColorLabel, sfColorRect;
 
-    while (!file.eof()) {
+    while (name != "END") {
         file >> name;
-        file >> position;
-        file >> size;
-        file >> colorStringRect;
-        file >> text;
-        file >> colorStringLabel;
-
-        if (name == "END") {
-            continue;
+        std::cout << "NAME: \"" << name << "\"" << std::endl;
+        if (name != "END") {
+            file >> position;
+            file >> size;
+            file >> colorStringRect;
+            file >> text;
+            file >> colorStringLabel;
         }
 
         for (auto & color : colors) {

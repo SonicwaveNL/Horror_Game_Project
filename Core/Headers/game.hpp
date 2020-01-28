@@ -174,10 +174,6 @@ class Game {
                     }
                 }
             }
-            std::cout << "door: " << doorCounter << std::endl;
-            std::cout << "player: " << playerCounter << std::endl;
-            std::cout << "switch: " << switchCounter << std::endl;
-            std::cout << "monster: " << monsterCounter << std::endl;
             if (monsterCounter > 0 && doorCounter > 0 && playerCounter > 0 &&
                 switchCounter > 0) {
                 factory.writeToFile(grid, "Core/Saves/custom.txt");
