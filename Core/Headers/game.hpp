@@ -29,7 +29,8 @@
 /// Game class, this class runs the entire game with the run function()
 class Game {
   private:
-    int difficulty = 100;
+    size_t difficulty = 100;
+    size_t viewDistance = 5;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
                             sf::Style::Fullscreen};
 
@@ -263,7 +264,7 @@ class Game {
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
 
-    void markGridCellsToDraw();
+    void rayCast();
 
     ///\brief
     /// Runs the game demo

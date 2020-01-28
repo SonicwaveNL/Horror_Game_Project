@@ -25,9 +25,9 @@ class GridCell : public IRectangle {
     bool visited = false;
 
     //bool for the lantarn
-    bool ableToDraw = true;
-    bool behindWall = false;
-    int drawValue = 0;
+    // bool ableToDraw = true;
+    // bool behindWall = false;
+    // int drawValue = 0;
 
 
     ///\brief

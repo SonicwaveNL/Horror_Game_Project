@@ -229,6 +229,48 @@ void Game::reversedBFSPathAlgorithm() {
     }
   }
 };
+
+void Game::rayCast() {
+  sf::Vector2f playerPos = player->getPosition();
+  sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
+  line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
+  std::vector<std::shared_ptr<IObject>> intersectingCells;
+  for (int degree = 0; degree < 360; degree += 5) {
+    std::cout << "degree: " << degree << std::endl;
+    intersectingCells.clear();
+    float shortestDistance = 10000.f;
+    std::shared_ptr<IObject> nearestDrawable;
+    for (auto &pointer : drawables) {
+      if (line.getGlobalBounds().intersects(pointer->getBounds())) {
+        intersectingCells.push_back(pointer);
+        std::cout << "found intersection object with line\n";
+      }
+    }
+ 
+    bool foundNewNearest = true;
+    for (auto &pointer : intersectingCells) {
+      std::cout << pointer->checkIfDrawable() << std::endl;
+      if (pointer->checkIfDrawable()) {
+        intersectingCells.clear();
+        foundNewNearest = false;
+        std::cout << "found an object that was already drawable, so stop checking\n";
+      }
+      auto xSquared = pow(fabs(playerPos.x - pointer->getPosition().x), 2);
+      auto ySquared = pow(fabs(playerPos.y - pointer->getPosition().y), 2);
+      auto pythagoras = sqrt(xSquared + ySquared);
+      if (pythagoras < shortestDistance) {
+        shortestDistance = pythagoras;
+        nearestDrawable = pointer;
+      }
+    }
+    if (foundNewNearest) {
+      std::cout << "setting nearest object to player to drawable\n";
+      nearestDrawable->toggleAbleToDraw();
+    }
+    line.setRotation(degree);
+  }
+}
+
 std::unordered_map<objectType, std::vector<sf::Texture>> Game::loadTextures(
     std::string file, sf::Image &source) {
   std::unordered_map<objectType, std::vector<sf::Texture>> tmpCont;
@@ -256,10 +298,9 @@ std::unordered_map<objectType, std::vector<sf::Texture>> Game::loadTextures(
 
 void Game::draw(std::vector<std::shared_ptr<IObject>> &drawables) {
   for (std::shared_ptr<IObject> drawable : drawables) {
-    int xPos = drawable->getPosition().x / PIXEL16;
-    int yPos = drawable->getPosition().y / PIXEL16;
-    if (grid[xPos][yPos].ableToDraw == true) {
+    if (drawable->checkIfDrawable()) {
       drawable->draw(window);
+      drawable->toggleAbleToDraw();
     }
   }
 }
@@ -364,15 +405,8 @@ void Game::run() {
         if (monster->getPosition() ==
             grid[monsterPosition.x / PIXEL16][monsterPosition.y / PIXEL16]
                 .getPosition()) {
-                  std::cout << "calling find shoretst.....\n";
           monster->moveIfPossible(findShortestStep());
         } else {
-          // std::cout << "monster pos: " << monster->getPosition().x << ", "
-          //           << monster->getPosition().y << std::endl;
-          // std::cout << "gridPos: " << grid[myXPos][myYPos].getPosition().x
-          //           << ", " << grid[myXPos][myYPos].getPosition().y
-          //           << std::endl;
-          std::cout << "calling moveOld.....\n";
           monster->moveOld();
         }
 
@@ -391,6 +425,8 @@ void Game::run() {
         }
         // show instructions once*
         window.draw(bgSprite);
+        rayCast();
+        drawables[10]->toggleAbleToDraw();
         draw(drawables);
         draw(PlayUI);
 
