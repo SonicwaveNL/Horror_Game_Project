@@ -2,6 +2,7 @@
 #define IOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include <iostream>
 #include <vector>
 #include <memory>

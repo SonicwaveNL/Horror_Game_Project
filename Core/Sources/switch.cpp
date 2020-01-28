@@ -20,6 +20,7 @@ void Switch::setPosition(sf::Vector2f direction){
 
 void Switch::draw(sf::RenderWindow & window){
     window.draw(iRect); 
+    window.draw(sprite);
 }
 
 void Switch::collision(IObject & obj){ 

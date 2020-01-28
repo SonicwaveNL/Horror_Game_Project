@@ -12,17 +12,36 @@
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
+    sf::Texture * texture;
+    sf::Sprite sprite;
 
   public:
+    ///\brief
+    /// IRectangle constructor.
     IRectangle(sf::Vector2f position,
                std::vector<std::shared_ptr<IObject>> & objects,
                sf::Color color = sf::Color::Transparent, float speed = 0,
                objectType type = objectType::Abstract,
-               sf::Vector2f size = sf::Vector2f(20.f, 20.f))
+               sf::Vector2f size = sf::Vector2f(16.f, 16.f))
         : IObject(objects, color, speed, type) {
         iRect.setPosition(position);
         iRect.setSize(size);
         setColor(color);
+    }
+
+    ///\brief
+    /// IRectangle constructor, supports texture.
+    IRectangle(sf::Vector2f position,
+               std::vector<std::shared_ptr<IObject>> & objects,
+               sf::Texture * texture, sf::Color color = sf::Color::Transparent,
+               float speed = 0, objectType type = objectType::Abstract,
+               sf::Vector2f size = sf::Vector2f(16.f, 16.f))
+        : IObject(objects, color, speed, type), texture(texture) {
+        iRect.setPosition(position);
+        iRect.setSize(size);
+        setColor(color);
+        sprite.setPosition(position);
+        sprite.setTexture(*texture);
     }
 
     ///\brief
@@ -58,8 +77,15 @@ class IRectangle : public IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+    ///\brief
+    /// Get the current position of the object
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
+    ///\brief
+    /// Sets the color
+    ///@param color
+    /*sf::Color*/
     void setColor(sf::Color color) override;
 
     ///\brief

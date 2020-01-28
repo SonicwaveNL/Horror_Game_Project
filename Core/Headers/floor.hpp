@@ -1,38 +1,38 @@
-#ifndef Wall_hpp
-#define Wall_hpp
+#ifndef Floor_hpp
+#define Floor_hpp
 
 #include <SFML/Graphics.hpp>
 #include <iRectangle.hpp>
 ///@file
 
 ///\brief
-/// A wall object, through which a user can't move
+/// A Floor object, through which a user can't move
 ///\details
-/// A wall blocks a player from walking somewhere.
-class Wall : public IRectangle {
+/// A Floor blocks a player from walking somewhere.
+class Floor : public IRectangle {
   public:
     ///\brief
-    /// The constructor for the Wall object
+    /// The constructor for the Floor object
     ///\details
     /// It takes in a color, texture and position, to initialize the IObject
     /// instance.
     ///@param size
-    /*The size the wall will be.*/
+    /*The size the Floor will be.*/
     ///@param position
-    /*The location the top left corner of the wall will be on.*/
+    /*The location the top left corner of the Floor will be on.*/
     ///@param color
-    /*An SFML colour, which the wall will be when the texture isn't loaded.
+    /*An SFML colour, which the Floor will be when the texture isn't loaded.
     Defaults to black.*/
-    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Color color = sf::Color::White, float speed = 0,
-         objectType type = objectType::Wall)
+    Floor(sf::Vector2f position,
+          std::vector<std::shared_ptr<IObject>> & objects,
+          sf::Color color = sf::Color::White, float speed = 0,
+          objectType type = objectType::Floor)
         : IRectangle(position, objects, color, speed, type) {}
 
-    ///\brief
-    /// Wall constructor, supports texture.
-    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
-         sf::Texture * texture, sf::Color color = sf::Color::White,
-         float speed = 0, objectType type = objectType::Wall)
+    Floor(sf::Vector2f position,
+          std::vector<std::shared_ptr<IObject>> & objects,
+          sf::Texture * texture, sf::Color color = sf::Color::White,
+          float speed = 0, objectType type = objectType::Floor)
         : IRectangle(position, objects, texture, color, speed, type) {}
 
     ///\brief
@@ -44,11 +44,11 @@ class Wall : public IRectangle {
     void move(sf::Vector2f direction) override;
 
     ///\brief
-    /// Move the wall in a specific direction, if it's possible
+    /// Move the Floor in a specific direction, if it's possible
     ///\details
-    /// The wall gets moved, if and only if the location it moves to does NOT
+    /// The Floor gets moved, if and only if the location it moves to does NOT
     /// contain any other IObjects. The direction gets multiplied by the 'speed'
-    /// member. If you move the wall 5 in the X direction, the wall moves
+    /// member. If you move the Floor 5 in the X direction, the Floor moves
     /// 5*speed in the X direction.
     ///@param direction
     /*The direction to move in, which will get multiplied by the object's speed
@@ -56,47 +56,48 @@ class Wall : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    ///'Teleport' the wall to a specific location.
+    /// Sets the new color of the object.
+    ///@param color
+    /*The new sf::Color of the object*/
+
+    ///\brief
+    ///'Teleport' the Floor to a specific location.
     ///\details
     /*This function is not affected by the 'speed' member, as it teleports to
      * the specific location.*/
     ///@param target
-    /*The new position to put the wall.*/
+    /*The new position to put the Floor.*/
     void setPosition(sf::Vector2f position) override;
 
     ///\brief
-    /// Whether or not the wall collides with the object given in the
+    /// Whether or not the Floor collides with the object given in the
     /// parameters.
     ///@param obj
-    /*The object to check if the wall collides with it.*/
+    /*The object to check if the Floor collides with it.*/
     ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
-    /// Moves the wall to its previous position, if it collides with anything.
+    /// Moves the Floor to its previous position, if it collides with anything.
     ///@param obj
-    /*The object that is colliding with the wall.*/
+    /*The object that is colliding with the Floor.*/
     void collision(IObject & obj) override;
 
     ///\brief
-    /// Draws the wall to the window.
+    /// Draws the Floor to the window.
     ///@param window
     /*The SFML renderwindow to draw the object to.*/
     void draw(sf::RenderWindow & window) override;
 
     ///\brief
-    /// Return the boundaries of the wall object.
+    /// Return the boundaries of the Floor object.
     ///\details
     /*Returns the rectangle the object is surrounded by.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
-
     ///\brief
-    /// getPosition function
-    ///\details
-    /*returns the position of the object*/
-    ///@return sf::Vector2f
+    /// Function to get the position.
     sf::Vector2f getPosition() override;
 };
 
-#endif // Wall_hpp
+#endif // Floor_hpp

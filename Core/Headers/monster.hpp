@@ -2,8 +2,9 @@
 #define MONSTER_HPP
 
 #include <SFML/Graphics.hpp>
-#include <door.hpp>
+#include <unordered_map>
 #include <iRectangle.hpp>
+#include <door.hpp>
 #include <wall.hpp>
 
 ///@file
@@ -14,8 +15,6 @@
 /*A Monster class, this is the monster who follows the player*/
 class Monster : public IRectangle {
   private:
-    sf::Texture texture;
-    sf::Sprite sprite;
     sf::Vector2f oldDirection = {1, 1};
 
   public:
@@ -40,6 +39,15 @@ class Monster : public IRectangle {
             objectType type = objectType::Monster)
         : IRectangle(position, objects, color, speed, type){};
 
+
+    ///\brief
+    /// Monster constructor, supports texture.
+    Monster(sf::Vector2f position,
+            std::vector<std::shared_ptr<IObject>> & objects,
+            sf::Texture * texture, sf::Color color = sf::Color::Blue,
+            float speed = 5, objectType type = objectType::Monster)
+        : IRectangle(position, objects, texture, color, speed, type){};
+
     ///\brief
     /// Draw IRectangle on window
     ///\details
@@ -56,11 +64,12 @@ class Monster : public IRectangle {
     /*sf::Vector2f*/
     void move(sf::Vector2f possition) override;
 
-    void moveOld();
+    
     ///\brief
-    /// Set the color of the object.
-    ///@param color
-    /*The new color of the object.*/
+    ///moves the monster
+    ///\details
+    /*Moves the monster in the direction it was going*/
+    void moveOld();
 
     ///\brief
     /// Move Monster to direction, if possible.
@@ -105,5 +114,4 @@ class Monster : public IRectangle {
     /// Function to get the position.
     sf::Vector2f getPosition() override;
 };
-
-#endif // MONSTER_HPP
+#endif

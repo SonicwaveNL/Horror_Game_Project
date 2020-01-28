@@ -21,6 +21,8 @@ class UIElement {
     sf::Color fontColor;
 
   public:
+    ///\brief
+    /// UIElement constructor.
     UIElement(sf::Vector2f position, std::string labelText = "Placeholder",
               sf::Color labelColor = sf::Color::Cyan,
               sf::Color fontColor = sf::Color::Blue,
@@ -53,9 +55,9 @@ class UIElement {
     void setPosition(sf::Vector2f target);
 
     ///\brief
-    /// setLabelPosition function
+    /// Sets the position of the label relative to the sf::RectangleShape.
     ///\details
-    /*function that sets the text insude the rectangle*/
+    /*function that sets the text inside the sf::RectangleShape*/
     void setLabelPosition();
 
     ///\brief

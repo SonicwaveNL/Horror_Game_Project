@@ -3,9 +3,6 @@
 #include <iostream>
 void Monster::moveIfPossible(sf::Vector2f direction) {
   prevPosition = iRect.getPosition();
-  
-  
-  oldDirection = direction;
   iRect.setPosition(iRect.getPosition() + direction * speed);
   for (std::shared_ptr<IObject> obj : objects) {
     if (obj->intersect(*this)) {
@@ -20,8 +17,8 @@ bool Monster::intersect(IObject& obj) {
 
 void Monster::setPosition(sf::Vector2f target) {
   prevPosition = iRect.getPosition();
-  // position = target;
   iRect.setPosition(target);
+  sprite.setPosition(target);
 }
 
 void Monster::collision(IObject& obj) {
@@ -34,16 +31,19 @@ void Monster::collision(IObject& obj) {
   }
 }
 
-void Monster::moveOld(){
-  iRect.setPosition(iRect.getPosition() + oldDirection * speed);
-}
-
 void Monster::move(sf::Vector2f position) {
-  prevPosition = iRect.getPosition();
-  iRect.setPosition(position);
+    prevPosition = iRect.getPosition();
+    setPosition(position);
 }
 
-void Monster::draw(sf::RenderWindow& window) { window.draw(iRect); }
+void Monster::moveOld(){
+  setPosition(iRect.getPosition() + oldDirection * speed);
+}
+
+void Monster::draw(sf::RenderWindow& window) {
+  window.draw(iRect);
+  window.draw(sprite);
+}
 
 sf::FloatRect Monster::getBounds() { return iRect.getGlobalBounds(); }
 
