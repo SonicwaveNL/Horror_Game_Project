@@ -17,8 +17,9 @@ build: main
 
 action.o: action.hpp action.cpp support.hpp inputHandler.hpp
 door.o: door.cpp door.hpp iRectangle.hpp
-fileFactory.o: fileFactory.hpp fileFactory.cpp support.hpp gridCell.hpp wall.hpp player.hpp monster.hpp switch.hpp door.hpp uiElement.hpp
-game.o: game.cpp game.hpp action.hpp gridCell.hpp iObject.hpp monster.hpp player.hpp support.hpp switch.hpp uiElement.hpp sound.hpp
+floor.o: floor.hpp floor.cpp
+fileFactory.o: fileFactory.hpp fileFactory.cpp support.hpp gridCell.hpp wall.hpp player.hpp monster.hpp switch.hpp door.hpp uiElement.hpp iException.hpp floor.hpp
+game.o: game.cpp game.hpp action.hpp gridCell.hpp iObject.hpp monster.hpp player.hpp support.hpp switch.hpp uiElement.hpp iException.hpp floor.hpp sound.hpp
 gridCell.o: gridCell.hpp gridCell.cpp iRectangle.hpp
 inputHandler.o: inputHandler.cpp inputHandler.hpp support.hpp keyboardMouse.hpp inputListener.hpp
 inputListener.o: inputListener.hpp inputListener.cpp
@@ -36,11 +37,11 @@ main.o: main.cpp game.hpp
 %.o: %.cpp
 	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
 
-main: action.o door.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o uiElement.o main.o sound.o
-	$(gcc) -o Booh action.o door.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o uiElement.o main.o sound.o $(LIBS)
+main: action.o door.o floor.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o uiElement.o sound.o main.o
+	$(gcc) -o Booh action.o door.o floor.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o switch.o wall.o uiElement.o sound.o main.o $(LIBS)
 
 clean:
-	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o fileFactory.o gridCell.o iObject.o iRectangle.o monster.o switch.o uiElement.o sound.o Booh
+	$(rm) main.o game.o player.o wall.o support.o door.o windowHandler.o inputHandler.o inputListener.o keyboardMouse.o action.o floor.o fileFactory.o gridCell.o iObject.o iRectangle.o monster.o switch.o uiElement.o sound.o Booh
 
 run: main
 	./Booh

@@ -6,3 +6,7 @@ void IRectangle::setColor(sf::Color color){
     iRect.setFillColor(color);
 }
 
+
+sf::Vector2f IRectangle::getPosition(){
+    return iRect.getPosition();
+}

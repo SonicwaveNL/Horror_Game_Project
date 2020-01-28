@@ -12,9 +12,11 @@
 #include <gridCell.hpp>
 #include <wall.hpp>
 #include <player.hpp>
+#include <floor.hpp>
 #include <monster.hpp>
 #include <switch.hpp>
 #include <door.hpp>
+#include <iException.hpp>
 
 ///@file
 ///\brief
@@ -65,8 +67,11 @@ class FileFactory {
      * given matrix*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
-    void objectsToDrawables(std::vector<std::shared_ptr<IObject>> & drawables,
-                            std::vector<std::vector<GridCell>> & matrix);
+    void objectsToDrawables(
+        std::vector<std::shared_ptr<IObject>> & drawables,
+        std::vector<std::vector<GridCell>> & matrix,
+        std::unordered_map<objectType, std::vector<sf::Texture>> &
+            loadedTextures);
 
     ///\brief
     /// fileToUi function

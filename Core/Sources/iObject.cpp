@@ -2,7 +2,5 @@
 
 objectType IObject::getType() { return type; }
 
-void IObject::setSpeed(int newSpeed){
-    speed = newSpeed;
-}
+void IObject::setSpeed(int newSpeed) { speed = newSpeed; }
 

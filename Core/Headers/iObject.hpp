@@ -2,6 +2,7 @@
 #define IOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -68,6 +69,8 @@ class IObject {
     ///@param target
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
+
+    virtual sf::Vector2f getPosition() = 0;
 
     ///\brief
     /// Sets the new color of the object.

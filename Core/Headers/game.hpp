@@ -1,18 +1,21 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <IException.hpp>
 #include <sound.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <experimental/filesystem>
+#include <unordered_map>
 #include <action.hpp>
 #include <fileFactory.hpp>
 #include <gridCell.hpp>
 #include <iObject.hpp>
+#include <floor.hpp>
 #include <memory>
 #include <monster.hpp>
 #include <player.hpp>
+#include <switch.hpp>
+#include <iException.hpp>
 #include <queue>
 #include <support.hpp>
 #include <switch.hpp>
@@ -33,7 +36,13 @@ class Game {
     FileFactory factory;
     Sound sound;
 
+    std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
+    sf::Image textureSource, bgSource;
+    sf::Texture bgTexture;
+    sf::Sprite bgSprite;
+
     std::vector<std::shared_ptr<IObject>> drawables;
+
     std::vector<std::vector<GridCell>> grid;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -55,7 +64,10 @@ class Game {
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
+
     std::string chosenMap = "custom.txt";
+    std::string textureFile = "boohTileset.png";
+
     bool loaded = false;
 
     Action playingActions[6] = {
@@ -104,15 +116,19 @@ class Game {
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
-                   grid[index[0]][index[1]].setCellType(cellType);
+                   int index[2] = {int(mousePos.x) / PIXEL16,
+                                   int(mousePos.y) / PIXEL16};
+                   grid[index[0]][index[1]].setCellType(
+                       cellType, &gameTextures[cellType][0]);
                }),
         Action(sf::Mouse::Button::Right,
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
-                   grid[index[0]][index[1]].setCellType(objectType::Floor);
+                   int index[2] = {int(mousePos.x) / PIXEL16,
+                                   int(mousePos.y) / PIXEL16};
+                   grid[index[0]][index[1]].setCellType(
+                       objectType::Floor, &gameTextures[objectType::Floor][0]);
                }),
         Action(sf::Keyboard::Escape, [=] {
             int doorCounter = 0;
@@ -153,6 +169,19 @@ class Game {
     void loadSubVectors();
 
     ///\brief
+    /// Loads a tileset.
+    ///\details
+    /*Used to load a tileset into a container provided the tiles are 16x16
+     * pixels.*/
+    ///@param file
+    /*std::string*/
+    ///@param source
+    /*sf::Image &*/
+    ///@return std::unordered_map<objectType, std::vector<sf::Texture>>
+    std::unordered_map<objectType, std::vector<sf::Texture>>
+    loadTextures(std::string file, sf::Image & source);
+
+    ///\brief
     /// draw function
     ///\details
     /*function that prints the given vectors of shared pointers of drawables to
@@ -181,6 +210,17 @@ class Game {
 
   public:
     Game() {
+        bgSource.loadFromFile("Resources/Textures/background.png");
+        bgTexture.loadFromImage(
+            bgSource,
+            sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+        bgSprite.setTexture(bgTexture);
+        bgSprite.setPosition(sf::Vector2f{0, 0});
+
+        gameTextures =
+            loadTextures("Resources/Textures/" + textureFile, textureSource);
+
         grid = createGrid(window.getSize());
         std::ifstream file;
 
@@ -253,6 +293,8 @@ class Game {
     which cells around him have to lowest value, and thus which cell contains
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
+
+    void markGridCellsToDraw();
 
     ///\brief
     /// Runs the game demo

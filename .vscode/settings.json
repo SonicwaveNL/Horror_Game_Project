@@ -58,6 +58,7 @@
         "set": "cpp",
         "iomanip": "cpp",
         "iostream": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "filesystem": "cpp"
     }
 }
