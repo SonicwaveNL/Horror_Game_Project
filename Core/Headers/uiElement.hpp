@@ -87,7 +87,7 @@ class UIElement {
     ///\brief
     /// setText function
     ///\details
-    /*sets the text of the elemetn to the given string*/
+    /*sets the text of the element to the given string*/
     ///@param text
     /*std::string*/
     void setText(std::string text);
@@ -98,6 +98,8 @@ class UIElement {
     /*returns the text of the element*/
     ///@return std::string
     std::string getText();
+
+    void setTextSize(int size);
 };
 
 #endif

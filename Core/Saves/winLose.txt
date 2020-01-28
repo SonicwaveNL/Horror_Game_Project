@@ -1,0 +1,1 @@
+UIELEMENT (100,100) (0,0) transparent WinOrLose white

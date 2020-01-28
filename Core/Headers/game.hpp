@@ -41,6 +41,10 @@ class Game {
     sf::Texture bgTexture;
     sf::Sprite bgSprite;
 
+    sf::Image loseBgSource;
+    sf::Sprite loseBgSprite;
+    sf::Texture loseBgTexture;
+
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::vector<GridCell>> grid;
@@ -56,6 +60,7 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
+    std::vector<std::shared_ptr<UIElement>> winloseUI;
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
@@ -174,6 +179,7 @@ class Game {
     ///@param grid
     /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
+void draw(std::shared_ptr<UIElement> & UIElement);
 
   public:
     Game() {
@@ -184,6 +190,14 @@ class Game {
                         sf::Vector2i{window.getSize().x, window.getSize().y}});
         bgSprite.setTexture(bgTexture);
         bgSprite.setPosition(sf::Vector2f{0, 0});
+
+        loseBgSource.loadFromFile("Resources/Texture/loseBackground.png");
+        std::cout << "loaded\n";
+        loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}} );
+        std::cout << "loaded2\n";
+        loseBgSprite.setTexture(loseBgTexture);
+        bgSprite.setPosition({0,0});
 
         gameTextures =
             loadTextures("Resources/Textures/" + textureFile, textureSource);
@@ -205,6 +219,10 @@ class Game {
 
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/winLose.txt");
+        winloseUI = factory.fileToUi(file);
         file.close();
     };
 

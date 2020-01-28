@@ -5,7 +5,7 @@ bool UIElement::intersect(sf::Vector2f position){
 }
 
 void UIElement::setPosition(sf::Vector2f direction){
-    iRect.setPosition(iRect.getPosition());
+    iRect.setPosition(direction);
     setLabelPosition();
 }
 
@@ -42,3 +42,7 @@ void UIElement::setText(std::string text){
 std::string UIElement::getText(){
     return label.getString();
 };
+
+void UIElement::setTextSize(int size){
+    label.setCharacterSize((unsigned)size);
+}

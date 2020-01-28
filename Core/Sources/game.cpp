@@ -255,33 +255,36 @@ Game::loadTextures(std::string file, sf::Image & source) {
 };
 
 void Game::draw() {
-    for(std::shared_ptr<IObject> drawable : gameObjects){
-      int xPos = drawable->getPosition().x / PIXEL16;
+    for (std::shared_ptr<IObject> drawable : gameObjects) {
+        int xPos = drawable->getPosition().x / PIXEL16;
         int yPos = drawable->getPosition().y / PIXEL16;
         if (grid[xPos][yPos].ableToDraw == true) {
             drawable->draw(window);
         }
     }
-       for(std::shared_ptr<IObject> drawable : winFactors){
-      int xPos = drawable->getPosition().x / PIXEL16;
+    for (std::shared_ptr<IObject> drawable : winFactors) {
+        int xPos = drawable->getPosition().x / PIXEL16;
         int yPos = drawable->getPosition().y / PIXEL16;
         if (grid[xPos][yPos].ableToDraw == true) {
             drawable->draw(window);
         }
     }
-     for(std::shared_ptr<IObject> drawable : characters){
-      int xPos = drawable->getPosition().x / PIXEL16;
+    for (std::shared_ptr<IObject> drawable : characters) {
+        int xPos = drawable->getPosition().x / PIXEL16;
         int yPos = drawable->getPosition().y / PIXEL16;
         if (grid[xPos][yPos].ableToDraw == true) {
             drawable->draw(window);
         }
     }
-
 }
 void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements) {
     for (std::shared_ptr<UIElement> uiElement : uiElements) {
         uiElement->draw(window);
     }
+}
+
+void Game::draw(std::shared_ptr<UIElement> & UIElement) {
+    UIElement->draw(window);
 }
 
 void Game::draw(std::vector<std::vector<GridCell>> & _grid) {
@@ -396,14 +399,13 @@ void Game::run() {
                     currentState = gameState::WinState;
                     break;
                 } else if (player->checkLose()) {
-                    std::cout << "Lose?\n";
                     currentState = gameState::LoseState;
                     break;
                 }
-                
+
                 // show instructions once*
                 window.draw(bgSprite);
-                draw(drawables);
+                draw();
                 draw(PlayUI);
 
                 // add actions to remove instructions
@@ -428,9 +430,13 @@ void Game::run() {
             case gameState::WinState: {
                 static int counter = 0;
                 const int countMax = 200;
-                if (counter == 0) {
-                    std::cout << "YOU WON THE GAME\n";
-                }
+                auto tmp = *winloseUI[0];
+                auto tmp_button = std::make_shared<UIElement>(tmp);
+                tmp_button->setText("You Won The Game");
+                std::vector<std::shared_ptr<UIElement>> tmp_vector = {
+                    tmp_button};
+
+                draw(tmp_vector);
                 counter++;
 
                 if (counter == countMax) {
@@ -442,9 +448,15 @@ void Game::run() {
             case gameState::LoseState: {
                 static int counter = 0;
                 const int countMax = 200;
-                if (counter == 0) {
-                    std::cout << "YOU LOST THE GAME\n";
-                }
+                auto tmp = *winloseUI[0];
+                auto tmp_button = std::make_shared<UIElement>(tmp);
+                tmp_button->setText("You Lost The Game");
+                tmp_button->setTextSize(100);
+                tmp_button->setPosition({(window.getSize().x/2-tmp_button->getBounds().width/2), (window.getSize().y/2-tmp_button->getBounds().height/2)});
+                std::vector<std::shared_ptr<UIElement>> tmp_vector = {
+                    tmp_button};
+                window.draw(loseBgSprite);
+                draw(tmp_vector);
                 counter++;
 
                 if (counter == countMax) {
