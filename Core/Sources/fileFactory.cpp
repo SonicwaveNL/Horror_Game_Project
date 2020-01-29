@@ -277,10 +277,11 @@ FileFactory::fileToUi(std::istream & file) {
 void FileFactory::writeInventoryToFile(int & points, int & amountPowerups1,
                                        int & amountPowerups2) {
     std::ofstream file;
-    file.open( "/Core/Saves/inventory.txt");
-    file << "POINTS" << points << "\n";
-    file << "AMOUNT1" << amountPowerups1 << "\n";
-    file << "AMOUNT2" << amountPowerups2 << "\n";
+    file.open( "Core/Saves/inventory.txt");
+    file << "POINTS " << points << "\n";
+    file << "AMOUNT1 " << amountPowerups1 << "\n";
+    file << "AMOUNT2 " << amountPowerups2 << "\n";
+    file << "END";
     file.close();
 }
 
@@ -288,7 +289,7 @@ std::array<int, 3> FileFactory::readInventoryFromFile(){
     int points, amount1, amount2;
     std::string item;
     std::ifstream file;
-    file.open( "/Core/Saves/inventory.txt");
+    file.open( "Core/Saves/inventory.txt");
     file >> item;
     if( item == "POINTS" ){
         file >> points;
@@ -297,9 +298,11 @@ std::array<int, 3> FileFactory::readInventoryFromFile(){
     if( item == "AMOUNT1" ){
         file >> amount1;
     }
+    file >> item;
     if( item == "AMOUNT2" ){
         file >> amount2;
     }
+    file >> item;
     file.close();
     return {points, amount1, amount2};
 }

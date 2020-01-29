@@ -308,7 +308,6 @@ void draw(std::shared_ptr<UIElement> & UIElement);
 
         std::array<int, 3> playerData = factory.readInventoryFromFile();
         points = playerData[0];
-
         Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
         Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
 
