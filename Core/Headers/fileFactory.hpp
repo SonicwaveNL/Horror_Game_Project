@@ -4,7 +4,8 @@
 #include <fstream>
 #include <ostream>
 #include <string>
-
+#include <cstdlib> 
+#include <algorithm>
 #include <door.hpp>
 #include <floor.hpp>
 #include <gridCell.hpp>

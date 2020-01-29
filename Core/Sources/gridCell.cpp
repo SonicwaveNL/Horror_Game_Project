@@ -39,6 +39,7 @@ void GridCell::setCellType(objectType type) {
 void GridCell::setCellType(objectType type, sf::Texture* texture) {
   if (type == objectType::Floor) {
     setColor(sf::Color::Transparent);
+    setTexture(texture);
   } else if (type == objectType::Wall) {
     setColor(sf::Color::Red);
     setTexture(texture);
