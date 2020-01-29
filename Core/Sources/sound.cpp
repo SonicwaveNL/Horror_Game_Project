@@ -2,7 +2,6 @@
 
 void Sound::playMusic(){
     music.play();
-    std::cout << music.getPitch() << std::endl;
 }
 
 void Sound::setTense(){

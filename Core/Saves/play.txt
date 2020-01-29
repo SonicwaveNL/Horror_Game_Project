@@ -1,2 +1,10 @@
-UIELEMENT (50,50) (0,0) yellow Playtest red
+UIELEMENT (1640,20) (260,60) white empty white
+
+UIELEMENT (1660,25) (50,50) black O white
+
+UIELEMENT (1720,25) (50,50) black O white
+
+UIELEMENT (1780,25) (50,50) black O white
+
+UIELEMENT (1840,25) (50,50) black O white
 END

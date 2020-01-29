@@ -6,7 +6,6 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
     unsigned int amountOfRect = amountOfRow * amountOfColumn;
     float x = 0;
     float y = 0;
-
     std::vector<std::vector<GridCell>> shapeMatrix;
 
     for (size_t i = 0; i < amountOfColumn; i++) {
@@ -27,19 +26,16 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
         x += PIXEL16;
         y = 0;
     }
-    shapeMatrix[30][30].setCellType(objectType::Player,
-                                    &gameTextures[objectType::Player][0]);
-    shapeMatrix[PIXEL16][PIXEL16].setCellType(
-        objectType::Monster, &gameTextures[objectType::Monster][0]);
     return shapeMatrix;
 }
 
-std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos) {
-    int xPos = int(mousePos.x) / PIXEL16;
-    int yPos = int(mousePos.y) / PIXEL16;
+std::array<int, 2> Game::findIndexInGrid(sf::Vector2f position) {
+    int xPos = int(position.x) / PIXEL16;
+    int yPos = int(position.y) / PIXEL16;
     std::array<int, 2> arr = {xPos, yPos};
     return arr;
 }
+
 void Game::loadSubVectors() {
     // Clear sub-vectors to make sure there are no duplicates in the sub-vectors
     characters.clear();
@@ -229,6 +225,54 @@ void Game::reversedBFSPathAlgorithm() {
         }
     }
 };
+
+std::vector<std::shared_ptr<IObject>> Game::lantern() {
+    sf::Vector2f playerPos = player->getPosition();
+    auto playerIndex = findIndexInGrid(playerPos);
+
+    // X-as in grid
+    auto leftXIndex = playerIndex[0] - (viewDistance + 1);
+    auto rightXIndex = playerIndex[0] + (viewDistance + 1);
+
+    // Y-as in grid
+    auto topYIndex = playerIndex[1] - (viewDistance + 1);
+    auto bottomYIndex = playerIndex[1] + (viewDistance + 1);
+
+    std::vector<GridCell> vectorToCheckForType;
+    // X-as
+    for (size_t x = leftXIndex; x < rightXIndex; x++) {
+        if (x >= 0 && rightXIndex < grid.size()) {
+            // Y-as
+            for (size_t y = topYIndex; y < bottomYIndex; y++) {
+                if (y >= 0 && bottomYIndex < grid[x].size()) {
+                    vectorToCheckForType.push_back(grid[x][y]);
+                }
+            }
+        }
+    }
+    std::vector<std::shared_ptr<IObject>> vectorToDraw;
+    sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
+    line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
+    bool monsterFound = false;
+    for (int degree = 0; degree < 360; degree += 5) {
+        auto lineBounds = line.getGlobalBounds();
+        for (auto & pointer : vectorToCheckForType) {
+            if (lineBounds.intersects(pointer.getMyDrawable()->getBounds())) {
+                vectorToDraw.push_back(pointer.getMyDrawable());
+            }
+        }
+        if (lineBounds.intersects(monster->getBounds())) {
+            monsterFound = true;
+        };
+        line.setRotation(degree);
+    }
+    if(monsterFound){
+        vectorToDraw.push_back(monster);
+    }
+    vectorToDraw.push_back(player);
+    return vectorToDraw;
+}
+
 std::unordered_map<objectType, std::vector<sf::Texture>>
 Game::loadTextures(std::string file, sf::Image & source) {
     std::unordered_map<objectType, std::vector<sf::Texture>> tmpCont;
@@ -250,33 +294,16 @@ Game::loadTextures(std::string file, sf::Image & source) {
                 tmpCont[objArr[i]].push_back(tmp);
             }
         }
-    }
+    };
     return tmpCont;
-};
+}
 
-void Game::draw() {
-    for (std::shared_ptr<IObject> drawable : gameObjects) {
-        int xPos = drawable->getPosition().x / PIXEL16;
-        int yPos = drawable->getPosition().y / PIXEL16;
-        if (grid[xPos][yPos].ableToDraw == true) {
-            drawable->draw(window);
-        }
-    }
-    for (std::shared_ptr<IObject> drawable : winFactors) {
-        int xPos = drawable->getPosition().x / PIXEL16;
-        int yPos = drawable->getPosition().y / PIXEL16;
-        if (grid[xPos][yPos].ableToDraw == true) {
-            drawable->draw(window);
-        }
-    }
-    for (std::shared_ptr<IObject> drawable : characters) {
-        int xPos = drawable->getPosition().x / PIXEL16;
-        int yPos = drawable->getPosition().y / PIXEL16;
-        if (grid[xPos][yPos].ableToDraw == true) {
-            drawable->draw(window);
-        }
+void Game::draw(std::vector<std::shared_ptr<IObject>> & x) {
+    for (auto & object : x) {
+        object->draw(window);
     }
 }
+
 void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements) {
     for (std::shared_ptr<UIElement> uiElement : uiElements) {
         uiElement->draw(window);
@@ -301,7 +328,9 @@ void Game::run() {
         window.clear();
         switch (currentState) {
             case gameState::Menu: {
-                writeInventoryToFile(points, powerups[BuffType::PlayerSpeed], powerups[BuffType::EnemySpeed]);
+                int ppAmount = powerups[BuffType::PlayerSpeed]->getAmount();
+                int peAmount = powerups[BuffType::EnemySpeed]->getAmount();
+                factory.writeInventoryToFile(points, ppAmount, peAmount);
                 draw(MenuUI);
                 for (auto & ele : MenuUI) {
                     int value = 0;
@@ -312,14 +341,11 @@ void Game::run() {
                         auto tmp = ele->getText();
                         if (tmp == "Play") {
                             currentState = gameState::SelectMap;
-                            std::cout << "Play\n";
                             break;
                         } else if (tmp == "Editor") {
                             currentState = gameState::Editor;
-                            std::cout << "Editor\n";
                             break;
                         } else if (tmp == "Quit") {
-                            std::cout << "Quit\n";
                             currentState = gameState::Quit;
                             break;
                         }
@@ -347,8 +373,8 @@ void Game::run() {
             case gameState::Play: {
                 static size_t counter = 0;
                 if (!loaded) {
-                    std::cout << "Loaded game.\n";
-                    std::ifstream file("Core/Saves/" + chosenMap);
+                    std::ifstream file;
+                    file.open("Core/Saves/" + chosenMap);
                     if (file) {
                         for (auto & row : grid) {
                             for (auto & item : row) {
@@ -357,7 +383,7 @@ void Game::run() {
                         }
                         factory.loadMatrixFromFile(grid, file);
                     } else {
-                        currentState = gameState::Menu;
+                        currentState = gameState::SelectMap;
                         break;
                     }
                     factory.objectsToDrawables(drawables, grid, gameTextures);
@@ -368,6 +394,9 @@ void Game::run() {
                     loaded = true;
                 }
 
+                if( chosenMap == "tutorialMap.txt"){
+                    draw(TutorialUI);
+                }
                 for (auto & action : playingActions) {
                     action();
                 }
@@ -377,6 +406,7 @@ void Game::run() {
                     
                 }
 
+                // sound
                 if (std::fabs(monster->getPosition().x -
                               player->getPosition().x) <= 50 ||
                     std::fabs(monster->getPosition().y -
@@ -387,9 +417,7 @@ void Game::run() {
                 }
 
                 // monster movement loop
-
                 sf::Vector2f monsterPosition = monster->getPosition();
-
                 if (monster->getPosition() == grid[monsterPosition.x / PIXEL16]
                                                   [monsterPosition.y / PIXEL16]
                                                       .getPosition()) {
@@ -430,12 +458,10 @@ void Game::run() {
                     currentState = gameState::LoseState;
                     break;
                 }
-                // show instructions once*
-                window.draw(bgSprite);
-                draw();
-                draw(PlayUI);
 
-                // add actions to remove instructions
+                auto a = lantern();
+                draw(a);
+
                 break;
             }
 
@@ -448,7 +474,6 @@ void Game::run() {
                 for (auto & action : editorActions) {
                     action();
                 }
-                // add actions to remove instructions
                 break;
             }
 

@@ -3,30 +3,19 @@
 std::istream & operator>>(std::istream & input, sf::Vector2f & rhs) {
     char c;
     if (!(input >> c)) {
-        // throw UnknownTypeException("1");
-    }
-    if (c != '(') {
-        // throw UnknownTypeException("2");
+        throw UnknownTypeException("Not On Coordinate");
     }
     if (!(input >> rhs.x)) {
-        // throw UnknownTypeException("3");
-    }
-    if (!(input >> c)) { // adjust so only , are correct
-        // throw UnknownTypeException("4");
-
-    } else {
-        if (c != ',') {
-            // throw UnknownTypeException("5");
-        }
-    }
-    if (!(input >> rhs.y)) {
-        // throw UnknownTypeException("6");
+        throw UnknownTypeException("Not On Coordinate");
     }
     if (!(input >> c)) {
-        // throw UnknownTypeException("7");
+        throw UnknownTypeException("Not On Coordinate");
     }
-    if (c != ')') {
-        // throw UnknownTypeException("8");
+    if (!(input >> rhs.y)) {
+        throw UnknownTypeException("Not On Coordinate");
+    }
+    if (!(input >> c)) {
+        throw UnknownTypeException("Not On Coordinate");
     }
     return input;
 }
@@ -60,13 +49,15 @@ void FileFactory::loadMatrixFromFile(
     std::vector<int> choices;
     sf::Vector2f position;
     std::string name;
-    while (!file.eof()) {
+    while (name != "END") {
         file >> name;
-        if (name == "END") {
-            continue;
+        if (name != "END") {
+            try {
+                file >> position;
+            } catch (std::exception & problem) {
+                problem.what();
+            }
         }
-        file >> position;
-        ;
         for (auto & item : types) {
             if (name == item.writeAble) {
                 if (item.itemType == objectType::Player) {
@@ -82,10 +73,10 @@ void FileFactory::loadMatrixFromFile(
                     monsters.push_back(
                         std::tuple<std::string, sf::Vector2f>(name, position));
                 } else {
-                    matrix[position.x / PIXEL16][position.y / PIXEL16].setCellType(
-                        item.itemType);
-                    matrix[position.x / PIXEL16][position.y / PIXEL16].setPosition(
-                        position);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setCellType(item.itemType);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setPosition(position);
                 }
             }
         }
@@ -117,10 +108,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // player kiezen en wegschrijven naar grid
     if (players.size() == 1) {
-        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
-            .setCellType(objectType::Player);
-        matrix[std::get<1>(players[0]).x / PIXEL16][std::get<1>(players[0]).y / PIXEL16]
-            .setPosition(std::get<1>(players[0]));
+        matrix[std::get<1>(players[0]).x / PIXEL16]
+              [std::get<1>(players[0]).y / PIXEL16]
+                  .setCellType(objectType::Player);
+        matrix[std::get<1>(players[0]).x / PIXEL16]
+              [std::get<1>(players[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(players[0]));
     } else {
         int random = rand() % (players.size() - 1);
         matrix[std::get<1>(players[random]).x / PIXEL16]
@@ -132,10 +125,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // door kiezen en wegschrijven
     if (doors.size() == 1) {
-        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
-            .setCellType(objectType::Door);
-        matrix[std::get<1>(doors[0]).x / PIXEL16][std::get<1>(doors[0]).y / PIXEL16]
-            .setPosition(std::get<1>(doors[0]));
+        matrix[std::get<1>(doors[0]).x / PIXEL16]
+              [std::get<1>(doors[0]).y / PIXEL16]
+                  .setCellType(objectType::Door);
+        matrix[std::get<1>(doors[0]).x / PIXEL16]
+              [std::get<1>(doors[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(doors[0]));
     } else {
         int random = rand() % (doors.size() - 1);
         matrix[std::get<1>(doors[random]).x / PIXEL16]
@@ -147,10 +142,12 @@ void FileFactory::loadMatrixFromFile(
     }
     // monster kiezen en wegschrijven
     if (monsters.size() == 1) {
-        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
-            .setCellType(objectType::Monster);
-        matrix[std::get<1>(monsters[0]).x / PIXEL16][std::get<1>(monsters[0]).y / PIXEL16]
-            .setPosition(std::get<1>(monsters[0]));
+        matrix[std::get<1>(monsters[0]).x / PIXEL16]
+              [std::get<1>(monsters[0]).y / PIXEL16]
+                  .setCellType(objectType::Monster);
+        matrix[std::get<1>(monsters[0]).x / PIXEL16]
+              [std::get<1>(monsters[0]).y / PIXEL16]
+                  .setPosition(std::get<1>(monsters[0]));
     } else {
         int random = rand() % (monsters.size() - 1);
         matrix[std::get<1>(monsters[random]).x / PIXEL16]
@@ -178,31 +175,47 @@ void FileFactory::objectsToDrawables(
                 throw UnknownTypeException();
                 continue;
             } else if (soort == objectType::Floor) {
-                continue;
+                auto sharedDrawable = std::make_shared<Floor>(
+                    item.getPosition(), drawables,
+                    &loadedTextures[objectType::Floor][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             } else if (soort == objectType::Wall) {
-                drawables.push_back(std::make_shared<Wall>(
+                auto sharedDrawable = std::make_shared<Wall>(
                     item.getPosition(), drawables,
-                    &loadedTextures[objectType::Wall][0]));
-
+                    &loadedTextures[objectType::Wall][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             } else if (soort == objectType::Switch) {
-                drawables.push_back(std::make_shared<Switch>(
+                auto sharedDrawable = std::make_shared<Switch>(
                     item.getPosition(), drawables,
-                    &loadedTextures[objectType::Switch][0]));
-
+                    &loadedTextures[objectType::Switch][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             } else if (soort == objectType::Door) {
-                drawables.push_back(std::make_shared<Door>(
+                auto sharedDrawable = std::make_shared<Door>(
                     item.getPosition(), drawables,
-                    &loadedTextures[objectType::Door][0]));
-
+                    &loadedTextures[objectType::Door][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             } else if (soort == objectType::Player) {
                 drawables.push_back(std::make_shared<Player>(
                     item.getPosition(), drawables,
                     &loadedTextures[objectType::Player][0]));
-
+                auto sharedDrawable = std::make_shared<Floor>(
+                    item.getPosition(), drawables,
+                    &loadedTextures[objectType::Floor][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             } else if (soort == objectType::Monster) {
                 drawables.push_back(std::make_shared<Monster>(
                     item.getPosition(), drawables,
                     &loadedTextures[objectType::Monster][0]));
+                auto sharedDrawable = std::make_shared<Floor>(
+                    item.getPosition(), drawables,
+                    &loadedTextures[objectType::Floor][0]);
+                item.setMyDrawable(sharedDrawable);
+                drawables.push_back(sharedDrawable);
             }
         }
     }
@@ -227,13 +240,15 @@ FileFactory::fileToUi(std::istream & file) {
     sf::Vector2f position, size;
     sf::Color sfColorLabel, sfColorRect;
 
-    while (!file.eof()) {
+    while (name != "END") {
         file >> name;
-        file >> position;
-        file >> size;
-        file >> colorStringRect;
-        file >> text;
-        file >> colorStringLabel;
+        if (name != "END") {
+            file >> position;
+            file >> size;
+            file >> colorStringRect;
+            file >> text;
+            file >> colorStringLabel;
+        }
 
         if (name == "END") {
             continue;
@@ -257,4 +272,34 @@ FileFactory::fileToUi(std::istream & file) {
         }
     }
     return returnVector;
+}
+
+void FileFactory::writeInventoryToFile(int & points, int & amountPowerups1,
+                                       int & amountPowerups2) {
+    std::ofstream file;
+    file.open( "/Core/Saves/inventory.txt");
+    file << "POINTS" << points << "\n";
+    file << "AMOUNT1" << amountPowerups1 << "\n";
+    file << "AMOUNT2" << amountPowerups2 << "\n";
+    file.close();
+}
+
+std::array<int, 3> FileFactory::readInventoryFromFile(){
+    int points, amount1, amount2;
+    std::string item;
+    std::ifstream file;
+    file.open( "/Core/Saves/inventory.txt");
+    file >> item;
+    if( item == "POINTS" ){
+        file >> points;
+    }
+    file >> item;
+    if( item == "AMOUNT1" ){
+        file >> amount1;
+    }
+    if( item == "AMOUNT2" ){
+        file >> amount2;
+    }
+    file.close();
+    return {points, amount1, amount2};
 }

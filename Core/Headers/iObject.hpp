@@ -20,6 +20,9 @@ class IObject {
     float speed = 5;
     objectType type;
 
+    //stuff for the drawing/light
+    bool ableToDraw = false;
+
   public:
     ///\brief
     /// IObject constructor
@@ -116,6 +119,10 @@ class IObject {
     virtual void setSpeed(float newSpeed);
 
     float getSpeed();
+
+    bool checkIfDrawable(){return ableToDraw;};
+
+    bool toggleAbleToDraw(){if (ableToDraw){ableToDraw = false;}else{ableToDraw = true;}};
 };
 
 #endif // IOBJECT_HPP

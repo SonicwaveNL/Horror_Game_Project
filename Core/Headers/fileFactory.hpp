@@ -2,21 +2,20 @@
 #define FILEFACTORY_HPP
 
 #include <fstream>
-#include <string>
 #include <ostream>
-#include <cstdlib> 
+#include <string>
+#include <cstdlib>
 #include <algorithm>
-
-#include <uiElement.hpp>
-#include <support.hpp>
-#include <gridCell.hpp>
-#include <wall.hpp>
-#include <player.hpp>
-#include <floor.hpp>
-#include <monster.hpp>
-#include <switch.hpp>
 #include <door.hpp>
+#include <floor.hpp>
+#include <gridCell.hpp>
 #include <iException.hpp>
+#include <monster.hpp>
+#include <player.hpp>
+#include <support.hpp>
+#include <switch.hpp>
+#include <uiElement.hpp>
+#include <wall.hpp>
 
 ///@file
 ///\brief
@@ -73,6 +72,12 @@ class FileFactory {
         std::unordered_map<objectType, std::vector<sf::Texture>> &
             loadedTextures);
 
+    void objectsToDrawables(
+        std::vector<std::shared_ptr<IObject>> & drawables,
+        std::vector<GridCell> & matrix,
+        std::unordered_map<objectType, std::vector<sf::Texture>> &
+            loadedTextures);
+
     ///\brief
     /// fileToUi function
     ///\details
@@ -80,6 +85,29 @@ class FileFactory {
      * returns these in a vector*/
     ///@param file
     /*std::ifstream &*/
+
     std::vector<std::shared_ptr<UIElement>> fileToUi(std::istream & file);
+
+    
+    ///\brief
+    ///writeInventoryToFile function
+    ///\details
+    /*writes the players current inventory to the inventory.txt file*/
+    ///@param point
+    /*int &*/
+    ///@param amountPowerUps1
+    /*int &*/
+    ///@param amountPowerUps2
+    /*int &*/
+    void writeInventoryToFile(int & points, int & amountPowerups1,
+                              int & amountPowerups2);
+
+    
+    ///\brief
+    ///readInventroyFromFile function
+    ///\details
+    /*This function returns an array with al the current inventory information*/
+    ///@return std::array<int,3>
+    std::array<int,3> readInventoryFromFile();
 };
 #endif

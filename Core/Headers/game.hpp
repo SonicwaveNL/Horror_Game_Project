@@ -30,9 +30,10 @@
 /// Game class, this class runs the entire game with the run function()
 class Game {
   private:
-    int difficulty = 100;
+    size_t difficulty = 50;
+    size_t viewDistance = 5;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-                            sf::Style::Fullscreen};
+    sf::Style::Fullscreen};
 
     FileFactory factory;
     Sound sound;
@@ -65,6 +66,7 @@ class Game {
 
     std::vector<std::shared_ptr<UIElement>> MenuUI;
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
+    std::vector<std::shared_ptr<UIElement>> TutorialUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
     std::vector<std::shared_ptr<UIElement>> winloseUI;
@@ -83,7 +85,32 @@ class Game {
 
     bool loaded = false;
 
-    Action playingActions[8] = {
+    Action playingActions[9] = {
+         Action(sf::Keyboard::Tab,
+               [=]() {
+                   int switchCount = 0;
+
+                   for (size_t i = 1; i < winFactors.size(); i++) {
+                       std::shared_ptr<Switch> s =
+                           std::static_pointer_cast<Switch>(winFactors[i]);
+                       s->collision(*characters[0]);
+
+                       if (s->isActive()) {
+                           switchCount++;
+                       }
+                   }
+                   int counter = 0;
+                   for (auto & item : PlayUI) {
+                       if (switchCount >= 0) {
+                           item->setText("*");
+                       }
+                       if (counter < winFactors.size()) {
+                           item->draw(window);
+                       }
+                       counter++;
+                       switchCount--;
+                   }
+               }),
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
         Action(actionKeyword::down,
@@ -170,14 +197,9 @@ class Game {
                     }
                 }
             }
-            std::cout << "door: " << doorCounter << std::endl;
-            std::cout << "player: " << playerCounter << std::endl;
-            std::cout << "switch: " << switchCounter << std::endl;
-            std::cout << "monster: " << monsterCounter << std::endl;
             if (monsterCounter > 0 && doorCounter > 0 && playerCounter > 0 &&
                 switchCounter > 0) {
                 factory.writeToFile(grid, "Core/Saves/custom.txt");
-                std::cout << "succesvol geschreven";
                 loaded = false;
                 currentState = gameState::Menu;
             }
@@ -206,9 +228,11 @@ class Game {
     ///\brief
     /// draw function
     ///\details
-    /*function that draws the game objects in the right order. 
-    It draws the floor underneath the player and enemy, the switches and doors also get drawn underneath the player and enemy, etc.*/
-    void draw();
+    /*function that prints the given vectors of shared pointers of drawables to
+     * the screen.*/
+    ///@param drawables
+    /*std::vector<std::shared_prt<IObject>> &*/
+    void draw(std::vector<std::shared_ptr<IObject>> & x);
 
     ///\brief
     /// draw function
@@ -257,7 +281,6 @@ void draw(std::shared_ptr<UIElement> & UIElement);
 
         grid = createGrid(window.getSize());
         std::ifstream file;
-
         file.open("Core/Saves/menu.txt");
         MenuUI = factory.fileToUi(file);
         file.close();
@@ -278,7 +301,12 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         winloseUI = factory.fileToUi(file);
         file.close();
 
-        std::array<int, 3> playerData = readInventoryFromFile();
+
+        file.open("Core/Saves/tutorial.txt");
+        TutorialUI = factory.fileToUi(file);
+        file.close();
+
+        std::array<int, 3> playerData = factory.readInventoryFromFile();
         points = playerData[0];
 
         Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
@@ -287,10 +315,8 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
         powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);
 
-
     };
 
-    std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
     ///\brief
     /// Creates a matrix of GridCells.
     ///\details
@@ -310,7 +336,7 @@ void draw(std::shared_ptr<UIElement> & UIElement);
     /*position is a sf::Vector2f containing the position of which you want the
      * index in the grid.*/
     ///@return std;:array<int,2>
-    std::array<int, 2> findIndexFromPosition(sf::Vector2f position);
+    std::array<int, 2> findIndexInGrid(sf::Vector2f position);
 
     ///\brief
     /// Small Algorithm used by the Monster
@@ -343,7 +369,7 @@ void draw(std::shared_ptr<UIElement> & UIElement);
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
 
-    void markGridCellsToDraw();
+    std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
     /// Runs the game demo
