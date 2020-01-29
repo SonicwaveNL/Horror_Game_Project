@@ -119,6 +119,9 @@ class Player : public IRectangle {
     ///\brief
     ///Reset the player lose and win vars
     void reset();
+
+    void fixMove(IObject & obj, sf::Vector2f oldDir);
+
 };
 
 #endif // PLAYER_HPP

@@ -2,11 +2,17 @@
 #define POWERUP_hpp
 
 #include <iRectangle.hpp>
-
-enum class BuffType{
-    PlayerSpeed,
-    EnemySpeed
+#include <iException.hpp>
+#include <support.hpp>
+#include <unordered_map>
+#include <ctime>
+#include <chrono>
+#include <string>
+enum class BuffType : int{
+    PlayerSpeed = 1,
+    EnemySpeed = 2
 };
+
 
 ///@file
 ///\brief
@@ -15,22 +21,26 @@ enum class BuffType{
 /*This object gives the user a specific buff or debuff*/
 class Powerup : public IRectangle {
   private:
+  std::unordered_map<BuffType, int> oldValues;
+  bool isActive = false;
+  BuffType buffType;
+  time_t expirationTime = time(NULL);
   public:
     ///\brief
     /// Powerup constructor
     Powerup(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Color color = sf::Color::Yellow, float speed = 0,
-           objectType type = objectType::Powerup)
-        : IRectangle(position, objects, color, speed, type) {}
+           objectType type = objectType::Powerup, BuffType buffType = BuffType::PlayerSpeed)
+        : IRectangle(position, objects, color, speed, type), buffType(buffType) {}
 
     ///\brief
     /// Powerup constructor, supports texture.
     Powerup(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Texture * texture, sf::Color color = sf::Color::Transparent,
-           float speed = 0, objectType type = objectType::Powerup)
-        : IRectangle(position, objects, texture, color, speed, type) {}
+           float speed = 0, objectType type = objectType::Powerup, BuffType buffType = BuffType::PlayerSpeed)
+        : IRectangle(position, objects, texture, color, speed, type), buffType(buffType) {}
 
 
     ///\brief
@@ -85,7 +95,11 @@ class Powerup : public IRectangle {
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
 
-    void buff(BuffType type, int magnitude = 0);
+    void buff(float magnitude = 1);
+
+    void checkBuff();
+
+    void stopBuff();
 
 };
 

@@ -7,7 +7,7 @@
 #include <door.hpp>
 #include <wall.hpp>
 #include <player.hpp>
-
+#include <gridCell.hpp>
 ///@file
 
 ///\brief
@@ -46,7 +46,7 @@ class Monster : public IRectangle {
     Monster(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
             sf::Texture * texture, sf::Color color = sf::Color::Transparent,
-            float speed = 4, objectType type = objectType::Monster)
+            float speed = 2, objectType type = objectType::Monster)
         : IRectangle(position, objects, texture, color, speed, type){};
 
     ///\brief

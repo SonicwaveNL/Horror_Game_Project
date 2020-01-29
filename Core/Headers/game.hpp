@@ -22,6 +22,7 @@
 #include <vector>
 #include <math.h>
 #include <uiElement.hpp>
+#include <powerup.hpp>
 
 ///@file
 
@@ -66,6 +67,9 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> EditorUI;
     std::vector<std::shared_ptr<UIElement>> winloseUI;
 
+    Powerup powerup = Powerup({10,10}, drawables);
+    Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed);
+
     std::shared_ptr<UIElement> Yes;
     std::shared_ptr<UIElement> No;
 
@@ -79,7 +83,7 @@ class Game {
 
     bool loaded = false;
 
-    Action playingActions[6] = {
+    Action playingActions[8] = {
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
         Action(actionKeyword::down,
@@ -111,7 +115,15 @@ class Game {
         Action(actionKeyword::escape, [=]() {
             currentState = gameState::Menu;
             loaded = false;
-        })};
+        }),
+         Action(actionKeyword::action2, [=]() {
+            powerup.buff(4.0);
+        }),
+                Action(actionKeyword::action3, [=]() {
+            powerup2.buff(4.0);
+        })
+        
+        };
 
     Action editorActions[10] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
@@ -264,6 +276,7 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         file.open("Core/Saves/winLose.txt");
         winloseUI = factory.fileToUi(file);
         file.close();
+
     };
 
     std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);

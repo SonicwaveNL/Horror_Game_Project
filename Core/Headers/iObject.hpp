@@ -113,7 +113,9 @@ class IObject {
     /// Function to change the speed
     ///@param newSpeed
     /*integer*/
-    virtual void setSpeed(int newSpeed);
+    virtual void setSpeed(float newSpeed);
+
+    float getSpeed();
 };
 
 #endif // IOBJECT_HPP

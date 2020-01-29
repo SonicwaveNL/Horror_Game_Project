@@ -370,7 +370,8 @@ void Game::run() {
                 for (auto & action : playingActions) {
                     action();
                 }
-
+                powerup.checkBuff();
+                powerup2.checkBuff();
                 if (std::fabs(monster->getPosition().x -
                               player->getPosition().x) <= 50 ||
                     std::fabs(monster->getPosition().y -
