@@ -58,6 +58,11 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
 
+    std::shared_ptr<UIElement> Yes;
+    std::shared_ptr<UIElement> No;
+
+    int doorCounter, playerCounter, monsterCounter, switchCounter;
+
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
 
@@ -66,7 +71,32 @@ class Game {
 
     bool loaded = false;
 
-    Action playingActions[6] = {
+    Action playingActions[7] = {
+        Action(sf::Keyboard::Tab,
+               [=]() {
+                   int switchCount = 0;
+
+                   for (size_t i = 1; i < winFactors.size(); i++) {
+                       std::shared_ptr<Switch> s =
+                           std::static_pointer_cast<Switch>(winFactors[i]);
+                       s->collision(*characters[0]);
+
+                       if (s->isActive()) {
+                           switchCount++;
+                       }
+                   }
+                   int counter = 0;
+                   for (auto & item : PlayUI) {
+                       if (switchCount >= 0) {
+                           item->setText("*");
+                       }
+                       if (counter < winFactors.size()) {
+                           item->draw(window);
+                       }
+                       counter++;
+                       switchCount--;
+                   }
+               }),
         Action(actionKeyword::up,
                [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
         Action(actionKeyword::down,
@@ -126,9 +156,29 @@ class Game {
                        objectType::Floor, &gameTextures[objectType::Floor][0]);
                }),
         Action(sf::Keyboard::Escape, [=] {
-            factory.writeToFile(grid, "Core/Saves/custom.txt");
-            loaded = false;
-            currentState = gameState::Menu;
+            int doorCounter = 0;
+            int playerCounter = 0;
+            int monsterCounter = 0;
+            int switchCounter = 0;
+            for (auto & row : grid) {
+                for (auto & item : row) {
+                    if (item.getCellType() == objectType::Door) {
+                        doorCounter += 1;
+                    } else if (item.getCellType() == objectType::Player) {
+                        playerCounter += 1;
+                    } else if (item.getCellType() == objectType::Monster) {
+                        monsterCounter += 1;
+                    } else if (item.getCellType() == objectType::Switch) {
+                        switchCounter += 1;
+                    }
+                }
+            }
+            if (monsterCounter > 0 && doorCounter > 0 && playerCounter > 0 &&
+                switchCounter > 0) {
+                factory.writeToFile(grid, "Core/Saves/custom.txt");
+                loaded = false;
+                currentState = gameState::Menu;
+            }
         })};
 
     ///\brief
