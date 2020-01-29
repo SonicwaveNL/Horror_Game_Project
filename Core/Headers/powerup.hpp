@@ -99,6 +99,8 @@ class Powerup : public IRectangle {
 
     int getAmount();
 
+    void setAmount(int newAmount);
+
 };
 
 #endif // POWERUP_hpp

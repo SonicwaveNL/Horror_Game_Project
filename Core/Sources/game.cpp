@@ -388,7 +388,7 @@ void Game::run() {
                     i++;
                 }
                 draw(StoreUI);
-                for (auto & ele : MenuUI) {
+                for (auto & ele : StoreUI) {
                     int value = 0;
                     bool visited = false;
                     if (ele->intersect(window.mapPixelToCoords(
@@ -396,17 +396,20 @@ void Game::run() {
                         sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         auto tmp = ele->getText();
                         if (tmp == "PowerUp1_move_faster") {
-                            if( points >= 10 ){
+                            if( points >= 1 ){
                                 int newVal = powerups[BuffType::PlayerSpeed]->getAmount() + 1;
                                 powerups[BuffType::PlayerSpeed]->setAmount(newVal);
-                                points-=10;
+                                points-=1;
+                                currentState = gameState::Menu;
+
                             }
                             break;
                         } else if (tmp == "PowerUp2_pause_enemy") {
-                            if( points >= 20 ){
+                            if( points >= 2 ){
                                 int newVal = powerups[BuffType::EnemySpeed]->getAmount() + 1;
-                                powerups[BuffType::PlayerSpeed]->setAmount(newVal);
-                                points-=20;
+                                powerups[BuffType::EnemySpeed]->setAmount(newVal);
+                                points-=2;
+                                currentState = gameState::Menu;
                             }
                             break;
                         } else if (tmp == "Menu") {

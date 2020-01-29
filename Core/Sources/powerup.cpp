@@ -37,6 +37,7 @@ void Powerup::checkBuff() {
         }
     }
 }
+void Powerup::setAmount(int newAmount) { amount = newAmount; }
 
 void Powerup::buff(float magnitude) {
     if (!isActive) {
