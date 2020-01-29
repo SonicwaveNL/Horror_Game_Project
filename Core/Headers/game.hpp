@@ -262,7 +262,14 @@ class Game {
     which cells around him have to lowest value, and thus which cell contains
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
-
+    ///\brief
+    ///Function to "light up" the environment.
+    ///\details
+    /*This Function uses rays to detect its surroundings. It works as follows: it creates a line from the center of the player outwards under x degrees. It
+    then checks all the gridcells surrounding the player for collision with the line. If a gridcell intersects with a line and certain conditions (for instance)
+    is it a wall?) apply to the gridcell, the gridcell will be added to a vector. The line then rotates 5 degrees, and does this again untill the lines made a 
+    full circle around the player. We then have a vector containing objects that need to be drawn. */
+    ///@return std::vector containing std::shared_ptr objects that hold pointers to IObjects.
     std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
