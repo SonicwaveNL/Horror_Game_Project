@@ -257,7 +257,7 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
   std::vector<std::shared_ptr<IObject>> vectorToDraw;
   sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
   line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
-
+  bool seenMonster = false;
   for (int degree = 0; degree < 360; degree += 5) {
     auto lineBounds = line.getGlobalBounds();
     for (auto &pointer : vectorToCheckForType) {
@@ -266,9 +266,12 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
       }
     }
     if (lineBounds.intersects(monster->getBounds())) {
-      vectorToDraw.push_back(monster);
+      seenMonster = true;
     };
     line.setRotation(degree);
+    if (seenMonster) {
+      vectorToDraw.push_back(monster);
+    }
   }
   vectorToDraw.push_back(player);
   return vectorToDraw;
@@ -430,7 +433,7 @@ void Game::run() {
           break;
         }
         // show instructions once*
-        //window.draw(bgSprite);
+        // window.draw(bgSprite);
         auto a = lantern();
         draw(a);
         draw(PlayUI);
