@@ -35,7 +35,7 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
-enum class gameState { Menu, SelectMap, Play, Editor, Quit, WinState, LoseState };
+enum class gameState { Menu, SelectMap, Play, Editor, Quit, WinState, LoseState, Store };
 
 enum class objectType : size_t {
     Wall,
