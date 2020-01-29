@@ -98,4 +98,10 @@ enum class actionKeyword {
     action4
 };
 
+enum class BuffType : int{
+    PlayerSpeed = 1,
+    EnemySpeed = 2
+};
+
+
 #endif

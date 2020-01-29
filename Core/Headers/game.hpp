@@ -67,9 +67,7 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> EditorUI;
     std::vector<std::shared_ptr<UIElement>> winloseUI;
 
-    Powerup powerup = Powerup({10,10}, drawables);
-    Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed);
-
+    std::unordered_map<BuffType, std::shared_ptr<Powerup>> powerups;
     std::shared_ptr<UIElement> Yes;
     std::shared_ptr<UIElement> No;
 
@@ -117,10 +115,11 @@ class Game {
             loaded = false;
         }),
          Action(actionKeyword::action2, [=]() {
-            powerup.buff(4.0);
+            
+            powerups[BuffType::PlayerSpeed]->buff(2.0);
         }),
                 Action(actionKeyword::action3, [=]() {
-            powerup2.buff(4.0);
+            powerups[BuffType::EnemySpeed]->buff();
         })
         
         };
@@ -276,6 +275,13 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         file.open("Core/Saves/winLose.txt");
         winloseUI = factory.fileToUi(file);
         file.close();
+
+        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, 1);
+        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, 1);
+
+        powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
+        powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);
+
 
     };
 

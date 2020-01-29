@@ -1,7 +1,7 @@
 #include <../Headers/powerup.hpp>
 
 std::array<std::chrono::seconds, 2> powerupTimes = {std::chrono::seconds(10),
-                                                    std::chrono::seconds(10)};
+                                                    std::chrono::seconds(30)};
 
 void Powerup::stopBuff() {
     switch (buffType) {
@@ -40,6 +40,9 @@ void Powerup::checkBuff() {
 
 void Powerup::buff(float magnitude) {
     if (!isActive) {
+        if(amount <= 0){
+            return;
+        }
         switch (buffType) {
             case BuffType::PlayerSpeed: {
                 // can be faster by giving the subvectors
@@ -50,6 +53,7 @@ void Powerup::buff(float magnitude) {
                         oldValues[BuffType::PlayerSpeed] = obj->getSpeed();
                         obj->setSpeed(obj->getSpeed() * magnitude);
                         isActive = true;
+                        amount--;
                     }
                 }
                 break;
@@ -62,6 +66,7 @@ void Powerup::buff(float magnitude) {
                         oldValues[BuffType::EnemySpeed] = obj->getSpeed();
                         obj->setSpeed(0);
                         isActive = true;
+                        amount--;
                     }
                 }
                 break;
