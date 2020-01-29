@@ -14,8 +14,8 @@ void Powerup::stopBuff() {
             }
             break;
         }
-        case BuffType::EnemySpeed:{
-             for (std::shared_ptr<IObject> obj : objects) {
+        case BuffType::EnemySpeed: {
+            for (std::shared_ptr<IObject> obj : objects) {
                 if (obj->getType() == objectType::Monster) {
                     obj->setSpeed(oldValues[BuffType::EnemySpeed]);
                 }
@@ -24,7 +24,7 @@ void Powerup::stopBuff() {
         }
         default:
             throw UnknownTypeException(
-                "Unknown powerup 'BuffType' type in Powerup::buff");
+                "Unknown powerup 'BuffType' type in Powerup::stopBuff");
     }
 }
 
@@ -40,7 +40,7 @@ void Powerup::checkBuff() {
 
 void Powerup::buff(float magnitude) {
     if (!isActive) {
-        if(amount <= 0){
+        if (amount <= 0) {
             return;
         }
         switch (buffType) {
@@ -72,18 +72,16 @@ void Powerup::buff(float magnitude) {
                 break;
             }
             default:
-                std::cout << "Default buff\n";
 
-                // // throw UnknownTypeException("Unknown powerup 'BuffType' type
-                // // in Powerup::buff");
-                // buffType = BuffType::PlayerSpeed;
-                // buff(magnitude);
-                break;
+                throw UnknownTypeException(
+                    "Unknown powerup 'BuffType' type in Powerup::buff");
         }
     }
     checkBuff();
     return;
 }
+
+int Powerup::getAmount() { return amount; }
 
 void Powerup::move(sf::Vector2f direction) { return; }
 

@@ -97,6 +97,8 @@ class Powerup : public IRectangle {
 
     void stopBuff();
 
+    int getAmount();
+
 };
 
 #endif // POWERUP_hpp
