@@ -18,8 +18,8 @@ class GridCell : public IRectangle {
     // sf::Texture * texture;
     // sf::Sprite sprite;
     objectType cellType = objectType::Floor;
-    std::shared_ptr<IObject> myDrawable;
   public:
+    std::shared_ptr<IObject> myDrawable;
     // stuff for the AI
     int64_t value = 0;
     bool visited = false;
@@ -78,7 +78,7 @@ class GridCell : public IRectangle {
     /// Check if IObject intersect.
     ///\details
     /*Check if an IObject intersect with given IObject.*/
-    ///@param obj
+    ///@param objgetMyDrawable
     /*IObject*/
     ///@return bool
     bool intersect(IObject & obj) override;

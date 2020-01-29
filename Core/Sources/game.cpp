@@ -229,42 +229,49 @@ void Game::reversedBFSPathAlgorithm() {
 std::vector<std::shared_ptr<IObject>> Game::lantern() {
     sf::Vector2f playerPos = player->getPosition();
     auto playerIndex = findIndexInGrid(playerPos);
+    int_fast16_t gridXSize = grid.size();
+    int_fast16_t gridYSize = grid[0].size();
 
     // X-as in grid
-    auto leftXIndex = playerIndex[0] - (viewDistance + 1);
-    auto rightXIndex = playerIndex[0] + (viewDistance + 1);
+    int_fast16_t leftXIndex =
+        std::max<int_fast16_t>(0, playerIndex[0] - (viewDistance + 1));
+    int_fast16_t rightXIndex =
+        std::min<int_fast16_t>(gridXSize, playerIndex[0] + (viewDistance + 1));
 
     // Y-as in grid
-    auto topYIndex = playerIndex[1] - (viewDistance + 1);
-    auto bottomYIndex = playerIndex[1] + (viewDistance + 1);
+    int_fast16_t topYIndex =
+        std::max<int_fast16_t>(0, playerIndex[1] - (viewDistance + 1));
+    int_fast16_t bottomYIndex =
+        std::min<int_fast16_t>(gridYSize, playerIndex[1] + (viewDistance + 1));
 
     std::vector<GridCell> vectorToCheckForType;
-    // X-as
-    for (size_t x = leftXIndex; x < rightXIndex; x++) {
-        if (x >= 0 && rightXIndex < grid.size()) {
-            // Y-as
-            for (size_t y = topYIndex; y < bottomYIndex; y++) {
-                if (y >= 0 && bottomYIndex < grid[x].size()) {
-                    vectorToCheckForType.push_back(grid[x][y]);
-                }
-            }
+
+    for (uint x = leftXIndex; x < rightXIndex; x++) {
+        for (uint y = topYIndex; y < bottomYIndex; y++) {
+            vectorToCheckForType.push_back(grid[x][y]);
         }
     }
-    std::vector<std::shared_ptr<IObject>> vectorToDraw;
+    std::set<std::shared_ptr<IObject>> setWithDrawables;
     sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
     line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
     bool monsterFound = false;
     for (int degree = 0; degree < 360; degree += 5) {
         auto lineBounds = line.getGlobalBounds();
         for (auto & pointer : vectorToCheckForType) {
-            if (lineBounds.intersects(pointer.getMyDrawable()->getBounds())) {
-                vectorToDraw.push_back(pointer.getMyDrawable());
+            if (lineBounds.intersects(pointer.myDrawable->getBounds()) &&
+                pointer.getType() != objectType::Player &&
+                pointer.getType() != objectType::Monster) {
+                setWithDrawables.insert(pointer.myDrawable);
             }
         }
         if (lineBounds.intersects(monster->getBounds())) {
             monsterFound = true;
         };
         line.setRotation(degree);
+    }
+    std::vector<std::shared_ptr<IObject>> vectorToDraw;
+    for (auto & ptr : setWithDrawables) {
+        vectorToDraw.push_back(ptr);
     }
     if (monsterFound) {
         vectorToDraw.push_back(monster);
@@ -298,8 +305,8 @@ Game::loadTextures(std::string file, sf::Image & source) {
     return tmpCont;
 }
 
-void Game::draw(std::vector<std::shared_ptr<IObject>> & x) {
-    for (auto & object : x) {
+void Game::draw(std::vector<std::shared_ptr<IObject>> & objects) {
+    for (auto & object : objects) {
         object->draw(window);
     }
 }
@@ -308,10 +315,6 @@ void Game::draw(std::vector<std::shared_ptr<UIElement>> & uiElements) {
     for (std::shared_ptr<UIElement> uiElement : uiElements) {
         uiElement->draw(window);
     }
-}
-
-void Game::draw(std::shared_ptr<UIElement> & UIElement) {
-    UIElement->draw(window);
 }
 
 void Game::draw(std::vector<std::vector<GridCell>> & _grid) {
@@ -373,6 +376,7 @@ void Game::run() {
                 }
                 break;
             }
+
             case gameState::Store: {
                 int i = 0;
                 for (auto & item : StoreUI) {
@@ -396,19 +400,24 @@ void Game::run() {
                         sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         auto tmp = ele->getText();
                         if (tmp == "PowerUp1_move_faster") {
-                            if( points >= 1 ){
-                                int newVal = powerups[BuffType::PlayerSpeed]->getAmount() + 1;
-                                powerups[BuffType::PlayerSpeed]->setAmount(newVal);
-                                points-=1;
+                            if (points >= 1) {
+                                int newVal = powerups[BuffType::PlayerSpeed]
+                                                 ->getAmount() +
+                                             1;
+                                powerups[BuffType::PlayerSpeed]->setAmount(
+                                    newVal);
+                                points -= 1;
                                 currentState = gameState::Menu;
-
                             }
                             break;
                         } else if (tmp == "PowerUp2_pause_enemy") {
-                            if( points >= 2 ){
-                                int newVal = powerups[BuffType::EnemySpeed]->getAmount() + 1;
-                                powerups[BuffType::EnemySpeed]->setAmount(newVal);
-                                points-=2;
+                            if (points >= 2) {
+                                int newVal = powerups[BuffType::EnemySpeed]
+                                                 ->getAmount() +
+                                             1;
+                                powerups[BuffType::EnemySpeed]->setAmount(
+                                    newVal);
+                                points -= 2;
                                 currentState = gameState::Menu;
                             }
                             break;
@@ -517,17 +526,6 @@ void Game::run() {
 
                 break;
             }
-
-            case gameState::Editor: {
-                // show instructions once*
-                window.draw(bgSprite);
-                draw(grid);
-                for (auto & action : editorActions) {
-                    action();
-                }
-                break;
-            }
-
             case gameState::Quit: {
                 window.close();
                 break;
@@ -597,8 +595,9 @@ void Game::run() {
                 break;
             }
         }
+
         window.display();
-        sf::sleep(sf::milliseconds(PIXEL16));
+        sf::sleep(sf::milliseconds(20));
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {

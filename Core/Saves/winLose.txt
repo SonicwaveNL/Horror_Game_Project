@@ -1,2 +1,2 @@
-UIELEMENT (100,100) (0,0) transparent WinOrLose white
+UIELEMENT (100,100) (1,0) transparent WinOrLose white
 END
