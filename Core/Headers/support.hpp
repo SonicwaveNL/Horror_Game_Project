@@ -46,7 +46,8 @@ enum class objectType : size_t {
     Monster,
     Abstract,
     UIElement,
-    GridCell
+    GridCell,
+    Powerup
 };
 
 enum class floorType : size_t { Default };

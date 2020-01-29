@@ -28,6 +28,7 @@ iRectangle.o: iRectangle.hpp iRectangle.cpp iObject.hpp
 keyboardMouse.o: keyboardMouse.cpp keyboardMouse.hpp inputListener.hpp
 monster.o : monster.hpp monster.cpp door.hpp iRectangle.hpp wall.hpp player.hpp
 player.o: player.cpp player.hpp iObject.hpp iRectangle.hpp door.hpp wall.hpp
+powerup.o: powerup.cpp powerup.hpp iObject.hpp iRectangle.hpp
 sound.o: sound.hpp sound.cpp
 switch.o: switch.hpp switch.cpp iRectangle.hpp player.hpp
 uiElement.o : uiElement.hpp uiElement.cpp
