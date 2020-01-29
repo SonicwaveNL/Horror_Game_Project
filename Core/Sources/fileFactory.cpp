@@ -109,15 +109,17 @@ void FileFactory::objectsToDrawables(
       item.setMyDrawable(sharedDrawable);
       drawables.push_back(sharedDrawable);
     } else if (soort == objectType::Player) {
-      auto sharedDrawable =
-          std::make_shared<Player>(item.getPosition(), drawables,
-                                   &loadedTextures[objectType::Player][0]);
+      drawables.push_back(std::make_shared<Player>(item.getPosition(), drawables,
+                                   &loadedTextures[objectType::Player][0]));
+      auto sharedDrawable = std::make_shared<Floor>(
+          item.getPosition(), drawables, &loadedTextures[objectType::Floor][0]);
       item.setMyDrawable(sharedDrawable);
       drawables.push_back(sharedDrawable);
     } else if (soort == objectType::Monster) {
-      auto sharedDrawable =
-          std::make_shared<Monster>(item.getPosition(), drawables,
-                                    &loadedTextures[objectType::Monster][0]);
+      drawables.push_back(std::make_shared<Monster>(item.getPosition(), drawables,
+                                   &loadedTextures[objectType::Monster][0]));
+      auto sharedDrawable = std::make_shared<Floor>(
+          item.getPosition(), drawables, &loadedTextures[objectType::Floor][0]);
       item.setMyDrawable(sharedDrawable);
       drawables.push_back(sharedDrawable);
     }

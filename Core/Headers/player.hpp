@@ -33,7 +33,7 @@ class Player : public IRectangle {
     /*a SFML sf::Color, this is the color of the texture.*/
     Player(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color(255, 98, 0), float speed = 4,
+           sf::Color color = sf::Color::Transparent, float speed = 4,
            objectType type = objectType::Player)
         : IRectangle(position, objects, color, speed, type) {}
 
@@ -41,7 +41,7 @@ class Player : public IRectangle {
     /// Player constructor, supports texture.
     Player(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Texture * texture, sf::Color color = sf::Color(255, 98, 0),
+           sf::Texture * texture, sf::Color color = sf::Color::Transparent,
            float speed = 4, objectType type = objectType::Player)
         : IRectangle(position, objects, texture, color, speed, type) {}
 

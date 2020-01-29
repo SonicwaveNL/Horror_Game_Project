@@ -35,7 +35,7 @@ class Monster : public IRectangle {
     /*The walking speed of the monster*/
     Monster(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
-            sf::Color color = sf::Color::Blue, float speed = 2,
+            sf::Color color = sf::Color::Transparent, float speed = 2,
             objectType type = objectType::Monster)
         : IRectangle(position, objects, color, speed, type){};
 
@@ -44,7 +44,7 @@ class Monster : public IRectangle {
     /// Monster constructor, supports texture.
     Monster(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
-            sf::Texture * texture, sf::Color color = sf::Color::Blue,
+            sf::Texture * texture, sf::Color color = sf::Color::Transparent,
             float speed = 4, objectType type = objectType::Monster)
         : IRectangle(position, objects, texture, color, speed, type){};
 

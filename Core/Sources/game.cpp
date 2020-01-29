@@ -250,12 +250,10 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
       for (size_t y = topYIndex; y < bottomYIndex; y++) {
         if (y >= 0 && bottomYIndex < grid[x].size()) {
           vectorToCheckForType.push_back(grid[x][y]);
-          // std::cout << "pushed back cell\n";
         }
       }
     }
   }
-  std::cout << "Size vector check : " << vectorToCheckForType.size() << "\n";
   std::vector<std::shared_ptr<IObject>> vectorToDraw;
   sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
   line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
@@ -265,8 +263,6 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
     for (auto &pointer : vectorToCheckForType) {
       if (lineBounds.intersects(pointer.getMyDrawable()->getBounds())) {
         vectorToDraw.push_back(pointer.getMyDrawable());
-
-        std::cout << "found intersection\n";
       }
     }
     if (lineBounds.intersects(monster->getBounds())) {
