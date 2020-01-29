@@ -266,7 +266,7 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
         };
         line.setRotation(degree);
     }
-    if(monsterFound){
+    if (monsterFound) {
         vectorToDraw.push_back(monster);
     }
     vectorToDraw.push_back(player);
@@ -348,6 +348,9 @@ void Game::run() {
                         } else if (tmp == "Quit") {
                             currentState = gameState::Quit;
                             break;
+                        } else if (tmp == "Store") {
+                            currentState = gameState::Store;
+                            break;
                         }
                     }
                 }
@@ -363,6 +366,50 @@ void Game::run() {
                         if (ele->getText() != "MapSelection") {
                             chosenMap = ele->getText();
                             currentState = gameState::Play;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            case gameState::Store: {
+                int i = 0;
+                for (auto & item : StoreUI) {
+                    if (i == 4) {
+                        item->setText(std::to_string(points));
+                    } else if (i == 5) {
+                        item->setText(std::to_string(
+                            powerups[BuffType::PlayerSpeed]->getAmount()));
+                    } else if (i == 6) {
+                        item->setText(std::to_string(
+                            powerups[BuffType::EnemySpeed]->getAmount()));
+                    }
+                    i++;
+                }
+                draw(StoreUI);
+                for (auto & ele : MenuUI) {
+                    int value = 0;
+                    bool visited = false;
+                    if (ele->intersect(window.mapPixelToCoords(
+                            sf::Mouse::getPosition(window))) &&
+                        sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        auto tmp = ele->getText();
+                        if (tmp == "PowerUp1_move_faster") {
+                            if( points >= 10 ){
+                                int newVal = powerups[BuffType::PlayerSpeed]->getAmount() + 1;
+                                powerups[BuffType::PlayerSpeed]->setAmount(newVal);
+                                points-=10;
+                            }
+                            break;
+                        } else if (tmp == "PowerUp2_pause_enemy") {
+                            if( points >= 20 ){
+                                int newVal = powerups[BuffType::EnemySpeed]->getAmount() + 1;
+                                powerups[BuffType::PlayerSpeed]->setAmount(newVal);
+                                points-=20;
+                            }
+                            break;
+                        } else if (tmp == "Menu") {
+                            currentState = gameState::Menu;
                             break;
                         }
                     }
@@ -394,16 +441,15 @@ void Game::run() {
                     loaded = true;
                 }
 
-                if( chosenMap == "tutorialMap.txt"){
+                if (chosenMap == "tutorialMap.txt") {
                     draw(TutorialUI);
                 }
                 for (auto & action : playingActions) {
                     action();
                 }
-      
-                for(auto & powerup : powerups){
+
+                for (auto & powerup : powerups) {
                     powerup.second->checkBuff();
-                    
                 }
 
                 // sound
@@ -423,21 +469,24 @@ void Game::run() {
                                                       .getPosition()) {
                     auto monsterDirection = findShortestStep();
                     monster->moveIfPossible(monsterDirection);
-                    if(monsterDirection.x > 0){
-                        monster->setTexture(&gameTextures[objectType::Monster][0]);
-                    }else if(monsterDirection.x < 0){
-                        monster->setTexture(&gameTextures[objectType::Monster][0]);
+                    if (monsterDirection.x > 0) {
+                        monster->setTexture(
+                            &gameTextures[objectType::Monster][0]);
+                    } else if (monsterDirection.x < 0) {
+                        monster->setTexture(
+                            &gameTextures[objectType::Monster][0]);
 
-                    }else{
-                        if(monsterDirection.y > 0){
-                            monster->setTexture(&gameTextures[objectType::Monster][3]);
+                    } else {
+                        if (monsterDirection.y > 0) {
+                            monster->setTexture(
+                                &gameTextures[objectType::Monster][3]);
 
-                        }else if( monsterDirection.y < 0){
-                            monster->setTexture(&gameTextures[objectType::Monster][6]);
-
+                        } else if (monsterDirection.y < 0) {
+                            monster->setTexture(
+                                &gameTextures[objectType::Monster][6]);
                         }
                     }
-                    
+
                 } else {
                     monster->moveOld();
                 }
@@ -450,8 +499,8 @@ void Game::run() {
                     counter++;
                 }
 
-               if (player->checkWin()) {
-                    points+=1;
+                if (player->checkWin()) {
+                    points += 1;
                     currentState = gameState::WinState;
                     break;
                 } else if (player->checkLose()) {
@@ -464,8 +513,6 @@ void Game::run() {
 
                 break;
             }
-
-
 
             case gameState::Editor: {
                 // show instructions once*

@@ -88,9 +88,8 @@ class FileFactory {
 
     std::vector<std::shared_ptr<UIElement>> fileToUi(std::istream & file);
 
-    
     ///\brief
-    ///writeInventoryToFile function
+    /// writeInventoryToFile function
     ///\details
     /*writes the players current inventory to the inventory.txt file*/
     ///@param point
@@ -102,12 +101,11 @@ class FileFactory {
     void writeInventoryToFile(int & points, int & amountPowerups1,
                               int & amountPowerups2);
 
-    
     ///\brief
-    ///readInventroyFromFile function
+    /// readInventroyFromFile function
     ///\details
     /*This function returns an array with al the current inventory information*/
     ///@return std::array<int,3>
-    std::array<int,3> readInventoryFromFile();
+    std::array<int, 3> readInventoryFromFile();
 };
 #endif

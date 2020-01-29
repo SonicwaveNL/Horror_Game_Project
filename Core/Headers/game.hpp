@@ -70,6 +70,7 @@ class Game {
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
     std::vector<std::shared_ptr<UIElement>> winloseUI;
+    std::vector<std::shared_ptr<UIElement>> StoreUI;
 
     std::unordered_map<BuffType, std::shared_ptr<Powerup>> powerups;
     std::shared_ptr<UIElement> Yes;
@@ -304,6 +305,10 @@ void draw(std::shared_ptr<UIElement> & UIElement);
 
         file.open("Core/Saves/tutorial.txt");
         TutorialUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/store.txt");
+        StoreUI = factory.fileToUi(file);
         file.close();
 
         std::array<int, 3> playerData = factory.readInventoryFromFile();
