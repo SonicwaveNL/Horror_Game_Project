@@ -22,6 +22,7 @@
 #include <vector>
 #include <math.h>
 #include <uiElement.hpp>
+#include <powerup.hpp>
 
 ///@file
 
@@ -42,6 +43,21 @@ class Game {
     sf::Texture bgTexture;
     sf::Sprite bgSprite;
 
+    sf::Image loseBgSource;
+    sf::Sprite loseBgSprite;
+    sf::Texture loseBgTexture;
+
+    sf::Image winBgSource;
+    sf::Sprite winBgSprite;
+    sf::Texture winBgTexture;
+
+    sf::Image menuSource;
+    sf::Texture menuBgTexture;
+    sf::Sprite menuBgSprite;
+
+
+    int points;
+
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::vector<GridCell>> grid;
@@ -55,9 +71,13 @@ class Game {
 
     std::vector<std::shared_ptr<UIElement>> MenuUI;
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
+    std::vector<std::shared_ptr<UIElement>> TutorialUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
+    std::vector<std::shared_ptr<UIElement>> winloseUI;
+    std::vector<std::shared_ptr<UIElement>> StoreUI;
 
+    std::unordered_map<BuffType, std::shared_ptr<Powerup>> powerups;
     std::shared_ptr<UIElement> Yes;
     std::shared_ptr<UIElement> No;
 
@@ -71,8 +91,8 @@ class Game {
 
     bool loaded = false;
 
-    Action playingActions[7] = {
-        Action(sf::Keyboard::Tab,
+    Action playingActions[9] = {
+         Action(sf::Keyboard::Tab,
                [=]() {
                    int switchCount = 0;
 
@@ -98,13 +118,13 @@ class Game {
                    }
                }),
         Action(actionKeyword::up,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
         Action(actionKeyword::down,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); player->setTexture(&gameTextures[objectType::Player][3]); }),
         Action(actionKeyword::left,
-               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
         Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); }),
+               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
         Action(actionKeyword::action1,
                [=]() {
                    int switchCount = 0;
@@ -116,6 +136,7 @@ class Game {
 
                        if (s->isActive()) {
                            switchCount++;
+                           s->setTexture(&gameTextures[objectType::Switch][1]);
                        }
                    }
                    if (switchCount == winFactors.size() - 1) {
@@ -127,7 +148,16 @@ class Game {
         Action(actionKeyword::escape, [=]() {
             currentState = gameState::Menu;
             loaded = false;
-        })};
+        }),
+         Action(actionKeyword::action2, [=]() {
+            
+            powerups[BuffType::PlayerSpeed]->buff(2.0);
+        }),
+                Action(actionKeyword::action3, [=]() {
+            powerups[BuffType::EnemySpeed]->buff();
+        })
+        
+        };
 
     Action editorActions[10] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
@@ -227,6 +257,7 @@ class Game {
     ///@param grid
     /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
+void draw(std::shared_ptr<UIElement> & UIElement);
 
      ///\brief
     /// draw function
@@ -247,12 +278,27 @@ class Game {
         bgSprite.setTexture(bgTexture);
         bgSprite.setPosition(sf::Vector2f{0, 0});
 
+        loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
+        loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}} );
+        loseBgSprite.setTexture(loseBgTexture);
+        loseBgSprite.setPosition({0,0});
+
+        winBgSource.loadFromFile("Resources/Textures/winBackground.png");
+        winBgTexture.loadFromImage(winBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+        winBgSprite.setTexture(winBgTexture);
+        winBgSprite.setPosition({0,0});
+
+        menuBgSprite.setTexture(winBgTexture);
+
+
+
         gameTextures =
             loadTextures("Resources/Textures/" + textureFile, textureSource);
 
         grid = createGrid(window.getSize());
         std::ifstream file;
-
         file.open("Core/Saves/menu.txt");
         MenuUI = factory.fileToUi(file);
         file.close();
@@ -268,6 +314,28 @@ class Game {
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
         file.close();
+
+        file.open("Core/Saves/winLose.txt");
+        winloseUI = factory.fileToUi(file);
+        file.close();
+
+
+        file.open("Core/Saves/tutorial.txt");
+        TutorialUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/store.txt");
+        StoreUI = factory.fileToUi(file);
+        file.close();
+
+        std::array<int, 3> playerData = factory.readInventoryFromFile();
+        points = playerData[0];
+        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
+        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
+
+        powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
+        powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);
+
     };
 
     ///\brief

@@ -19,7 +19,7 @@ class UIElement {
     sf::Color labelColor;
     sf::Color borderColor;
     sf::Color fontColor;
-
+    sf::Texture texture;
   public:
     ///\brief
     /// UIElement constructor.
@@ -31,8 +31,18 @@ class UIElement {
               objectType type = objectType::UIElement, float speed = 0)
         : labelColor(labelColor), borderColor(borderColor),
           fontColor(fontColor) {
-        iRect.setPosition(position);
+        if (size == sf::Vector2f(500.f, 120.f)) {
+          sf::Image buttonSource;
+            buttonSource.loadFromFile("Resources/Textures/boohButton.png");
+            texture.loadFromImage(
+                buttonSource, sf::IntRect{sf::Vector2i{0, 0},
+                                      sf::Vector2i{500,120} });
+            iRect.setTexture(&texture);
+        }else{
+
         iRect.setFillColor(labelColor);
+        }
+        iRect.setPosition(position);
         iRect.setSize(size);
         font.loadFromFile("Resources/Arial.ttf");
         label.setFont(font);
@@ -87,7 +97,7 @@ class UIElement {
     ///\brief
     /// setText function
     ///\details
-    /*sets the text of the elemetn to the given string*/
+    /*sets the text of the element to the given string*/
     ///@param text
     /*std::string*/
     void setText(std::string text);
@@ -98,6 +108,18 @@ class UIElement {
     /*returns the text of the element*/
     ///@return std::string
     std::string getText();
+
+    ///\brief
+    /// Sets the font size of the text within the UI element
+    ///@param size
+    /*The size in pixels of the font*/
+    void setTextSize(int size);
+
+    ///\brief
+    /// Set the font of the text within the UI element
+    ///@param _font
+    /*the sf::Font the new font should be*/
+    void setFont(sf::Font * _font);
 };
 
 #endif

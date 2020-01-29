@@ -16,7 +16,7 @@
 class Player : public IRectangle {
   private:
     bool win = false;
-
+    bool lose = false;
   public:
     ///\brief
     /// Player object constructor.
@@ -110,6 +110,18 @@ class Player : public IRectangle {
     /// Check the win variable.
     ///@return bool
     bool checkWin();
+
+    ///\brief
+    /// Check the lose variable.
+    ///@return bool
+    bool checkLose();
+
+    ///\brief
+    ///Reset the player lose and win vars
+    void reset();
+
+    void fixMove(IObject & obj, sf::Vector2f oldDir);
+
 };
 
 #endif // PLAYER_HPP

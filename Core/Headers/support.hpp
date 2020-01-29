@@ -35,7 +35,7 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
-enum class gameState { Menu, SelectMap, Play, Editor, Quit };
+enum class gameState { Menu, SelectMap, Play, Editor, Quit, WinState, LoseState, Store };
 
 enum class objectType : size_t {
     Wall,
@@ -46,7 +46,8 @@ enum class objectType : size_t {
     Monster,
     Abstract,
     UIElement,
-    GridCell
+    GridCell,
+    Powerup
 };
 
 enum class floorType : size_t { Default };
@@ -96,5 +97,11 @@ enum class actionKeyword {
     action3,
     action4
 };
+
+enum class BuffType : int{
+    PlayerSpeed = 1,
+    EnemySpeed = 2
+};
+
 
 #endif

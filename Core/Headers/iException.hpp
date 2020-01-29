@@ -15,11 +15,10 @@ class LoadPlayerError : public std::exception {
     }
 };
 
-///@file
 ///\brief
 /// loadDoorError
 ///\details
-/*failure to load door from obejct list(s)*/
+/*failure to load door from object list(s)*/
 class LoadDoorError : public std::exception {
     virtual const char * what() const throw() {
         return "No instance of door object is present in the object list!\nIs "
@@ -27,22 +26,20 @@ class LoadDoorError : public std::exception {
     }
 };
 
-///@file
 ///\brief
-/// corrupFileException
+/// corruptFileException
 ///\details
-/*file does not excist*/
+/*file does not exist*/
 class CorruptFileException : public std::exception {
     virtual const char * what() const throw() {
         return "File does not exist or already exists.";
     }
 };
 
-///@file///@file
 ///\brief
-/// short description
+/// unknownTypeException    
 ///\details
-/*detailed description*/
+/*Unknown type*/
 class UnknownTypeException : public std::exception {
   private:
     const char * msg;

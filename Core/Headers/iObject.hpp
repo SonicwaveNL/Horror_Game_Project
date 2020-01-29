@@ -73,6 +73,7 @@ class IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
+
     virtual sf::Vector2f getPosition() = 0;
 
     ///\brief
@@ -116,7 +117,9 @@ class IObject {
     /// Function to change the speed
     ///@param newSpeed
     /*integer*/
-    virtual void setSpeed(int newSpeed);
+    virtual void setSpeed(float newSpeed);
+
+    float getSpeed();
 
     bool checkIfDrawable(){return ableToDraw;};
 
