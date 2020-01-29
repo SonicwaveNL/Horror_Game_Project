@@ -1,0 +1,5 @@
+UIELEMENT (1520,20) (380,130) white arrowKeys_to_move black
+UIELEMENT (1520,160) (380,130) white TAB_for_UI black
+UIELEMENT (1520,300) (380,130) white Flip_switches_with_H black
+UIELEMENT (1520,440) (380,130) white Flip_Four_Switches black
+END

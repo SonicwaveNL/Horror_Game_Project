@@ -55,6 +55,7 @@ class Game {
 
     std::vector<std::shared_ptr<UIElement>> MenuUI;
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
+    std::vector<std::shared_ptr<UIElement>> TutorialUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
 
@@ -258,6 +259,10 @@ class Game {
 
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/tutorial.txt");
+        TutorialUI = factory.fileToUi(file);
         file.close();
     };
 

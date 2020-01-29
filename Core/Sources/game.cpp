@@ -387,6 +387,9 @@ void Game::run() {
                     loaded = true;
                 }
 
+                if( chosenMap == "tutorialMap.txt"){
+                    draw(TutorialUI);
+                }
                 for (auto & action : playingActions) {
                     action();
                 }
@@ -427,7 +430,6 @@ void Game::run() {
 
                 auto a = lantern();
                 draw(a);
-                draw(PlayUI);
 
                 break;
             }
