@@ -2,6 +2,7 @@
 #define IOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -18,6 +19,9 @@ class IObject {
     std::vector<std::shared_ptr<IObject>> & objects;
     float speed = 5;
     objectType type;
+
+    //stuff for the drawing/light
+    bool ableToDraw = false;
 
   public:
     ///\brief
@@ -113,7 +117,13 @@ class IObject {
     /// Function to change the speed
     ///@param newSpeed
     /*integer*/
-    virtual void setSpeed(int newSpeed);
+    virtual void setSpeed(float newSpeed);
+
+    float getSpeed();
+
+    bool checkIfDrawable(){return ableToDraw;};
+
+    bool toggleAbleToDraw(){if (ableToDraw){ableToDraw = false;}else{ableToDraw = true;}};
 };
 
 #endif // IOBJECT_HPP

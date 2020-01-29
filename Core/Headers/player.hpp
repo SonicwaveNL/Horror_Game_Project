@@ -16,9 +16,7 @@
 class Player : public IRectangle {
   private:
     bool win = false;
-    sf::Texture texture;
-    sf::Sprite sprite;
-
+    bool lose = false;
   public:
     ///\brief
     /// Player object constructor.
@@ -35,9 +33,17 @@ class Player : public IRectangle {
     /*a SFML sf::Color, this is the color of the texture.*/
     Player(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
-           sf::Color color = sf::Color(255, 98, 0), float speed = 5,
+           sf::Color color = sf::Color::Transparent, float speed = 4,
            objectType type = objectType::Player)
         : IRectangle(position, objects, color, speed, type) {}
+
+    ///\brief
+    /// Player constructor, supports texture.
+    Player(sf::Vector2f position,
+           std::vector<std::shared_ptr<IObject>> & objects,
+           sf::Texture * texture, sf::Color color = sf::Color::Transparent,
+           float speed = 4, objectType type = objectType::Player)
+        : IRectangle(position, objects, texture, color, speed, type) {}
 
     ///\brief
     /// Draw IObject on window
@@ -82,6 +88,7 @@ class Player : public IRectangle {
 
     ///\brief
     /// Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
     ///\brief
@@ -103,6 +110,18 @@ class Player : public IRectangle {
     /// Check the win variable.
     ///@return bool
     bool checkWin();
+
+    ///\brief
+    /// Check the lose variable.
+    ///@return bool
+    bool checkLose();
+
+    ///\brief
+    ///Reset the player lose and win vars
+    void reset();
+
+    void fixMove(IObject & obj, sf::Vector2f oldDir);
+
 };
 
 #endif // PLAYER_HPP

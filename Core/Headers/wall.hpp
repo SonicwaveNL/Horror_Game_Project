@@ -29,6 +29,13 @@ class Wall : public IRectangle {
         : IRectangle(position, objects, color, speed, type) {}
 
     ///\brief
+    /// Wall constructor, supports texture.
+    Wall(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
+         sf::Texture * texture, sf::Color color = sf::Color::White,
+         float speed = 0, objectType type = objectType::Wall)
+        : IRectangle(position, objects, texture, color, speed, type) {}
+
+    ///\brief
     /// Move IObject to direction.
     ///\details
     /*Move IObject to given sf::Vector2f direction.*/

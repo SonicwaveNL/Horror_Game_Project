@@ -1,21 +1,28 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <IException.hpp>
+#include <sound.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <experimental/filesystem>
+#include <unordered_map>
 #include <action.hpp>
 #include <fileFactory.hpp>
 #include <gridCell.hpp>
 #include <iObject.hpp>
+#include <floor.hpp>
 #include <memory>
 #include <monster.hpp>
 #include <player.hpp>
+#include <switch.hpp>
+#include <iException.hpp>
 #include <queue>
 #include <support.hpp>
 #include <switch.hpp>
 #include <vector>
+#include <math.h>
 #include <uiElement.hpp>
+#include <powerup.hpp>
 
 ///@file
 
@@ -23,13 +30,36 @@
 /// Game class, this class runs the entire game with the run function()
 class Game {
   private:
-    int difficulty = 100;
+    size_t difficulty = 50;
+    size_t viewDistance = 5;
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-                            sf::Style::Fullscreen};
+    sf::Style::Fullscreen};
 
     FileFactory factory;
+    Sound sound;
+
+    std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
+    sf::Image textureSource, bgSource;
+    sf::Texture bgTexture;
+    sf::Sprite bgSprite;
+
+    sf::Image loseBgSource;
+    sf::Sprite loseBgSprite;
+    sf::Texture loseBgTexture;
+
+    sf::Image winBgSource;
+    sf::Sprite winBgSprite;
+    sf::Texture winBgTexture;
+
+    sf::Image menuSource;
+    sf::Texture menuBgTexture;
+    sf::Sprite menuBgSprite;
+
+
+    int points;
 
     std::vector<std::shared_ptr<IObject>> drawables;
+
     std::vector<std::vector<GridCell>> grid;
 
     std::vector<std::shared_ptr<IObject>> characters;
@@ -41,27 +71,28 @@ class Game {
 
     std::vector<std::shared_ptr<UIElement>> MenuUI;
     std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
+    std::vector<std::shared_ptr<UIElement>> TutorialUI;
     std::vector<std::shared_ptr<UIElement>> PlayUI;
     std::vector<std::shared_ptr<UIElement>> EditorUI;
+    std::vector<std::shared_ptr<UIElement>> winloseUI;
+    std::vector<std::shared_ptr<UIElement>> StoreUI;
 
+    std::unordered_map<BuffType, std::shared_ptr<Powerup>> powerups;
     std::shared_ptr<UIElement> Yes;
     std::shared_ptr<UIElement> No;
 
+    int doorCounter, playerCounter, monsterCounter, switchCounter;
+
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
+
     std::string chosenMap = "custom.txt";
+    std::string textureFile = "boohTileset.png";
+
     bool loaded = false;
 
-    Action playingActions[6] = {
-        Action(actionKeyword::up,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); }),
-        Action(actionKeyword::down,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); }),
-        Action(actionKeyword::left,
-               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); }),
-        Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); }),
-        Action(actionKeyword::action1,
+    Action playingActions[9] = {
+         Action(sf::Keyboard::Tab,
                [=]() {
                    int switchCount = 0;
 
@@ -74,6 +105,40 @@ class Game {
                            switchCount++;
                        }
                    }
+                   int counter = 0;
+                   for (auto & item : PlayUI) {
+                       if (switchCount >= 0) {
+                           item->setText("*");
+                       }
+                       if (counter < winFactors.size()) {
+                           item->draw(window);
+                       }
+                       counter++;
+                       switchCount--;
+                   }
+               }),
+        Action(actionKeyword::up,
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
+        Action(actionKeyword::down,
+               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); player->setTexture(&gameTextures[objectType::Player][3]); }),
+        Action(actionKeyword::left,
+               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
+        Action(actionKeyword::right,
+               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
+        Action(actionKeyword::action1,
+               [=]() {
+                   int switchCount = 0;
+
+                   for (size_t i = 1; i < winFactors.size(); i++) {
+                       std::shared_ptr<Switch> s =
+                           std::static_pointer_cast<Switch>(winFactors[i]);
+                       s->collision(*characters[0]);
+
+                       if (s->isActive()) {
+                           switchCount++;
+                           s->setTexture(&gameTextures[objectType::Switch][1]);
+                       }
+                   }
                    if (switchCount == winFactors.size() - 1) {
                        std::shared_ptr<Door> door =
                            std::static_pointer_cast<Door>(winFactors[0]);
@@ -83,7 +148,16 @@ class Game {
         Action(actionKeyword::escape, [=]() {
             currentState = gameState::Menu;
             loaded = false;
-        })};
+        }),
+         Action(actionKeyword::action2, [=]() {
+            
+            powerups[BuffType::PlayerSpeed]->buff(2.0);
+        }),
+                Action(actionKeyword::action3, [=]() {
+            powerups[BuffType::EnemySpeed]->buff();
+        })
+        
+        };
 
     Action editorActions[10] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
@@ -92,25 +166,49 @@ class Game {
         Action(sf::Keyboard::Num3, [=]() { cellType = objectType::Door; }),
         Action(sf::Keyboard::Num4, [=]() { cellType = objectType::Player; }),
         Action(sf::Keyboard::Num5, [=]() { cellType = objectType::Monster; }),
-        Action(sf::Keyboard::Tab, [=]() { draw( EditorUI); }),
+        Action(sf::Keyboard::Tab, [=]() { draw(EditorUI); }),
         Action(sf::Mouse::Button::Left,
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
-                   grid[index[0]][index[1]].setCellType(cellType);
+                   int index[2] = {int(mousePos.x) / PIXEL16,
+                                   int(mousePos.y) / PIXEL16};
+                   grid[index[0]][index[1]].setCellType(
+                       cellType, &gameTextures[cellType][0]);
                }),
         Action(sf::Mouse::Button::Right,
                [&]() {
                    sf::Vector2f mousePos =
                        window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                   int index[2] = {int(mousePos.x) / 20, int(mousePos.y) / 20};
-                   grid[index[0]][index[1]].setCellType(objectType::Floor);
+                   int index[2] = {int(mousePos.x) / PIXEL16,
+                                   int(mousePos.y) / PIXEL16};
+                   grid[index[0]][index[1]].setCellType(
+                       objectType::Floor, &gameTextures[objectType::Floor][0]);
                }),
         Action(sf::Keyboard::Escape, [=] {
-            factory.writeToFile(grid, "Core/Saves/custom.txt");
-            loaded = false;
-            currentState = gameState::Menu;
+            int doorCounter = 0;
+            int playerCounter = 0;
+            int monsterCounter = 0;
+            int switchCounter = 0;
+            for (auto & row : grid) {
+                for (auto & item : row) {
+                    if (item.getCellType() == objectType::Door) {
+                        doorCounter += 1;
+                    } else if (item.getCellType() == objectType::Player) {
+                        playerCounter += 1;
+                    } else if (item.getCellType() == objectType::Monster) {
+                        monsterCounter += 1;
+                    } else if (item.getCellType() == objectType::Switch) {
+                        switchCounter += 1;
+                    }
+                }
+            }
+            if (monsterCounter > 0 && doorCounter > 0 && playerCounter > 0 &&
+                switchCounter > 0) {
+                factory.writeToFile(grid, "Core/Saves/custom.txt");
+                loaded = false;
+                currentState = gameState::Menu;
+            }
         })};
 
     ///\brief
@@ -121,13 +219,26 @@ class Game {
     void loadSubVectors();
 
     ///\brief
+    /// Loads a tileset.
+    ///\details
+    /*Used to load a tileset into a container provided the tiles are 16x16
+     * pixels.*/
+    ///@param file
+    /*std::string*/
+    ///@param source
+    /*sf::Image &*/
+    ///@return std::unordered_map<objectType, std::vector<sf::Texture>>
+    std::unordered_map<objectType, std::vector<sf::Texture>>
+    loadTextures(std::string file, sf::Image & source);
+
+    ///\brief
     /// draw function
     ///\details
     /*function that prints the given vectors of shared pointers of drawables to
      * the screen.*/
     ///@param drawables
     /*std::vector<std::shared_prt<IObject>> &*/
-    void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+    void draw(std::vector<std::shared_ptr<IObject>> & objects);
 
     ///\brief
     /// draw function
@@ -146,12 +257,48 @@ class Game {
     ///@param grid
     /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
+void draw(std::shared_ptr<UIElement> & UIElement);
+
+     ///\brief
+    /// draw function
+    ///\details
+    /*function that prints the given set of shared pointers of drawables(IObjects) to
+     * the screen.*/
+    ///@param grid
+    /*std::set<std::shared_ptr<IObject>> */
+    void draw(std::set<std::shared_ptr<IObject>> & objects);
 
   public:
     Game() {
+        bgSource.loadFromFile("Resources/Textures/background.png");
+        bgTexture.loadFromImage(
+            bgSource,
+            sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+        bgSprite.setTexture(bgTexture);
+        bgSprite.setPosition(sf::Vector2f{0, 0});
+
+        loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
+        loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}} );
+        loseBgSprite.setTexture(loseBgTexture);
+        loseBgSprite.setPosition({0,0});
+
+        winBgSource.loadFromFile("Resources/Textures/winBackground.png");
+        winBgTexture.loadFromImage(winBgSource, sf::IntRect{sf::Vector2i{0, 0},
+                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+        winBgSprite.setTexture(winBgTexture);
+        winBgSprite.setPosition({0,0});
+
+        menuBgSprite.setTexture(winBgTexture);
+
+
+
+        gameTextures =
+            loadTextures("Resources/Textures/" + textureFile, textureSource);
+
         grid = createGrid(window.getSize());
         std::ifstream file;
-
         file.open("Core/Saves/menu.txt");
         MenuUI = factory.fileToUi(file);
         file.close();
@@ -167,9 +314,30 @@ class Game {
         file.open("Core/Saves/editor.txt");
         EditorUI = factory.fileToUi(file);
         file.close();
+
+        file.open("Core/Saves/winLose.txt");
+        winloseUI = factory.fileToUi(file);
+        file.close();
+
+
+        file.open("Core/Saves/tutorial.txt");
+        TutorialUI = factory.fileToUi(file);
+        file.close();
+
+        file.open("Core/Saves/store.txt");
+        StoreUI = factory.fileToUi(file);
+        file.close();
+
+        std::array<int, 3> playerData = factory.readInventoryFromFile();
+        points = playerData[0];
+        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
+        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
+
+        powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
+        powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);
+
     };
 
-    std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
     ///\brief
     /// Creates a matrix of GridCells.
     ///\details
@@ -189,7 +357,7 @@ class Game {
     /*position is a sf::Vector2f containing the position of which you want the
      * index in the grid.*/
     ///@return std;:array<int,2>
-    std::array<int, 2> findIndexFromPosition(sf::Vector2f position);
+    std::array<int, 2> findIndexInGrid(sf::Vector2f position);
 
     ///\brief
     /// Small Algorithm used by the Monster
@@ -221,8 +389,15 @@ class Game {
     which cells around him have to lowest value, and thus which cell contains
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
-
-    void markGridCellsToDraw();
+    ///\brief
+    ///Function to "light up" the environment.
+    ///\details
+    /*This Function uses rays to detect its surroundings. It works as follows: it creates a line from the center of the player outwards under x degrees. It
+    then checks all the gridcells surrounding the player for collision with the line. If a gridcell intersects with a line and certain conditions (for instance)
+    is it a wall?) apply to the gridcell, the gridcell will be added to a vector. The line then rotates 5 degrees, and does this again untill the lines made a 
+    full circle around the player. We then have a vector containing objects that need to be drawn. */
+    ///@return std::vector containing std::shared_ptr objects that hold pointers to IObjects.
+    std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
     /// Runs the game demo

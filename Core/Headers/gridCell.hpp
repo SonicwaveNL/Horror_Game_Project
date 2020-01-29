@@ -18,29 +18,36 @@ class GridCell : public IRectangle {
     // sf::Texture * texture;
     // sf::Sprite sprite;
     objectType cellType = objectType::Floor;
-
   public:
-    //stuff for the AI
+    std::shared_ptr<IObject> myDrawable;
+    // stuff for the AI
     int64_t value = 0;
     bool visited = false;
 
     //bool for the lantarn
-    bool ableToDraw = true;
-    bool behindWall = false;
-    int drawValue = 0;
+    // bool ableToDraw = true;
+    // bool behindWall = false;
+    // int drawValue = 0;
 
 
     ///\brief
     /// GridCell constructor.
-    ///\details
-    /*The GridCell will be constructed having the following default values:
-      Color : White, Size : 20x20 */
     GridCell(sf::Vector2f position,
              std::vector<std::shared_ptr<IObject>> & objects,
-             sf::Color color = sf::Color::White, float speed = 0,
+             sf::Color color = sf::Color::Transparent, float speed = 0,
              objectType type = objectType::GridCell)
         : IRectangle(position, objects, color, speed, type) {
-        iRect.setSize(sf::Vector2f(20.f, 20.f));
+        iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
+    };
+
+    ///\brief
+    /// GridCell constructor, supports texture.
+    GridCell(sf::Vector2f position,
+             std::vector<std::shared_ptr<IObject>> & objects,
+             sf::Texture * texture, sf::Color color = sf::Color::Transparent,
+             float speed = 0, objectType type = objectType::GridCell)
+        : IRectangle(position, objects, texture, color, speed, type) {
+        iRect.setSize(sf::Vector2f(PIXEL16, PIXEL16));
     };
 
     ///\brief
@@ -71,7 +78,7 @@ class GridCell : public IRectangle {
     /// Check if IObject intersect.
     ///\details
     /*Check if an IObject intersect with given IObject.*/
-    ///@param obj
+    ///@param objgetMyDrawable
     /*IObject*/
     ///@return bool
     bool intersect(IObject & obj) override;
@@ -83,8 +90,10 @@ class GridCell : public IRectangle {
     ///@param position
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
+
     ///\brief
     /// Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
     ///\brief
@@ -103,15 +112,22 @@ class GridCell : public IRectangle {
     sf::FloatRect getBounds() override;
 
     ///\brief
-    /// Sets the color of the IObject.
-    ///@param color
-    /*sf::Color*/
+    /// Sets the type of the GridCell.
+    ///@param type
+    /*objectType*/
+    void setCellType(objectType type);
 
     ///\brief
     /// Sets the type of the GridCell.
     ///@param type
     /*objectType*/
-    void setCellType(objectType type);
+    void setCellType(objectType type, sf::Texture * texture);
+
+    ///\brief
+    /// Sets the texture of the GridCell.
+    ///@param texture
+    /*sf::Texture* */
+    void setTexture(sf::Texture * texture);
 
     ///\brief
     /// Gets the type of the GridCell.
@@ -127,6 +143,16 @@ class GridCell : public IRectangle {
     /// Function to check if a gridcell contains an SFML object
     ///@return bool
     bool contains();
+	///\brief
+	///Function to return the pointer to the corresponding drawable on this gridcell
+	///@return std::shared_ptr<IObject>
+	std::shared_ptr<IObject> getMyDrawable();
+	///\brief
+	///Function to set the myDrawable pointer
+	///@param iPointer, std::shared_ptr<IObject>
+	void setMyDrawable(std::shared_ptr<IObject> iPointer);
+
+
 
     ///\brief
     ///= operator.

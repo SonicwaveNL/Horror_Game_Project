@@ -7,6 +7,9 @@
 // #include <sys/types.h>
 // #include <vector>
 // #include <string>
+
+#define PIXEL16 16
+
 ///@file
 
 // std::vector<std::string> getMapNames(const char * path) {
@@ -32,18 +35,51 @@
 /// Enum class that contains input types.
 enum class inputType { keyboard, controller };
 
-enum class gameState { Menu, SelectMap, Play, Editor, Quit };
+enum class gameState { Menu, SelectMap, Play, Editor, Quit, WinState, LoseState, Store };
 
-enum class objectType {
+enum class objectType : size_t {
+    Wall,
+    Floor,
+    Door,
+    Switch,
+    Player,
+    Monster,
     Abstract,
     UIElement,
     GridCell,
-    Floor,
-    Wall,
-    Switch,
-    Door,
-    Player,
-    Monster
+    Powerup
+};
+
+enum class floorType : size_t { Default };
+
+enum class wallType : size_t { Default };
+
+enum class switchType : size_t { Off, On };
+
+enum class doorType : size_t { Default };
+
+enum class playerType : size_t {
+    Side1,
+    Side2,
+    Side3,
+    Front1,
+    Front2,
+    Front3,
+    Back1,
+    Back2,
+    Back3
+};
+
+enum class monsterType : size_t {
+    Side1,
+    Side2,
+    Side3,
+    Front1,
+    Front2,
+    Front3,
+    Back1,
+    Back2,
+    Back3
 };
 
 ///\brief
@@ -61,5 +97,11 @@ enum class actionKeyword {
     action3,
     action4
 };
+
+enum class BuffType : int{
+    PlayerSpeed = 1,
+    EnemySpeed = 2
+};
+
 
 #endif
