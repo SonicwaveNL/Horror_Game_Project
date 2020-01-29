@@ -31,8 +31,7 @@ class Game {
   private:
     size_t difficulty = 100;
     size_t viewDistance = 5;
-    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-                            sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game"};
 
     FileFactory factory;
     Sound sound;
@@ -158,7 +157,7 @@ class Game {
      * the screen.*/
     ///@param drawables
     /*std::vector<std::shared_prt<IObject>> &*/
-    void draw(std::vector<std::shared_ptr<IObject>> & drawables);
+    void draw(std::vector<std::shared_ptr<IObject>> & x);
 
     ///\brief
     /// draw function
@@ -211,7 +210,6 @@ class Game {
         file.close();
     };
 
-    std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos);
     ///\brief
     /// Creates a matrix of GridCells.
     ///\details
@@ -231,7 +229,7 @@ class Game {
     /*position is a sf::Vector2f containing the position of which you want the
      * index in the grid.*/
     ///@return std;:array<int,2>
-    std::array<int, 2> findIndexFromPosition(sf::Vector2f position);
+    std::array<int, 2> findIndexInGrid(sf::Vector2f position);
 
     ///\brief
     /// Small Algorithm used by the Monster
@@ -264,7 +262,7 @@ class Game {
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
 
-    void rayCast();
+    std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
     /// Runs the game demo

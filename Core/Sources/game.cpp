@@ -34,9 +34,9 @@ std::vector<std::vector<GridCell>> Game::createGrid(sf::Vector2u windowSize) {
   return shapeMatrix;
 }
 
-std::array<int, 2> findShapeFromMouse(sf::Vector2f mousePos) {
-  int xPos = int(mousePos.x) / PIXEL16;
-  int yPos = int(mousePos.y) / PIXEL16;
+std::array<int, 2> Game::findIndexInGrid(sf::Vector2f position) {
+  int xPos = int(position.x) / PIXEL16;
+  int yPos = int(position.y) / PIXEL16;
   std::array<int, 2> arr = {xPos, yPos};
   return arr;
 }
@@ -230,45 +230,52 @@ void Game::reversedBFSPathAlgorithm() {
   }
 };
 
-void Game::rayCast() {
+std::vector<std::shared_ptr<IObject>> Game::lantern() {
   sf::Vector2f playerPos = player->getPosition();
+  auto playerIndex = findIndexInGrid(playerPos);
+
+  // X-as in grid
+  auto leftXIndex = playerIndex[0] - (viewDistance + 1);
+  auto rightXIndex = playerIndex[0] + (viewDistance + 1);
+
+  // Y-as in grid
+  auto topYIndex = playerIndex[1] - (viewDistance + 1);
+  auto bottomYIndex = playerIndex[1] + (viewDistance + 1);
+
+  std::vector<GridCell> vectorToCheckForType;
+  // X-as
+  for (size_t x = leftXIndex; x < rightXIndex; x++) {
+    if (x >= 0 && rightXIndex < grid.size()) {
+      // Y-as
+      for (size_t y = topYIndex; y < bottomYIndex; y++) {
+        if (y >= 0 && bottomYIndex < grid[x].size()) {
+          vectorToCheckForType.push_back(grid[x][y]);
+          // std::cout << "pushed back cell\n";
+        }
+      }
+    }
+  }
+  std::cout << "Size vector check : " << vectorToCheckForType.size() << "\n";
+  std::vector<std::shared_ptr<IObject>> vectorToDraw;
   sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
   line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
-  std::vector<std::shared_ptr<IObject>> intersectingCells;
+
   for (int degree = 0; degree < 360; degree += 5) {
-    std::cout << "degree: " << degree << std::endl;
-    intersectingCells.clear();
-    float shortestDistance = 10000.f;
-    std::shared_ptr<IObject> nearestDrawable;
-    for (auto &pointer : drawables) {
-      if (line.getGlobalBounds().intersects(pointer->getBounds())) {
-        intersectingCells.push_back(pointer);
-        std::cout << "found intersection object with line\n";
+    auto lineBounds = line.getGlobalBounds();
+    for (auto &pointer : vectorToCheckForType) {
+      if (lineBounds.intersects(pointer.getMyDrawable()->getBounds())) {
+        vectorToDraw.push_back(pointer.getMyDrawable());
+
+        std::cout << "found intersection\n";
       }
     }
- 
-    bool foundNewNearest = true;
-    for (auto &pointer : intersectingCells) {
-      std::cout << pointer->checkIfDrawable() << std::endl;
-      if (pointer->checkIfDrawable()) {
-        intersectingCells.clear();
-        foundNewNearest = false;
-        std::cout << "found an object that was already drawable, so stop checking\n";
-      }
-      auto xSquared = pow(fabs(playerPos.x - pointer->getPosition().x), 2);
-      auto ySquared = pow(fabs(playerPos.y - pointer->getPosition().y), 2);
-      auto pythagoras = sqrt(xSquared + ySquared);
-      if (pythagoras < shortestDistance) {
-        shortestDistance = pythagoras;
-        nearestDrawable = pointer;
-      }
-    }
-    if (foundNewNearest) {
-      std::cout << "setting nearest object to player to drawable\n";
-      nearestDrawable->toggleAbleToDraw();
-    }
+    if (lineBounds.intersects(monster->getBounds())) {
+      vectorToDraw.push_back(monster);
+    };
     line.setRotation(degree);
   }
+  vectorToDraw.push_back(player);
+  return vectorToDraw;
 }
 
 std::unordered_map<objectType, std::vector<sf::Texture>> Game::loadTextures(
@@ -296,13 +303,16 @@ std::unordered_map<objectType, std::vector<sf::Texture>> Game::loadTextures(
   return tmpCont;
 };
 
-void Game::draw(std::vector<std::shared_ptr<IObject>> &drawables) {
-  for (std::shared_ptr<IObject> drawable : drawables) {
-    if (drawable->checkIfDrawable()) {
-      drawable->draw(window);
-      drawable->toggleAbleToDraw();
-    }
+void Game::draw(std::vector<std::shared_ptr<IObject>> &x) {
+  for (auto &object : x) {
+    object->draw(window);
   }
+  // for (std::shared_ptr<IObject> &drawable : drawables) {
+  //   if (drawable->checkIfDrawable()) {
+  //     drawable->draw(window);
+  //     drawable->toggleAbleToDraw();
+  //   }
+  // }
 }
 void Game::draw(std::vector<std::shared_ptr<UIElement>> &uiElements) {
   for (std::shared_ptr<UIElement> uiElement : uiElements) {
@@ -424,10 +434,9 @@ void Game::run() {
           break;
         }
         // show instructions once*
-        window.draw(bgSprite);
-        rayCast();
-        drawables[10]->toggleAbleToDraw();
-        draw(drawables);
+        //window.draw(bgSprite);
+        auto a = lantern();
+        draw(a);
         draw(PlayUI);
 
         // add actions to remove instructions

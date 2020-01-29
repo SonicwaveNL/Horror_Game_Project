@@ -18,7 +18,7 @@ class GridCell : public IRectangle {
     // sf::Texture * texture;
     // sf::Sprite sprite;
     objectType cellType = objectType::Floor;
-
+    std::shared_ptr<IObject> myDrawable;
   public:
     // stuff for the AI
     int64_t value = 0;
@@ -143,6 +143,16 @@ class GridCell : public IRectangle {
     /// Function to check if a gridcell contains an SFML object
     ///@return bool
     bool contains();
+	///\brief
+	///Function to return the pointer to the corresponding drawable on this gridcell
+	///@return std::shared_ptr<IObject>
+	std::shared_ptr<IObject> getMyDrawable();
+	///\brief
+	///Function to set the myDrawable pointer
+	///@param iPointer, std::shared_ptr<IObject>
+	void setMyDrawable(std::shared_ptr<IObject> iPointer);
+
+
 
     ///\brief
     ///= operator.
