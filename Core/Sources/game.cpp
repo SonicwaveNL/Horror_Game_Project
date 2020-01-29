@@ -328,6 +328,7 @@ void Game::run() {
         window.clear();
         switch (currentState) {
             case gameState::Menu: {
+                window.draw(menuBgSprite);
                 int ppAmount = powerups[BuffType::PlayerSpeed]->getAmount();
                 int peAmount = powerups[BuffType::EnemySpeed]->getAmount();
                 factory.writeInventoryToFile(points, ppAmount, peAmount);

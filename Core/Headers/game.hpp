@@ -51,6 +51,11 @@ class Game {
     sf::Sprite winBgSprite;
     sf::Texture winBgTexture;
 
+    sf::Image menuSource;
+    sf::Texture menuBgTexture;
+    sf::Sprite menuBgSprite;
+
+
     int points;
 
     std::vector<std::shared_ptr<IObject>> drawables;
@@ -274,6 +279,9 @@ void draw(std::shared_ptr<UIElement> & UIElement);
                         sf::Vector2i{window.getSize().x, window.getSize().y}});
         winBgSprite.setTexture(winBgTexture);
         winBgSprite.setPosition({0,0});
+
+        menuBgSprite.setTexture(winBgTexture);
+
 
 
         gameTextures =
