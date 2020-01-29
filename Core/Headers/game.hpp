@@ -50,6 +50,8 @@ class Game {
     sf::Sprite winBgSprite;
     sf::Texture winBgTexture;
 
+    int points;
+
     std::vector<std::shared_ptr<IObject>> drawables;
 
     std::vector<std::vector<GridCell>> grid;
@@ -276,8 +278,11 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         winloseUI = factory.fileToUi(file);
         file.close();
 
-        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, 1);
-        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, 1);
+        std::array<int, 3> playerData = readInventoryFromFile();
+        points = playerData[0];
+
+        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
+        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
 
         powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
         powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);

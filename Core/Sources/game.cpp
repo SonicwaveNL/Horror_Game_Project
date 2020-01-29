@@ -301,6 +301,7 @@ void Game::run() {
         window.clear();
         switch (currentState) {
             case gameState::Menu: {
+                writeInventoryToFile(points, powerups[BuffType::PlayerSpeed], powerups[BuffType::EnemySpeed]);
                 draw(MenuUI);
                 for (auto & ele : MenuUI) {
                     int value = 0;
@@ -422,6 +423,7 @@ void Game::run() {
                 }
 
                if (player->checkWin()) {
+                    points+=1;
                     currentState = gameState::WinState;
                     break;
                 } else if (player->checkLose()) {
