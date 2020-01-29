@@ -229,31 +229,21 @@ void Game::reversedBFSPathAlgorithm() {
 std::vector<std::shared_ptr<IObject>> Game::lantern() {
   sf::Vector2f playerPos = player->getPosition();
   auto playerIndex = findIndexInGrid(playerPos);
+  int_fast16_t gridXSize = grid.size();
+  int_fast16_t gridYSize = grid[0].size();
 
   // X-as in grid
-  size_t leftXIndex = playerIndex[0] - (viewDistance + 1);
-  size_t rightXIndex = playerIndex[0] + (viewDistance + 1);
-  if (leftXIndex <= -1) {
-    leftXIndex = 0;
-  };
-  if (rightXIndex > grid.size()) {
-    rightXIndex = grid.size();
-  };
-
+  int_fast16_t leftXIndex = std::max<int_fast16_t>(0,playerIndex[0] - (viewDistance + 1));
+  int_fast16_t rightXIndex = std::min<int_fast16_t>(gridXSize,playerIndex[0] + (viewDistance + 1));
+  
   // Y-as in grid
-  auto topYIndex = playerIndex[1] - (viewDistance + 1);
-  auto bottomYIndex = playerIndex[1] + (viewDistance + 1);
-  if (topYIndex <= -1) {
-    topYIndex = 0;
-  };
-  if (bottomYIndex > grid[leftXIndex].size()) {
-    bottomYIndex = grid[leftXIndex].size();
-  };
+  int_fast16_t topYIndex = std::max<int_fast16_t>(0,playerIndex[1] - (viewDistance + 1));
+  int_fast16_t bottomYIndex = std::min<int_fast16_t>(gridYSize,playerIndex[1] + (viewDistance + 1));
 
   std::vector<GridCell> vectorToCheckForType;
 
-  for (size_t x = leftXIndex; x < rightXIndex; x++) {
-    for (size_t y = topYIndex; y < bottomYIndex; y++) {
+  for (uint x = leftXIndex; x < rightXIndex; x++) {
+    for (uint y = topYIndex; y < bottomYIndex; y++) {
       vectorToCheckForType.push_back(grid[x][y]);
     }
   }
@@ -264,10 +254,10 @@ std::vector<std::shared_ptr<IObject>> Game::lantern() {
   for (int degree = 0; degree < 360; degree += 5) {
     auto lineBounds = line.getGlobalBounds();
     for (auto &pointer : vectorToCheckForType) {
-      if (lineBounds.intersects(pointer.getMyDrawable()->getBounds()) &&
+      if (lineBounds.intersects(pointer.myDrawable->getBounds()) &&
           pointer.getType() != objectType::Player &&
           pointer.getType() != objectType::Monster) {
-        setWithDrawables.insert(pointer.getMyDrawable());
+        setWithDrawables.insert(pointer.myDrawable);
       }
     }
     if (lineBounds.intersects(monster->getBounds())) {
@@ -446,6 +436,7 @@ void Game::run() {
 
         auto a = lantern();
         draw(a);
+        //draw(gameObjects);
         draw(PlayUI);
 
         break;
@@ -472,7 +463,7 @@ void Game::run() {
       }
     }
     window.display();
-    sf::sleep(sf::milliseconds(PIXEL16));
+    sf::sleep(sf::milliseconds(20));
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
