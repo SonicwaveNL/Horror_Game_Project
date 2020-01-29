@@ -23,7 +23,7 @@ sf::Vector2f GridCell::getPosition(){
 
 void GridCell::setCellType(objectType type) { 
     if(type == objectType::Floor){
-        setColor(sf::Color::White);
+        setColor(sf::Color::Transparent);
     } else if (type == objectType::Wall) {
         setColor(sf::Color::Red);
     } else if (type == objectType::Switch) {
