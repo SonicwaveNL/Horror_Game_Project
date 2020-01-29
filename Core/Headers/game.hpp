@@ -208,7 +208,7 @@ class Game {
      * the screen.*/
     ///@param drawables
     /*std::vector<std::shared_prt<IObject>> &*/
-    void draw(std::vector<std::shared_ptr<IObject>> & x);
+    void draw(std::vector<std::shared_ptr<IObject>> & objects);
 
     ///\brief
     /// draw function
@@ -227,6 +227,15 @@ class Game {
     ///@param grid
     /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
+
+     ///\brief
+    /// draw function
+    ///\details
+    /*function that prints the given set of shared pointers of drawables(IObjects) to
+     * the screen.*/
+    ///@param grid
+    /*std::set<std::shared_ptr<IObject>> */
+    void draw(std::set<std::shared_ptr<IObject>> & objects);
 
   public:
     Game() {
@@ -320,7 +329,7 @@ class Game {
     is it a wall?) apply to the gridcell, the gridcell will be added to a vector. The line then rotates 5 degrees, and does this again untill the lines made a 
     full circle around the player. We then have a vector containing objects that need to be drawn. */
     ///@return std::vector containing std::shared_ptr objects that hold pointers to IObjects.
-    std::vector<std::shared_ptr<IObject>> lantern();
+    std::set<std::shared_ptr<IObject>> lantern();
 
     ///\brief
     /// Runs the game demo
