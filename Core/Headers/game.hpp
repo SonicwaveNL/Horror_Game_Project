@@ -329,7 +329,7 @@ class Game {
     is it a wall?) apply to the gridcell, the gridcell will be added to a vector. The line then rotates 5 degrees, and does this again untill the lines made a 
     full circle around the player. We then have a vector containing objects that need to be drawn. */
     ///@return std::vector containing std::shared_ptr objects that hold pointers to IObjects.
-    std::set<std::shared_ptr<IObject>> lantern();
+    std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
     /// Runs the game demo

@@ -226,39 +226,48 @@ void Game::reversedBFSPathAlgorithm() {
   }
 };
 
-std::set<std::shared_ptr<IObject>> Game::lantern() {
+std::vector<std::shared_ptr<IObject>> Game::lantern() {
   sf::Vector2f playerPos = player->getPosition();
   auto playerIndex = findIndexInGrid(playerPos);
 
   // X-as in grid
-  auto leftXIndex = playerIndex[0] - (viewDistance + 1);
-  auto rightXIndex = playerIndex[0] + (viewDistance + 1);
+  size_t leftXIndex = playerIndex[0] - (viewDistance + 1);
+  size_t rightXIndex = playerIndex[0] + (viewDistance + 1);
+  if (leftXIndex <= -1) {
+    leftXIndex = 0;
+  };
+  if (rightXIndex > grid.size()) {
+    rightXIndex = grid.size();
+  };
 
   // Y-as in grid
   auto topYIndex = playerIndex[1] - (viewDistance + 1);
   auto bottomYIndex = playerIndex[1] + (viewDistance + 1);
+  if (topYIndex <= -1) {
+    topYIndex = 0;
+  };
+  if (bottomYIndex > grid[leftXIndex].size()) {
+    bottomYIndex = grid[leftXIndex].size();
+  };
 
   std::vector<GridCell> vectorToCheckForType;
-  // X-as
+
   for (size_t x = leftXIndex; x < rightXIndex; x++) {
-    if (x >= 0 && rightXIndex < grid.size()) {
-      // Y-as
-      for (size_t y = topYIndex; y < bottomYIndex; y++) {
-        if (y >= 0 && bottomYIndex < grid[x].size()) {
-          vectorToCheckForType.push_back(grid[x][y]);
-        }
-      }
+    for (size_t y = topYIndex; y < bottomYIndex; y++) {
+      vectorToCheckForType.push_back(grid[x][y]);
     }
   }
-  std::set<std::shared_ptr<IObject>> vectorToDraw;
+  std::set<std::shared_ptr<IObject>> setWithDrawables;
   sf::RectangleShape line(sf::Vector2f(viewDistance * PIXEL16, 1));
   line.setPosition(playerPos.x + (PIXEL16 / 2), playerPos.y + (PIXEL16 / 2));
   bool monsterFound = false;
   for (int degree = 0; degree < 360; degree += 5) {
     auto lineBounds = line.getGlobalBounds();
     for (auto &pointer : vectorToCheckForType) {
-      if (lineBounds.intersects(pointer.getMyDrawable()->getBounds())) {
-        vectorToDraw.insert(pointer.getMyDrawable());
+      if (lineBounds.intersects(pointer.getMyDrawable()->getBounds()) &&
+          pointer.getType() != objectType::Player &&
+          pointer.getType() != objectType::Monster) {
+        setWithDrawables.insert(pointer.getMyDrawable());
       }
     }
     if (lineBounds.intersects(monster->getBounds())) {
@@ -266,10 +275,14 @@ std::set<std::shared_ptr<IObject>> Game::lantern() {
     };
     line.setRotation(degree);
   }
-  if (monsterFound) {
-    vectorToDraw.insert(monster);
+  std::vector<std::shared_ptr<IObject>> vectorToDraw;
+  for (auto &ptr : setWithDrawables) {
+    vectorToDraw.push_back(ptr);
   }
-  vectorToDraw.insert(player);
+  if (monsterFound) {
+    vectorToDraw.push_back(monster);
+  }
+  vectorToDraw.push_back(player);
   return vectorToDraw;
 }
 
