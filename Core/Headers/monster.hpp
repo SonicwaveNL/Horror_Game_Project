@@ -74,7 +74,7 @@ class Monster : public IRectangle {
     ///@return bool
     bool intersect(IObject & obj) override;
 
- ///\brief
+    ///\brief
     /// Set the position of the IObject to the given position.
     ///\details
     /*The position to put the IObject.*/
@@ -82,7 +82,7 @@ class Monster : public IRectangle {
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
 
-     ///\brief
+    ///\brief
     /// IObject collision.
     ///\details
     /*IObject collision.*/

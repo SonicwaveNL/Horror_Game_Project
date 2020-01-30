@@ -3,40 +3,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-// #include <dirent.h>
-// #include <sys/types.h>
-// #include <vector>
-// #include <string>
 
+//Defines the size of the tiles in the game.
 #define PIXEL16 16
 
 ///@file
-
-// std::vector<std::string> getMapNames(const char * path) {
-//     struct dirent * entry;
-//     std::vector<std::string> returnVector;
-//     DIR * dir = opendir(path);
-
-//     if (dir == NULL) {
-//         return returnVector;
-//     }
-//     while ((entry = readdir(dir)) != NULL) {
-//         std::string fileName = entry->d_name;
-//         if( fileName.find(".txt") < std::string::npos &&
-//         fileName.find("level") < std::string::npos ){
-//             returnVector.push_back( fileName );
-//         }
-//     }
-//     closedir(dir);
-//     return returnVector;
-// }
-
 ///\brief
-/// Enum class that contains input types.
+/// inputType contains the types of input a user can use (for now only keyboard is implented).
 enum class inputType { keyboard, controller };
 
+///\brief
+///gameState contains the states in which the game can be.
 enum class gameState { Menu, SelectMap, Play, Editor, Quit, WinState, LoseState, Store };
 
+///\brief
+///objectType contaings the various types of objects a cell can have.
 enum class objectType : size_t {
     Wall,
     Floor,
@@ -50,40 +31,9 @@ enum class objectType : size_t {
     Powerup
 };
 
-enum class floorType : size_t { Default };
-
-enum class wallType : size_t { Default };
-
-enum class switchType : size_t { Off, On };
-
-enum class doorType : size_t { Default };
-
-enum class playerType : size_t {
-    Side1,
-    Side2,
-    Side3,
-    Front1,
-    Front2,
-    Front3,
-    Back1,
-    Back2,
-    Back3
-};
-
-enum class monsterType : size_t {
-    Side1,
-    Side2,
-    Side3,
-    Front1,
-    Front2,
-    Front3,
-    Back1,
-    Back2,
-    Back3
-};
-
 ///\brief
-/// Enum class that contains keywords representing actions.
+/*actionKeyword contains the various actions a user can take but not explicitly which actual keyboard key or controller button is needed for the action.
+    This creates a layer of abstraction.*/
 enum class actionKeyword {
     escape,
     select,
@@ -98,10 +48,10 @@ enum class actionKeyword {
     action4
 };
 
+///\brief
+///BuffType contains the types of buffs a player can have.
 enum class BuffType : int{
     PlayerSpeed = 1,
     EnemySpeed = 2
 };
-
-
 #endif

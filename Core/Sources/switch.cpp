@@ -12,11 +12,10 @@ bool Switch::intersect(IObject & obj){
     return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Switch::setPosition(sf::Vector2f direction){
+void Switch::setPosition(sf::Vector2f position){
     prevPosition = iRect.getPosition();
-    iRect.setPosition(iRect.getPosition());
+    iRect.setPosition(position);
 }
-
 
 void Switch::draw(sf::RenderWindow & window){
     window.draw(iRect); 

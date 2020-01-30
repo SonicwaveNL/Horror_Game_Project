@@ -6,7 +6,7 @@
 
 ///@file
 ///\brief
-/// This class handles the drawing of all objects
+/// This class handles the drawing of all objects. (Currently not in use.)
 class WindowHandler {
   private:
     sf::RenderWindow & window;
@@ -14,8 +14,6 @@ class WindowHandler {
   public:
     ///\brief
     /// The WindowHandler constructor.
-    ///@param window
-    /*An SFML RenderWindow, which this class will draw the game objects on.*/
     WindowHandler(sf::RenderWindow & window) : window(window) {}
 
     ///\brief
@@ -24,7 +22,7 @@ class WindowHandler {
     /*This function draws the objects in the 'objects' vector to the SFML
      * RenderWindow.*/
     ///@param objects
-    /*The objects in the vector will get drawn to the screen.*/
+    /*std::vector<IObject *> &, the objects in the vector will get drawn to the screen.*/
     void draw(std::vector<IObject *> & objects);
 };
 

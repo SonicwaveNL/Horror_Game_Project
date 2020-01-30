@@ -6,7 +6,7 @@ void Wall::move(sf::Vector2f position) { return; }
 
 
 
-void Wall::setPosition(sf::Vector2f target) { return; }
+void Wall::setPosition(sf::Vector2f position) { return; }
 
 bool Wall::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());

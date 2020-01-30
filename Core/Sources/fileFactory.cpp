@@ -254,17 +254,14 @@ FileFactory::fileToUi(std::istream & file) {
             file >> colorStringRect;
             file >> text;
             file >> colorStringLabel;
-        }
-
-        if (name == "END") {
+        }else {
             continue;
         }
 
         for (auto & color : colors) {
             if (colorStringLabel == color.name) {
                 sfColorLabel = color.color;
-            }
-            if (colorStringRect == color.name) {
+            }else if (colorStringRect == color.name) {
                 sfColorRect = color.color;
             }
         }

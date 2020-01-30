@@ -12,25 +12,15 @@
 ///\brief
 /// Player class.
 ///\details
-/*A Player class, create a playable character*/
+/*Player class, used a playable character.*/
 class Player : public IRectangle {
   private:
     bool win = false;
     bool lose = false;
+
   public:
     ///\brief
     /// Player object constructor.
-    ///\details
-    /// The Player constructor parameters are used to create a IObject.
-    ///@param texture
-    /*a SFML sf::Texture, this is the texture for the object*/
-    ///@param position
-    /*a sf::Vector2f position, this is the position of the object*/
-    ///@param objects
-    /*a std::vector<IObject*> vector array, this is a group of all IObjects
-     * within*/
-    ///@param color
-    /*a SFML sf::Color, this is the color of the texture.*/
     Player(sf::Vector2f position,
            std::vector<std::shared_ptr<IObject>> & objects,
            sf::Color color = sf::Color::Transparent, float speed = 4,
@@ -46,9 +36,9 @@ class Player : public IRectangle {
         : IRectangle(position, objects, texture, color, speed, type) {}
 
     ///\brief
-    /// Draw IObject on window
+    /// Draw IObject on window.
     ///\details
-    /*Draw the IObject on the sf::RenderWindow*/
+    /*Draw the IObject on the sf::RenderWindow.*/
     ///@param window
     /*sf::RenderWindow*/
     void draw(sf::RenderWindow & window) override;
@@ -70,19 +60,19 @@ class Player : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    /// Check if Player intersect.
+    /// Check if Player intersects.
     ///\details
-    /*Check if an Player intersect with given IObject.*/
+    /*Check if an Player intersects with given IObject.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&*/
     ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
-    /// Jump Player object to given target
+    /// Set the position of the IObject to the given position.
     ///\details
-    /*Jump Player object to given sf::Vector2f target.*/
-    ///@param obj
+    /*The position to put the IObject.*/
+    ///@param position
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
 
@@ -92,11 +82,11 @@ class Player : public IRectangle {
     sf::Vector2f getPosition() override;
 
     ///\brief
-    /// Player collision.
+    /// IObject collision.
     ///\details
-    /*Player collision.*/
+    /*IObject collision.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&, the object to check collision with.*/
     void collision(IObject & obj) override;
 
     ///\brief
@@ -117,11 +107,19 @@ class Player : public IRectangle {
     bool checkLose();
 
     ///\brief
-    ///Reset the player lose and win vars
+    /// Reset the player lose and win vars.
     void reset();
 
+    ///\brief
+    /// Makes sure the player is no longer colliding with a wall.
+    ///\details
+    /*Keeps stepping the player in the direction opposite of what caused it to
+     * collide until it no longer collides.*/
+    ///@param obj
+    /*IObject&, the object we collide with.*/
+    ///@param oldDir
+    /*sf::Vector2f, the direction we wanted to go when we collided.*/
     void fixMove(IObject & obj, sf::Vector2f oldDir);
-
 };
 
 #endif // PLAYER_HPP

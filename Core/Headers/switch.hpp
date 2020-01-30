@@ -6,7 +6,7 @@
 
 ///@file
 ///\brief
-/// A switch object
+///Switch class.
 ///\details
 /*An object the user has to interact with to open the door object*/
 class Switch : public IRectangle {
@@ -35,7 +35,7 @@ class Switch : public IRectangle {
     ///\details
     /*The switch's move isn't implemented, because we don't want it to move.*/
     ///@param direction
-    /*The direction the switch should move in. Passing a 1 will move the door at
+    /*sf::Vector2f, the direction the switch should move in. Passing a 1 will move the door at
      * its default speed, passing a 2 will move it twice as fast etc.*/
     void move(sf::Vector2f direction) override;
 
@@ -45,27 +45,27 @@ class Switch : public IRectangle {
     /*The switch's moveIfPossible does nothing, because we don't want it to
      * move.*/
     ///@param direction
-    /*The direction the switch should move in. Passing a 1 will move the door at
+    /*sf::Vector2f, the direction the switch should move in. Passing a 1 will move the door at
      * its default speed, passing a 2 will move it twice as fast etc.*/
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
     /// Whether or not the user intersects with its parameter.
     ///@param obj
-    /*The object to check if the door interacts with it.*/
+    /*IObject&, the object to check if the door interacts with it.*/
     ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
-    /// Set the position of the switch to the target.
-    ///@param target
-    /*sf::Vector2f containing the new position of the object.*/
-    void setPosition(sf::Vector2f target) override;
+    /// Set the position of the switch to the position.
+    ///@param position
+    /*sf::Vector2f, containing the new position of the object.*/
+    void setPosition(sf::Vector2f position) override;
 
     ///\brief
     /// Draw the object to the given window.
     ///@param window
-    /*The window the object should be drawn to.*/
+    /*sf::RenderWindow &, the window the object should be drawn to.*/
     void draw(sf::RenderWindow & window) override;
 
     ///\brief
@@ -74,7 +74,7 @@ class Switch : public IRectangle {
     /*Should only be called by the action1 keyword. This then flips the
      * switch.*/
     ///@param obj
-    /*The object that is colliding with the switch*/
+    /*IObject &, the object that is colliding with the switch*/
     void collision(IObject & obj) override;
 
     ///\brief
@@ -91,6 +91,7 @@ class Switch : public IRectangle {
 
     ///\brief
     /// Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition();
 };
 

@@ -8,9 +8,9 @@
 
 ///@file
 ///\brief
-/// UiElement class
+/// UiElement class.
 ///\details
-/*class to create UIElements that can be used in menus*/
+/*class to create UIElements.*/
 class UIElement {
   private:
     sf::Text label;
@@ -39,7 +39,7 @@ class UIElement {
                 buttonSource,
                 sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{500, 120}});
             iRect.setTexture(&texture);
-        } else if (size == sf::Vector2f(16.f, 16.f)) {
+        } else if (size == sf::Vector2f(PIXEL16, PIXEL16)) {
             if (labelText == "P") {
                 // use points texture
                 sf::Image buttonSource;
@@ -47,7 +47,7 @@ class UIElement {
                     "Resources/Textures/scoreDisplay.png");
                 texture.loadFromImage(
                     buttonSource,
-                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{PIXEL16, PIXEL16}});
                 iRect.setTexture(&texture);
                 iRect.setScale(sf::Vector2f{2.f, 2.f});
             } else if (labelText == "J") {
@@ -57,7 +57,7 @@ class UIElement {
                     "Resources/Textures/ppSpeedDisplay.png");
                 texture.loadFromImage(
                     buttonSource,
-                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{PIXEL16, PIXEL16}});
                 iRect.setTexture(&texture);
                 iRect.setScale(sf::Vector2f{2.f, 2.f});
 
@@ -68,7 +68,7 @@ class UIElement {
                     "Resources/Textures/peSpeedDisplay.png");
                 texture.loadFromImage(
                     buttonSource,
-                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{PIXEL16, PIXEL16}});
                 iRect.setTexture(&texture);
                 iRect.setScale(sf::Vector2f{2.f, 2.f});
             }
@@ -86,75 +86,69 @@ class UIElement {
     }
 
     ///\brief
-    /// Whether or not the user intersects with its parameter.
-    ///@param obj
-    /*The object to check if the door interacts with it.*/
+    /// Check if the given position intersects with the UIElement.
+    ///@param position
+    /*sf::Vector2f, the position to check intersection with.*/
     ///@return bool
     bool intersect(sf::Vector2f position);
 
     ///\brief
-    /// Set the position of the switch to the target.
-    ///@param target
-    /*sf::Vector2f containing the new position of the object.*/
-    void setPosition(sf::Vector2f target);
+    /// Set the position of the UIElement to the position.
+    ///@param position
+    /*sf::Vector2f, containing the new position of the object.*/
+    void setPosition(sf::Vector2f position);
 
     ///\brief
     /// Sets the position of the label relative to the sf::RectangleShape.
-    ///\details
-    /*function that sets the text inside the sf::RectangleShape*/
     void setLabelPosition();
 
     ///\brief
-    /// Draw the object to the given window.
+    /// Draw the UIElement to the given window.
     ///@param window
-    /*The window the object should be drawn to.*/
+    /*sf::RenderWindow &, the window the UIElement should be drawn to.*/
     void draw(sf::RenderWindow & window);
 
     ///\brief
-    /// Returns the outer boundaries of the switch object
+    /// Returns the outer boundaries of the UIElement.
     ///@return sf::FloatRect
     sf::FloatRect getBounds();
 
     ///\brief
-    /// Function to get the position.
+    /// Function to get the position of the UIElement.
     ///@return sf::vector2f
     sf::Vector2f getPosition();
 
     ///\brief
-    /// setBorderColor
-    ///\details
-    /*sets the rectangle around the text to the given color*/
+    /// Sets the border color of the UIElement.
     ///@param color
     /*sf::Color*/
     void setBorderColor(sf::Color color);
 
     ///\brief
-    /// setText function
-    ///\details
-    /*sets the text of the element to the given string*/
+    /// Sets the text of the UIElement.
     ///@param text
-    /*std::string*/
+    /*std::string, the text that should be shown.*/
     void setText(std::string text);
 
     ///\brief
-    /// getText function
-    ///\details
-    /*returns the text of the element*/
+    /// Gets the text of the UIElement.
     ///@return std::string
     std::string getText();
 
     ///\brief
-    /// Sets the font size of the text within the UI element
+    /// Sets the font size of the text within the UIElement.
     ///@param size
-    /*The size in pixels of the font*/
+    /*int, the size in pixels of the font.*/
     void setTextSize(int size);
 
     ///\brief
-    /// Set the font of the text within the UI element
+    /// Set the font of the text within the UIElement.
     ///@param _font
-    /*the sf::Font the new font should be*/
+    /*sf::Font * , a pointer to the font of the text.*/
     void setFont(sf::Font * _font);
 
+    ///\brief
+    ///Sets the font style to italic.
     void setItalic();
 };
 

@@ -92,9 +92,9 @@ bool Powerup::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Powerup::setPosition(sf::Vector2f direction) {
+void Powerup::setPosition(sf::Vector2f position) {
     prevPosition = iRect.getPosition();
-    iRect.setPosition(iRect.getPosition());
+    iRect.setPosition(position);
 }
 
 void Powerup::draw(sf::RenderWindow & window) {

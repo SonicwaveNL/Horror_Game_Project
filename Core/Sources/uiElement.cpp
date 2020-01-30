@@ -4,8 +4,8 @@ bool UIElement::intersect(sf::Vector2f position){
     return iRect.getGlobalBounds().contains(position);
 }
 
-void UIElement::setPosition(sf::Vector2f direction){
-    iRect.setPosition(direction);
+void UIElement::setPosition(sf::Vector2f position){
+    iRect.setPosition(position);
     setLabelPosition();
 }
 

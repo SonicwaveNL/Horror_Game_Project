@@ -23,10 +23,10 @@ bool Monster::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());
 }
 
-void Monster::setPosition(sf::Vector2f target) {
+void Monster::setPosition(sf::Vector2f position) {
     prevPosition = iRect.getPosition();
-    iRect.setPosition(target);
-    sprite.setPosition(target);
+    iRect.setPosition(position);
+    sprite.setPosition(position);
 }
 
 void Monster::collision(IObject & obj) {

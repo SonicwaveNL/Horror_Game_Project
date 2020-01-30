@@ -4,7 +4,7 @@ void Floor::moveIfPossible(sf::Vector2f direction) { return; }
 
 void Floor::move(sf::Vector2f position) { return; }
 
-void Floor::setPosition(sf::Vector2f target) { return; }
+void Floor::setPosition(sf::Vector2f position) { return; }
 
 bool Floor::intersect(IObject & obj) {
     return iRect.getGlobalBounds().intersects(obj.getBounds());
