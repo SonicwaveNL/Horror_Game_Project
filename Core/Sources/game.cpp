@@ -507,15 +507,17 @@ void Game::run() {
                         if (uiElement->getText() == "arrowKeys_to_move") {
                             uiElement->setText("Use arrow keys to move");
                         } else if (uiElement->getText() == "TAB_for_UI") {
-                            uiElement->setText("Hold tab for the switch overlay");
+                            uiElement->setText("Hold tab to see the switch overlay");
                         }else if (uiElement->getText() == "Flip_switches_with_H") {
                             uiElement->setText("Flip a switch with 'H'");
                         }else if (uiElement->getText() == "Flip_Four_Switches") {
-                            uiElement->setText("You have to flip four switches");
+                            uiElement->setText("Flip all switches to open the door");
                         }else if (uiElement->getText() == "J_For_speedbuff") {
                             uiElement->setText("Press 'j' to activate your speedbuff");
                         }else if (uiElement->getText() == "K_For_MonsterBuff") {
                             uiElement->setText("Press 'k' to active your monster");
+                        }else if(uiElement->getText() == "Run_To_Win"){
+                            uiElement->setText("Run away from the monster!");
                         }
 
                         uiElement->setLabelPosition();
