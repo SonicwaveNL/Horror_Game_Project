@@ -377,6 +377,15 @@ void Game::run() {
                 break;
             }
 
+            case gameState::Editor: {
+                window.draw(bgSprite);
+                draw(grid);
+                for (auto & action : editorActions) {
+                    action();
+                }
+                break;
+            }
+
             case gameState::Store: {
                 int i = 0;
                 for (auto & item : StoreUI) {
