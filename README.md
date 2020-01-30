@@ -41,11 +41,11 @@ make build
 ```
 
 ## Running the game
-To run the game, go to the root directory after compiling and run:
+To run the game, go to the root directory after [compiling](#Compiling) and run:
 ```bash
 make run
 ```
-or, if the game has already been compiled:
+or, if the game has already been [compiled](#Compiling):
 ```bash
 ./Booh
 ```
@@ -64,7 +64,7 @@ How does it work?
 In simple terms: it tries to take the shortest path to your last known location.  
 This location the monster knows is delayed by a little bit, to make it more doable for the player.  
 In more advanced terms:  
-We use a modified version of the BFS algorithm based on a delayed location to follow the player accurately, but still have it be possible. 
+We use a modified version of the [BFS algorithm]("https://en.wikipedia.org/wiki/Breadth-first_search") based on a delayed location to follow the player accurately, but still have it be possible. 
 
 ## The Power-ups
 As of the end of the project, only 2 powerups have been added.  
