@@ -370,11 +370,12 @@ void Game::run() {
                     if (ele->intersect(window.mapPixelToCoords(
                             sf::Mouse::getPosition(window))) &&
                         sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        if (ele->getText() != "MapSelection") {
+                        if (ele->getText() != "Menu") {
                             chosenMap = ele->getText();
                             currentState = gameState::Play;
                             break;
                         }
+                        currentState = gameState::Menu;
                     }
                 }
                 break;

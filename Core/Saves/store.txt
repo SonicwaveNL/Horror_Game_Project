@@ -1,6 +1,6 @@
-UIELEMENT (50,50) (0,0) yellow PowerUp1_move_faster red
-UIELEMENT (50,250) (0,0) yellow PowerUp2_pause_enemy red
-UIELEMENT (50,450) (0,0) yellow Menu red
+UIELEMENT (50,50) (0,0) yellow Menu white
+UIELEMENT (50,250) (0,0) yellow PowerUp1_move_faster white
+UIELEMENT (50,450) (0,0) yellow PowerUp2_pause_enemy white
 
 UIELEMENT (1640,20) (260,60) white empty white
 UIELEMENT (1660,25) (50,50) black O white

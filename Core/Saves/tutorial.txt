@@ -1,5 +1,7 @@
-UIELEMENT (1520,20) (380,130) white arrowKeys_to_move black
-UIELEMENT (1520,160) (380,130) white TAB_for_UI black
-UIELEMENT (1520,300) (380,130) white Flip_switches_with_H black
-UIELEMENT (1520,440) (380,130) white Flip_Four_Switches black
+UIELEMENT (1520,20) (380,130) black arrowKeys_to_move white
+UIELEMENT (1520,160) (380,130) black TAB_for_UI white
+UIELEMENT (1520,300) (380,130) black Flip_switches_with_H white
+UIELEMENT (1520,440) (380,130) black Flip_Four_Switches white
+UIELEMENT (1520,580) (380,130) black J_For_speedbuff white
+UIELEMENT (1520,720) (380,130) black K_For_MonsterBuff white
 END

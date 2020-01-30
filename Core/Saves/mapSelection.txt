@@ -1,4 +1,4 @@
-UIELEMENT (50,50) (0,0) yellow MapSelection white
+UIELEMENT (50,50) (0,0) yellow Menu white
 UIELEMENT (50,250) (0,0) yellow level1.txt white
 UIELEMENT (50,450) (0,0) yellow level2.txt white
 UIELEMENT (50,650) (0,0) yellow tutorialMap.txt white
