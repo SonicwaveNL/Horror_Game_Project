@@ -12,7 +12,12 @@ The user can make their own levels, but can also use a number of pre-made levels
     
 ## About the team
 We are just a group of students, trying to finish a university project.  
-Striving to make a scary, exciting game to scare the hell out of our teachers.
+We're in our second year of Software Engineering, just striving to make a scary, exciting game to scare the hell out of our teachers.
+
+## The project 
+The goal was to make a game in C++ and SFML, using all things we've been taught in the past 2 years.  
+We had to do so in a group of 5, within 3 weeks, and had to divide the tasks fairly. 
+We were also required to make more documents, which are not made public.
 
 # Installation
 ## Prerequisites
