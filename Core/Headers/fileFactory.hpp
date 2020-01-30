@@ -55,8 +55,8 @@ class FileFactory {
     /*std::vector<std::vector<GridCell>> &*/
     ///@param fileName
     /*std::string*/
-    void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix,
-                            std::istream & file);
+    void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix, std::istream & file,
+        std::unordered_map<objectType, std::vector<sf::Texture>> & loadedTextures);
 
     ///@file
     ///\brief
