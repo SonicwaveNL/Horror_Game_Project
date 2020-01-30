@@ -48,6 +48,7 @@ class IObject {
     ///@param direction
     /*sf::Vector2f*/
     virtual void move(sf::Vector2f direction) = 0;
+    
     ///\brief
     /// Move IObject to direction, if possible.
     ///\details
@@ -73,7 +74,9 @@ class IObject {
     /*sf::Vector2f*/
     virtual void setPosition(sf::Vector2f target) = 0;
 
-
+    ///\brief
+    ///Gets the position of the IObject
+    ///@return sf::Vector2f
     virtual sf::Vector2f getPosition() = 0;
 
     ///\brief
@@ -119,11 +122,10 @@ class IObject {
     /*integer*/
     virtual void setSpeed(float newSpeed);
 
+    ///\brief
+    ///Get the speed
+    ///@return float
     float getSpeed();
-
-    bool checkIfDrawable(){return ableToDraw;};
-
-    bool toggleAbleToDraw(){if (ableToDraw){ableToDraw = false;}else{ableToDraw = true;}};
 };
 
 #endif // IOBJECT_HPP
