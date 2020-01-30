@@ -41,7 +41,10 @@ or, if the game has already been compiled:
 ```
 
 ## Documentation
-To generate the documentation, go to the root folder and run 'doxygen Doxyfile'.
+To generate the documentation, go to the root folder and run:
+```bash
+doxygen Doxyfile
+```
 After that, you can open any html file with your preferred webbrowser.
 
 # Playing the game
