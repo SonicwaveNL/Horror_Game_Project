@@ -331,6 +331,7 @@ void Game::run() {
         window.clear();
         switch (currentState) {
             case gameState::Menu: {
+                loaded = false;
                 window.draw(menuBgSprite);
                 int ppAmount = powerups[BuffType::PlayerSpeed]->getAmount();
                 int peAmount = powerups[BuffType::EnemySpeed]->getAmount();
@@ -378,6 +379,14 @@ void Game::run() {
             }
 
             case gameState::Editor: {
+                std::ifstream file;
+                file.open("Core/Saves/custom.txt");
+                if (file) {
+                    factory.loadMatrixFromFile(grid, file);
+                } else {
+                    currentState = gameState::Menu;
+                    break;
+                }
                 window.draw(bgSprite);
                 draw(grid);
                 for (auto & action : editorActions) {

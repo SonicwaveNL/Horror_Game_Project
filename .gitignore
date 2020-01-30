@@ -40,6 +40,8 @@
 doxygen
 doxygen/*
 
+Core/Saves/custom.txt
+
 # Executable
 Booh
 
