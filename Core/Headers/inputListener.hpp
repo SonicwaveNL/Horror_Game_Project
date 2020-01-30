@@ -7,9 +7,11 @@
 /// Abstract class for hardware input.
 ///\details
 /*This class contains abstract (non implemented) functions that need to be
-called by different hardware. It uses the default c++ constructor.*/
+called by different types of hardware.*/
 class InputListener {
   public:
+    ///\brief
+    ///InputListener constructor.
     InputListener(){};
 
     ///\brief
@@ -20,7 +22,7 @@ class InputListener {
     virtual bool checkInput(sf::Keyboard::Key & input);
 
     ///\brief
-    /// Abstract function that checks for the axis (and buttons) of joysticks
+    /// Abstract function that checks for the axis (and buttons) of joysticks.
     ///@param input
     /*sf::Joystick::Axis &*/
     ///@return bool

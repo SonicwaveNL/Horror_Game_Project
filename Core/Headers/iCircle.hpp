@@ -6,14 +6,16 @@
 
 ///@file
 ///\brief
-/// ICircle class
+/// ICircle class.
 ///\details
-/*class for creating a circle using sfml*/
+/*Class for creating a circle using SFML.*/
 class ICircle : public IObject {
   protected:
     sf::CircleShape iCirc;
 
   public:
+    ///\brief
+    ///Constructor for ICirlce.
     ICircle(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0)
@@ -23,9 +25,7 @@ class ICircle : public IObject {
     }
 
     ///\brief
-    /// setRadius function
-    ///\details
-    /*This functions sets the radius of the circle to the given float rad*/
+    ///Sets the radius of the circle shape.
     ///@param rad
     /*float*/
     void setRadius(float rad);

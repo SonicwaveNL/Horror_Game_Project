@@ -30,57 +30,48 @@
 /// Game class, this class runs the entire game with the run function()
 class Game {
   private:
-    size_t difficulty = 50;
-    size_t viewDistance = 5;
+    // Defines the difficulty of the game, it dictates how often the AI is going
+    // to recalculate the fastest route the the player.
+    int difficulty = 50;
+    int viewDistance = 5;
+    int points, doorCounter, playerCounter, monsterCounter, switchCounter;
+
+    bool loaded = false;
+
     sf::RenderWindow window{sf::VideoMode{1920, 1080}, "Booh - The game",
-    sf::Style::Fullscreen};
+                            sf::Style::Fullscreen};
+
+    sf::Vector2u windowSize;
 
     FileFactory factory;
     Sound sound;
 
+    /*Contains the textures for the game. The tileset has to follow these rules:
+        - Every tile has to be 16x16 pixels.
+        - From top to bottom: Wall, Floor, Door, Switch, Player, Monster*/
     std::unordered_map<objectType, std::vector<sf::Texture>> gameTextures;
-    sf::Image textureSource, bgSource;
-    sf::Texture bgTexture;
-    sf::Sprite bgSprite;
-
-    sf::Image loseBgSource;
-    sf::Sprite loseBgSprite;
-    sf::Texture loseBgTexture;
-
-    sf::Image winBgSource;
-    sf::Sprite winBgSprite;
-    sf::Texture winBgTexture;
-
-    sf::Image menuSource;
-    sf::Texture menuBgTexture;
-    sf::Sprite menuBgSprite;
-
-    int points;
-
-    std::vector<std::shared_ptr<IObject>> drawables;
+    sf::Image textureSource, bgSource, loseBgSource, winBgSource, menuSource;
+    sf::Texture bgTexture, loseBgTexture, winBgTexture, menuBgTexture;
+    sf::Sprite bgSprite, loseBgSprite, winBgSprite, menuBgSprite;
 
     std::vector<std::vector<GridCell>> grid;
 
+    /*The drawables contains all the IObjects that we want to draw.
+        The characters, winFactors and gameObjects containg a small portion of
+        drawables so we can access them more easily.*/
+    std::vector<std::shared_ptr<IObject>> drawables;
     std::vector<std::shared_ptr<IObject>> characters;
     std::vector<std::shared_ptr<IObject>> winFactors;
     std::vector<std::shared_ptr<IObject>> gameObjects;
 
+    /*Also have their own variables for ease of, and faster, access*/
     std::shared_ptr<Monster> monster;
     std::shared_ptr<Player> player;
 
-    std::vector<std::shared_ptr<UIElement>> MenuUI;
-    std::vector<std::shared_ptr<UIElement>> MapSelectionUI;
-    std::vector<std::shared_ptr<UIElement>> TutorialUI;
-    std::vector<std::shared_ptr<UIElement>> PlayUI;
-    std::vector<std::shared_ptr<UIElement>> EditorUI;
-    std::vector<std::shared_ptr<UIElement>> winloseUI;
-    std::vector<std::shared_ptr<UIElement>> StoreUI;
+    std::vector<std::shared_ptr<UIElement>> MenuUI, MapSelectionUI, TutorialUI,
+        PlayUI, EditorUI, winloseUI, StoreUI;
 
     std::unordered_map<BuffType, std::shared_ptr<Powerup>> powerups;
-    std::shared_ptr<UIElement> Yes;
-    std::shared_ptr<UIElement> No;
-
-    int doorCounter, playerCounter, monsterCounter, switchCounter;
 
     objectType cellType = objectType::Floor;
     gameState currentState = gameState::Menu;
@@ -88,10 +79,10 @@ class Game {
     std::string chosenMap = "custom.txt";
     std::string textureFile = "boohTileset.png";
 
-    bool loaded = false;
-
+    /*playingActions contain all of the actions we monitor during the Play
+     * state.*/
     Action playingActions[9] = {
-         Action(sf::Keyboard::Tab,
+        Action(sf::Keyboard::Tab,
                [=]() {
                    int switchCount = 0;
 
@@ -117,13 +108,25 @@ class Game {
                    }
                }),
         Action(actionKeyword::up,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, -1.f)); player->setTexture(&gameTextures[objectType::Player][6]); }),
+               [=]() {
+                   player->moveIfPossible(sf::Vector2f(0.f, -1.f));
+                   player->setTexture(&gameTextures[objectType::Player][6]);
+               }),
         Action(actionKeyword::down,
-               [=]() { player->moveIfPossible(sf::Vector2f(0.f, 1.f)); player->setTexture(&gameTextures[objectType::Player][3]); }),
+               [=]() {
+                   player->moveIfPossible(sf::Vector2f(0.f, 1.f));
+                   player->setTexture(&gameTextures[objectType::Player][3]);
+               }),
         Action(actionKeyword::left,
-               [=]() { player->moveIfPossible(sf::Vector2f(-1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
+               [=]() {
+                   player->moveIfPossible(sf::Vector2f(-1.f, 0.f));
+                   player->setTexture(&gameTextures[objectType::Player][0]);
+               }),
         Action(actionKeyword::right,
-               [=]() { player->moveIfPossible(sf::Vector2f(1.f, 0.f)); player->setTexture(&gameTextures[objectType::Player][0]); }),
+               [=]() {
+                   player->moveIfPossible(sf::Vector2f(1.f, 0.f));
+                   player->setTexture(&gameTextures[objectType::Player][0]);
+               }),
         Action(actionKeyword::action1,
                [=]() {
                    int switchCount = 0;
@@ -144,20 +147,20 @@ class Game {
                        door->setOpenState(true);
                    }
                }),
-        Action(actionKeyword::escape, [=]() {
-            currentState = gameState::Menu;
-            loaded = false;
-        }),
-         Action(actionKeyword::action2, [=]() {
-            
-            powerups[BuffType::PlayerSpeed]->buff(2.0);
-        }),
-                Action(actionKeyword::action3, [=]() {
-            powerups[BuffType::EnemySpeed]->buff();
-        })
-        
-        };
+        Action(actionKeyword::escape,
+               [=]() {
+                   currentState = gameState::Menu;
+                   loaded = false;
+               }),
+        Action(actionKeyword::action2,
+               [=]() { powerups[BuffType::PlayerSpeed]->buff(2.0); }),
+        Action(actionKeyword::action3,
+               [=]() { powerups[BuffType::EnemySpeed]->buff(); })
 
+    };
+
+    /*The editorActions contaings all the actions we monitor during the Editor
+     * state.*/
     Action editorActions[10] = {
         Action(sf::Keyboard::Num0, [=]() { cellType = objectType::Floor; }),
         Action(sf::Keyboard::Num1, [=]() { cellType = objectType::Wall; }),
@@ -212,7 +215,8 @@ class Game {
 
     ///\brief
     /// Loads the objects from the 'main' vector into their appropriate
-    /// sub-vectors \details
+    /// sub-vectors.
+    ///\details
     /*It will also put them in the right places. i.e. the player will get placed
      * at index 0, monsters after that etc.*/
     void loadSubVectors();
@@ -223,80 +227,74 @@ class Game {
     /*Used to load a tileset into a container provided the tiles are 16x16
      * pixels.*/
     ///@param file
-    /*std::string*/
+    /*std::string, the name of the tileset file.*/
     ///@param source
-    /*sf::Image &*/
+    /*sf::Image &, the source where the image will be put into.*/
     ///@return std::unordered_map<objectType, std::vector<sf::Texture>>
     std::unordered_map<objectType, std::vector<sf::Texture>>
     loadTextures(std::string file, sf::Image & source);
 
     ///\brief
-    /// draw function
+    /// Draw function for IObjects.
     ///\details
-    /*function that prints the given vectors of shared pointers of drawables to
-     * the screen.*/
-    ///@param drawables
+    /*This draw is explicitly for vectors containg shared pointers to
+     * IObjects.*/
+    ///@param objects
     /*std::vector<std::shared_prt<IObject>> &*/
     void draw(std::vector<std::shared_ptr<IObject>> & objects);
 
     ///\brief
-    /// draw function
+    /// Draw function for UIElements.
     ///\details
-    /*function that prints the given vectors of shared pointers of drawables to
-     * the screen.*/
+    /*This draw is explicitly for vectors containg shared pointers to
+     * UIElements.*/
     ///@param uiElements
     /*std::vector<std::shared_prt<UIElement>> &*/
     void draw(std::vector<std::shared_ptr<UIElement>> & uiElements);
 
     ///\brief
-    /// draw function
+    /// Draw function for GridCells.
     ///\details
-    /*function that prints the given vectors of shared pointers of drawables to
-     * the screen.*/
+    /*This draw is explicitly for vectors containg shared pointers to
+     * GridCells.*/
     ///@param grid
     /*std::vector<std::shared_prt<GridCell>> &*/
     void draw(std::vector<std::vector<GridCell>> & grid);
-void draw(std::shared_ptr<UIElement> & UIElement);
 
-     ///\brief
-    /// draw function
+    ///\brief
+    /// Draw function for IObjects
     ///\details
-    /*function that prints the given set of shared pointers of drawables(IObjects) to
-     * the screen.*/
+    /*This draw is explicitly for sets containg shared pointers to IObjects.*/
     ///@param grid
-    /*std::set<std::shared_ptr<IObject>> */
+    /*std::set<std::shared_ptr<IObject>>& */
     void draw(std::set<std::shared_ptr<IObject>> & objects);
 
   public:
     Game() {
+        windowSize = window.getSize();
+
         bgSource.loadFromFile("Resources/Textures/background.png");
+        loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
+        winBgSource.loadFromFile("Resources/Textures/winBackground.png");
+
         bgTexture.loadFromImage(
             bgSource,
-            sf::IntRect{sf::Vector2i{0, 0},
-                        sf::Vector2i{window.getSize().x, window.getSize().y}});
+            sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{windowSize}});
+        loseBgTexture.loadFromImage(
+            loseBgSource,
+            sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{windowSize}});
+        winBgTexture.loadFromImage(
+            winBgSource,
+            sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{windowSize}});
+
         bgSprite.setTexture(bgTexture);
-        bgSprite.setPosition(sf::Vector2f{0, 0});
-
-        loseBgSource.loadFromFile("Resources/Textures/loseBackground.png");
-        loseBgTexture.loadFromImage(loseBgSource, sf::IntRect{sf::Vector2i{0, 0},
-                        sf::Vector2i{window.getSize().x, window.getSize().y}} );
         loseBgSprite.setTexture(loseBgTexture);
-        loseBgSprite.setPosition({0,0});
-
-        winBgSource.loadFromFile("Resources/Textures/winBackground.png");
-        winBgTexture.loadFromImage(winBgSource, sf::IntRect{sf::Vector2i{0, 0},
-                        sf::Vector2i{window.getSize().x, window.getSize().y}});
         winBgSprite.setTexture(winBgTexture);
-        winBgSprite.setPosition({0,0});
-
         menuBgSprite.setTexture(winBgTexture);
-
-
 
         gameTextures =
             loadTextures("Resources/Textures/" + textureFile, textureSource);
 
-        grid = createGrid(window.getSize());
         std::ifstream file;
         file.open("Core/Saves/menu.txt");
         MenuUI = factory.fileToUi(file);
@@ -318,7 +316,6 @@ void draw(std::shared_ptr<UIElement> & UIElement);
         winloseUI = factory.fileToUi(file);
         file.close();
 
-
         file.open("Core/Saves/tutorial.txt");
         TutorialUI = factory.fileToUi(file);
         file.close();
@@ -329,45 +326,47 @@ void draw(std::shared_ptr<UIElement> & UIElement);
 
         std::array<int, 3> playerData = factory.readInventoryFromFile();
         points = playerData[0];
-        Powerup powerup = Powerup({10,10}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
-        Powerup powerup2 = Powerup({15,15}, drawables, sf::Color::Yellow, 0, objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
+        Powerup powerup =
+            Powerup({10, 10}, drawables, sf::Color::Yellow, 0,
+                    objectType::Powerup, BuffType::PlayerSpeed, playerData[1]);
+        Powerup powerup2 =
+            Powerup({15, 15}, drawables, sf::Color::Yellow, 0,
+                    objectType::Powerup, BuffType::EnemySpeed, playerData[2]);
 
         powerups[BuffType::PlayerSpeed] = std::make_shared<Powerup>(powerup);
         powerups[BuffType::EnemySpeed] = std::make_shared<Powerup>(powerup2);
 
+        grid = createGrid(window.getSize());
     };
 
     ///\brief
     /// Creates a matrix of GridCells.
     ///\details
-    /*The created grid is based on grid cells of 20x20 pixels.*/
+    /*The created grid is based on grid cells of PIXEL16.*/
     ///@param windowSize
-    /*windowSize is a sf::Vector2u containing the size of the sf::RenderWindow
-     * window.*/
+    /*sf::Vector2u, windowSize containing the size of the sf::RenderWindow window.*/
     ///@return std::vector<std::vector<GridCell>>
     std::vector<std::vector<GridCell>> createGrid(sf::Vector2u windowSize);
 
     ///\brief
     /// Finds the index in the grid.
     ///\details
-    /*This function find the index in the grid based on a sf::Vector2f.
-    The grid is based on 20x20 pixels.*/
+    /*This function find the index in the grid based on a sf::Vector2f position.
+    The grid is based on PIXEL16.*/
     ///@param position
-    /*position is a sf::Vector2f containing the position of which you want the
-     * index in the grid.*/
+    /*sf::Vector2f, the position of which you want the index in the grid.*/
     ///@return std;:array<int,2>
     std::array<int, 2> findIndexInGrid(sf::Vector2f position);
 
     ///\brief
-    /// Small Algorithm used by the Monster
+    /// Algorithm used by the Monster.
     ///\details
     /*This Algorithm finds the next step/direction to go to. He does so by
     checking the value in all the GridCells next to the Monster, comparing which
     one is the fastest and then returning a vector which holds the direction the
     monster should go to. See the details for reversedBFSPathAlgorithm for
     further details on this subject.*/
-    ///@return sf::Vector2f, containing the direction the Monster should move
-    /// to.
+    ///@return sf::Vector2f, containing the direction the Monster should move to.
     sf::Vector2f findShortestStep();
 
     ///\brief
@@ -388,18 +387,25 @@ void draw(std::shared_ptr<UIElement> & UIElement);
     which cells around him have to lowest value, and thus which cell contains
     the shortest path to the player. */
     void reversedBFSPathAlgorithm();
+
     ///\brief
-    ///Function to "light up" the environment.
+    /// Function to "light up" the environment.
     ///\details
-    /*This Function uses rays to detect its surroundings. It works as follows: it creates a line from the center of the player outwards under x degrees. It
-    then checks all the gridcells surrounding the player for collision with the line. If a gridcell intersects with a line and certain conditions (for instance)
-    is it a wall?) apply to the gridcell, the gridcell will be added to a vector. The line then rotates 5 degrees, and does this again untill the lines made a 
-    full circle around the player. We then have a vector containing objects that need to be drawn. */
-    ///@return std::vector containing std::shared_ptr objects that hold pointers to IObjects.
+    /*This Function uses rays to detect its surroundings. It works as follows:
+    it creates a line from the center of the player outwards under x degrees. It
+    then checks all the GridCells surrounding the player for collision with the
+    line. If a GridCell intersects with a line and certain conditions (for
+    instance) is it a wall?) apply to the GridCell, the GridCell will be added
+    to a vector. The line then rotates 5 degrees, and does this again untill the
+    lines made a full circle around the player. We then have a vector containing 
+    objects that need to be drawn. */
+    ///@return std::vector<std::shared_ptr<IObject>>
     std::vector<std::shared_ptr<IObject>> lantern();
 
     ///\brief
-    /// Runs the game demo
+    /// Runs the game
+    ///\details
+    /*The game is build using a statemachine to determine what should happen.*/
     void run();
 };
 

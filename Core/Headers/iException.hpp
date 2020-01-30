@@ -8,7 +8,7 @@
 ///\brief
 /// loadPlayerError
 ///\details
-/*failure to load player from object list*/
+/*Failure to load player from object list.*/
 class LoadPlayerError : public std::exception {
     virtual const char * what() const throw() {
         return "No instance of player object is present in the object list.";
@@ -18,7 +18,7 @@ class LoadPlayerError : public std::exception {
 ///\brief
 /// loadDoorError
 ///\details
-/*failure to load door from object list(s)*/
+/*Failure to load door from object list.*/
 class LoadDoorError : public std::exception {
     virtual const char * what() const throw() {
         return "No instance of door object is present in the object list!\nIs "
@@ -29,7 +29,7 @@ class LoadDoorError : public std::exception {
 ///\brief
 /// corruptFileException
 ///\details
-/*file does not exist*/
+/*File does not exist.*/
 class CorruptFileException : public std::exception {
     virtual const char * what() const throw() {
         return "File does not exist or already exists.";
@@ -39,7 +39,7 @@ class CorruptFileException : public std::exception {
 ///\brief
 /// unknownTypeException    
 ///\details
-/*Unknown type*/
+/*Unknown type.*/
 class UnknownTypeException : public std::exception {
   private:
     const char * msg;

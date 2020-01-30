@@ -6,9 +6,9 @@
 
 ///@file
 ///\brief
-/// IRectangle class
+/// IRectangle class.
 ///\details
-/*a class that creates a rectangle using sfml*/
+/*Class that creates a rectangle shape using SFML*/
 class IRectangle : public IObject {
   protected:
     sf::RectangleShape iRect;
@@ -61,49 +61,48 @@ class IRectangle : public IObject {
     virtual void moveIfPossible(sf::Vector2f direction) = 0;
 
     ///\brief
-    /// Check if IObjects are colliding.
+    /// Check if IObjects are intersecting.
     ///\details
-    /*Check if an IObject is colliding with given IObject.*/
+    /*Check if an IObject is intersecting with given IObject.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&*/
     ///@return bool
     virtual bool intersect(IObject & obj) = 0;
 
     ///\brief
-    /// Jump object to given target
+    /// Set the position of the IObject to the given position.
     ///\details
-    /*Jump an object to the given sf::Vector2f target*/
-    ///@param target
+    /*The position to put the IObject.*/
+    ///@param position
     /*sf::Vector2f*/
-    virtual void setPosition(sf::Vector2f target) = 0;
+    virtual void setPosition(sf::Vector2f position) = 0;
 
     ///\brief
-    /// Get the current position of the object
+    ///Gets the position of the IObject.
     ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 
     ///\brief
-    /// Sets the color
+    /// Sets the color.
     ///@param color
     /*sf::Color*/
     void setColor(sf::Color color) override;
 
     ///\brief
-    /// Draw IObject on window
+    /// Draw IObject on window.
     ///\details
-    /*Draw the IObject on the sf::RendWindow*/
+    /*Draw the IObject on the sf::RendWindow.*/
     ///@param window
-    /*sf::RenderWindow*/
+    /*sf::RenderWindow&*/
     virtual void draw(sf::RenderWindow & window) = 0;
 
-    ///\brief
-    /// Interact with given object
+     ///\brief
+    /// IObject collision.
     ///\details
-    /*Perform interaction with given IObject*/
+    /*IObject collision.*/
     ///@param obj
-    /*IObject*/
-    ///@return void
-    virtual void collision(IObject & obj) = 0;
+    /*IObject&, the object to check collision with.*/
+    virtual void collision(IObject & obj) =0;
 
     ///\brief
     /// Get IObject GlobalBounds.
@@ -115,11 +114,14 @@ class IRectangle : public IObject {
     ///\brief
     /// Set the size of the object.
     ///@param size
-    /*A vector2f containing the new size of the object.s*/
+    /*A vector2f, containing the size for the IObject.*/
     void setSize(sf::Vector2f size);
 
+    ///\brief
+    ///Sets the texture of the IObject.
+    ///@param texture
+    /*sf::Texture* */
     void setTexture(sf::Texture* texture);
-
 };
 
 #endif

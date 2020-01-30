@@ -19,11 +19,15 @@
 
 ///@file
 ///\brief
-/// FileFactory class
+/// FileFactory class.
 ///\details
-/*s Filefactory class that can write a game state to a file and read it again*/
+/*Filefactory class that can write game data to a file and read it again*/
 class FileFactory {
   private:
+  ///\brief
+  ///A struct containing object types.
+  ///\details
+  /*This struct is used to read and write objectTypes to and from files.*/
     const struct {
         objectType itemType;
         std::string writeAble;
@@ -35,9 +39,9 @@ class FileFactory {
 
   public:
     ///\brief
-    /// writeToFile function
+    /// Writes a Matrix to a .txt file.
     ///\details
-    /*writes a matrix that represents the current game state to a txt file which
+    /*Writes a matrix that represents the current game state to a .txt file which
      * name has to be given*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
@@ -47,31 +51,47 @@ class FileFactory {
                      std::string fileName);
 
     ///\brief
-    /// loadMatrixFromFile function
+    ///Loads a matrix from a .txt file.
     ///\details
-    /*fills the suplied matrix of std::vector<std::vector<GridCell>> with the
+    /*Fills the suplied matrix of type std::vector<std::vector<GridCell>> with the
      * correct gridcells supllied by the given file*/
     ///@param matrix
     /*std::vector<std::vector<GridCell>> &*/
     ///@param fileName
     /*std::string*/
+    ///@param loadedTextures
+    /*std::unordered_map<objectType, std::vector<sf::Texture>> &, contains the game's textures.*/
     void loadMatrixFromFile(std::vector<std::vector<GridCell>> & matrix, std::istream & file,
         std::unordered_map<objectType, std::vector<sf::Texture>> & loadedTextures);
 
-    ///@file
     ///\brief
-    /// objectsToDrawables function
+    ///Makes Drawables from GridCells.
     ///\details
-    /*returns a vector with drawable IObject pointers in a std::vector from a
-     * given matrix*/
+    /*Returns a vector with drawable IObject pointers in a std::vector from a
+     * given matrix containing GridCells.*/
+    ///@param drawables
+    /*std::vector<std::shared_ptr<IObject>> &, contains all the pointers to IObjects that will be drawn.*/
     ///@param matrix
-    /*std::vector<std::vector<GridCell>> &*/
+    /*std::vector<std::vector<GridCell>> &, contains another vector which contains the Gridcells which will be used to make the IObjects.*/
+    ///@param loadedTextures
+    /*std::unordered_map<objectType, std::vector<sf::Texture>> &, contains the game's textures.*/
     void objectsToDrawables(
         std::vector<std::shared_ptr<IObject>> & drawables,
         std::vector<std::vector<GridCell>> & matrix,
         std::unordered_map<objectType, std::vector<sf::Texture>> &
             loadedTextures);
 
+    ///\brief
+    ///Makes Drawables from GridCells.
+    ///\details
+    /*Returns a vector with drawable IObject pointers in a std::vector from a
+     * given matrix containing GridCells.*/
+    ///@param drawables
+    /*std::vector<std::shared_ptr<IObject>> &, contains all the pointers to IObjects that will be drawn.*/
+    ///@param matrix
+    /*std::vector<GridCell> &, contains the Gridcells which will be used to make the IObjects.*/
+    ///@param loadedTextures
+    /*std::unordered_map<objectType, std::vector<sf::Texture>> &, contains the game's textures.*/
     void objectsToDrawables(
         std::vector<std::shared_ptr<IObject>> & drawables,
         std::vector<GridCell> & matrix,
@@ -79,30 +99,27 @@ class FileFactory {
             loadedTextures);
 
     ///\brief
-    /// fileToUi function
+    ///Loads the UI Elements from a .txt file.
     ///\details
-    /*turns te information in the given file into drawable shared pointers and
-     * returns these in a vector*/
+    /*Turns te information in the given file into drawable shared pointers and
+     * returns these in a vector.*/
     ///@param file
-    /*std::ifstream &*/
-
+    /*std::ifstream &, the istream from which the UI Elements will be read.*/
     std::vector<std::shared_ptr<UIElement>> fileToUi(std::istream & file);
 
     ///\brief
-    /// writeInventoryToFile function
-    ///\details
-    /*writes the players current inventory to the inventory.txt file*/
+    ///Writes the state of the player inventory to a .txt file.
     ///@param point
-    /*int &*/
+    /*int &, the amount of points the player has.*/
     ///@param amountPowerUps1
-    /*int &*/
+    /*int &, the amound of powerups the player has of type 1.*/
     ///@param amountPowerUps2
-    /*int &*/
+    /*int &, the amound of powerups the player has of type 2.*/
     void writeInventoryToFile(int & points, int & amountPowerups1,
                               int & amountPowerups2);
 
     ///\brief
-    /// readInventroyFromFile function
+    ///Reads the inventory from a .txt file.
     ///\details
     /*This function returns an array with al the current inventory information*/
     ///@return std::array<int,3>

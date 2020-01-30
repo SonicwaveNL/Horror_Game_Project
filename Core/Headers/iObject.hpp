@@ -17,25 +17,13 @@ class IObject {
     sf::Color color;
     sf::Vector2f prevPosition;
     std::vector<std::shared_ptr<IObject>> & objects;
-    float speed = 5;
     objectType type;
-
-    //stuff for the drawing/light
+    float speed = 5;
     bool ableToDraw = false;
 
   public:
     ///\brief
-    /// IObject constructor
-    ///@param objects
-    /*The vector of pointers to the game objects.*/
-    ///@param color
-    /*(Default=Transparent) The color of the object.*/
-    ///@param speed
-    /*(Default=0) The speed of the object. How fast it moves when it moves*/
-    ///@param type
-    /* (Default=Type::Abstract) This defines the object type for the system.
-     * *THIS HAS TO MATCH THE OBJECT*, if the type doesn't match the object,
-     * segmentation faults WILL occur.*/
+    /// IObject constructor.
     IObject(std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 0,
             objectType type = objectType::Abstract)
@@ -58,49 +46,48 @@ class IObject {
     virtual void moveIfPossible(sf::Vector2f direction) = 0;
 
     ///\brief
-    /// Check if IObjects are colliding.
+    /// Check if IObjects are intersecting.
     ///\details
-    /*Check if an IObject is colliding with given IObject.*/
+    /*Check if an IObject is intersecting with given IObject.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&*/
     ///@return bool
     virtual bool intersect(IObject & obj) = 0;
 
     ///\brief
-    /// Jump object to given target
+    /// Set the position of the IObject to the given position.
     ///\details
-    /*Jump an object to the given sf::Vector2f target*/
-    ///@param target
+    /*The position to put the IObject.*/
+    ///@param position
     /*sf::Vector2f*/
-    virtual void setPosition(sf::Vector2f target) = 0;
+    virtual void setPosition(sf::Vector2f position) = 0;
 
     ///\brief
-    ///Gets the position of the IObject
+    ///Gets the position of the IObject.
     ///@return sf::Vector2f
     virtual sf::Vector2f getPosition() = 0;
 
     ///\brief
-    /// Sets the new color of the object.
+    /// Sets the color of the IObject.
     ///@param color
-    /*The new sf::Color of the object*/
+    /*The sf::Color of the IObject.*/
     virtual void setColor(sf::Color color) = 0;
 
     ///\brief
-    /// Draw IObject on window
+    /// Draw IObject on window.
     ///\details
     /*Draw the IObject on the sf::RendWindow*/
     ///@param window
-    /*sf::RenderWindow*/
+    /*sf::RenderWindow&*/
     virtual void draw(sf::RenderWindow & window) = 0;
 
-    ///\brief
-    /// Interact with given object
+     ///\brief
+    /// IObject collision.
     ///\details
-    /*Perform interaction with given IObject*/
+    /*IObject collision.*/
     ///@param obj
-    /*IObject*/
-    ///@return void
-    virtual void collision(IObject & obj) = 0;
+    /*IObject&, the object to check collision with.*/
+    virtual void collision(IObject & obj) =0;
 
     ///\brief
     /// Get IObject GlobalBounds.
@@ -110,20 +97,18 @@ class IObject {
     virtual sf::FloatRect getBounds() = 0;
 
     ///\brief
-    /// getType function
-    ///\details
-    /*function returns the objectType of the object*/
+    /// Gets the type of the IObject.
     ///@return objectType
     objectType getType();
 
     ///\brief
-    /// Function to change the speed
+    /// Function to change the speed.
     ///@param newSpeed
-    /*integer*/
+    /*float*/
     virtual void setSpeed(float newSpeed);
 
     ///\brief
-    ///Get the speed
+    ///Get the speed.
     ///@return float
     float getSpeed();
 };
