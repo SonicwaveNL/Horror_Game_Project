@@ -82,4 +82,4 @@ When you complete levels, you earn points.
 You can use these to buy powerups and complete even harder levels!
 
 # Special Thanks
-We'd like to thank Hogeschool Utrecht for the assignment and [wovo]("https://github.com/wovo") for the endless help in finding out bugs!
+We'd like to thank the Hogeschool Utrecht for the assignment and our teachers for the endless help in finding out bugs!
