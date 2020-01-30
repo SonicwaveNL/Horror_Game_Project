@@ -55,7 +55,6 @@ class Game {
     sf::Texture menuBgTexture;
     sf::Sprite menuBgSprite;
 
-
     int points;
 
     std::vector<std::shared_ptr<IObject>> drawables;

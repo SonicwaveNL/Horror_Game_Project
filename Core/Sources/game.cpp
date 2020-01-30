@@ -386,13 +386,9 @@ void Game::run() {
             }
 
             case gameState::Editor: {
-                std::ifstream file;
-                file.open("Core/Saves/custom.txt");
-                if (file) {
-                    factory.loadMatrixFromFile(grid, file);
-                } else {
-                    currentState = gameState::Menu;
-                    break;
+                if(!loaded){
+                  grid = createGrid(window.getSize());
+                  loaded = true;
                 }
                 window.draw(bgSprite);
                 draw(grid);
@@ -491,7 +487,7 @@ void Game::run() {
                                 item.setCellType(objectType::Floor);
                             }
                         }
-                        factory.loadMatrixFromFile(grid, file);
+                        factory.loadMatrixFromFile(grid, file, gameTextures);
                     } else {
                         currentState = gameState::SelectMap;
                         break;

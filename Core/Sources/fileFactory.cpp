@@ -41,7 +41,8 @@ void FileFactory::writeToFile(std::vector<std::vector<GridCell>> & matrix,
 }
 
 void FileFactory::loadMatrixFromFile(
-    std::vector<std::vector<GridCell>> & matrix, std::istream & file) {
+    std::vector<std::vector<GridCell>> & matrix, std::istream & file,
+    std::unordered_map<objectType, std::vector<sf::Texture>> & loadedTextures) {
     std::vector<std::tuple<std::string, sf::Vector2f>> switches;
     std::vector<std::tuple<std::string, sf::Vector2f>> players;
     std::vector<std::tuple<std::string, sf::Vector2f>> doors;
@@ -72,9 +73,14 @@ void FileFactory::loadMatrixFromFile(
                 } else if (item.itemType == objectType::Monster) {
                     monsters.push_back(
                         std::tuple<std::string, sf::Vector2f>(name, position));
-                } else {
+                } else if (item.itemType == objectType::Floor){
                     matrix[position.x / PIXEL16][position.y / PIXEL16]
-                        .setCellType(item.itemType);
+                        .setCellType(item.itemType, &loadedTextures[objectType::Floor][0]);
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setPosition(position);
+                }else if (item.itemType == objectType::Wall){
+                    matrix[position.x / PIXEL16][position.y / PIXEL16]
+                        .setCellType(item.itemType, &loadedTextures[objectType::Wall][0]);
                     matrix[position.x / PIXEL16][position.y / PIXEL16]
                         .setPosition(position);
                 }
@@ -85,7 +91,7 @@ void FileFactory::loadMatrixFromFile(
     if (switches.size() <= 4 && switches.size() >= 1) {
         for (auto item : switches) {
             matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
-                .setCellType(objectType::Switch);
+                .setCellType(objectType::Switch, &loadedTextures[objectType::Switch][0]);
             matrix[std::get<1>(item).x / PIXEL16][std::get<1>(item).y / PIXEL16]
                 .setPosition(std::get<1>(item));
         }
@@ -110,7 +116,7 @@ void FileFactory::loadMatrixFromFile(
     if (players.size() == 1) {
         matrix[std::get<1>(players[0]).x / PIXEL16]
               [std::get<1>(players[0]).y / PIXEL16]
-                  .setCellType(objectType::Player);
+                  .setCellType(objectType::Player, &loadedTextures[objectType::Player][0]);
         matrix[std::get<1>(players[0]).x / PIXEL16]
               [std::get<1>(players[0]).y / PIXEL16]
                   .setPosition(std::get<1>(players[0]));
@@ -118,7 +124,7 @@ void FileFactory::loadMatrixFromFile(
         int random = rand() % (players.size() - 1);
         matrix[std::get<1>(players[random]).x / PIXEL16]
               [std::get<1>(players[random]).y / PIXEL16]
-                  .setCellType(objectType::Player);
+                  .setCellType(objectType::Player, &loadedTextures[objectType::Player][0]);
         matrix[std::get<1>(players[random]).x / PIXEL16]
               [std::get<1>(players[random]).y / PIXEL16]
                   .setPosition(std::get<1>(players[random]));
@@ -127,7 +133,7 @@ void FileFactory::loadMatrixFromFile(
     if (doors.size() == 1) {
         matrix[std::get<1>(doors[0]).x / PIXEL16]
               [std::get<1>(doors[0]).y / PIXEL16]
-                  .setCellType(objectType::Door);
+                  .setCellType(objectType::Door, &loadedTextures[objectType::Door][0]);
         matrix[std::get<1>(doors[0]).x / PIXEL16]
               [std::get<1>(doors[0]).y / PIXEL16]
                   .setPosition(std::get<1>(doors[0]));
@@ -135,7 +141,7 @@ void FileFactory::loadMatrixFromFile(
         int random = rand() % (doors.size() - 1);
         matrix[std::get<1>(doors[random]).x / PIXEL16]
               [std::get<1>(doors[random]).y / PIXEL16]
-                  .setCellType(objectType::Door);
+                  .setCellType(objectType::Door, &loadedTextures[objectType::Door][0]);
         matrix[std::get<1>(doors[random]).x / PIXEL16]
               [std::get<1>(doors[random]).y / PIXEL16]
                   .setPosition(std::get<1>(doors[random]));
@@ -144,7 +150,7 @@ void FileFactory::loadMatrixFromFile(
     if (monsters.size() == 1) {
         matrix[std::get<1>(monsters[0]).x / PIXEL16]
               [std::get<1>(monsters[0]).y / PIXEL16]
-                  .setCellType(objectType::Monster);
+                  .setCellType(objectType::Monster, &loadedTextures[objectType::Monster][0]);
         matrix[std::get<1>(monsters[0]).x / PIXEL16]
               [std::get<1>(monsters[0]).y / PIXEL16]
                   .setPosition(std::get<1>(monsters[0]));
@@ -152,7 +158,7 @@ void FileFactory::loadMatrixFromFile(
         int random = rand() % (monsters.size() - 1);
         matrix[std::get<1>(monsters[random]).x / PIXEL16]
               [std::get<1>(monsters[random]).y / PIXEL16]
-                  .setCellType(objectType::Monster);
+                  .setCellType(objectType::Monster, &loadedTextures[objectType::Monster][0]);
         matrix[std::get<1>(monsters[random]).x / PIXEL16]
               [std::get<1>(monsters[random]).y / PIXEL16]
                   .setPosition(std::get<1>(monsters[random]));
