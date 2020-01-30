@@ -20,6 +20,11 @@ We had to do so in a group of 5, within 3 weeks, and had to divide the tasks fai
 We were also required to make more documents, which are not made public.
 
 # Installation
+## Requirements
+You are going to need Linux, which is able to run the prerequisits.
+From what we've tested, basically anything can run this game. 
+Don't take our word for it, though.
+
 ## Prerequisites
 To compile this game, you need to have the following installed:
 * G++ (gcc)
