@@ -69,7 +69,7 @@ We use a modified version of the BFS algorithm based on a delayed location to fo
 ## The Power-ups
 As of the end of the project, only 2 powerups have been added.
 These are the following powerups:
-* Player Speed      - This gives the player 10 seconds of god-like running
+* Player Speedup      - This gives the player 10 seconds of god-like running
 * Monster Freezer   - This pauses the AI's movement for 30 seconds
 
 ## Your Goal
