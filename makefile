@@ -36,7 +36,7 @@ wall.o: wall.hpp wall.cpp iRectangle.hpp iRectangle.hpp
 main.o: main.cpp game.hpp
 
 %.o: %.cpp
-	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -o $@
+	$(gcc) -c $< $(LIBS) -ICore/Headers -ICore/Sources -ICore/ -O3 -o $@
 
 main: action.o door.o floor.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o powerup.o switch.o wall.o uiElement.o sound.o main.o
 	$(gcc) -o Booh action.o door.o floor.o fileFactory.o game.o gridCell.o inputHandler.o inputListener.o iObject.o iRectangle.o keyboardMouse.o monster.o player.o powerup.o switch.o wall.o uiElement.o sound.o main.o $(LIBS)

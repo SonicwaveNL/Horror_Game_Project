@@ -476,7 +476,7 @@ void Game::run() {
             }
 
             case gameState::Play: {
-                static size_t counter = 0;
+                static int counter = 0;
                 if (!loaded) {
                     std::ifstream file;
                     file.open("Core/Saves/" + chosenMap);

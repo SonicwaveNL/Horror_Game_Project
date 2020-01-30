@@ -7,28 +7,18 @@
 
 ///@file
 ///\brief
-/// Class for cells in a grid.
+/// Class for cells in a grid based on PIXEL16.
 ///\details
 /*This class represents a cell in the grid or a "tile" in the map editor.
 It contains a variable in which it's cell type is stored using the objectType
-enum class.*/
+enum class. It also has a shared pointer that can point to the drawable it is representing.*/
 class GridCell : public IRectangle {
   private:
-    // Flyweight pattern
-    // sf::Texture * texture;
-    // sf::Sprite sprite;
     objectType cellType = objectType::Floor;
   public:
-    std::shared_ptr<IObject> myDrawable;
-    // stuff for the AI
+    std::shared_ptr<IObject> myDrawable;    
     int64_t value = 0;
     bool visited = false;
-
-    //bool for the lantarn
-    // bool ableToDraw = true;
-    // bool behindWall = false;
-    // int drawValue = 0;
-
 
     ///\brief
     /// GridCell constructor.
@@ -51,11 +41,11 @@ class GridCell : public IRectangle {
     };
 
     ///\brief
-    /// Draw IObject on window
+    /// Draw IObject on window.
     ///\details
-    /*Draw the IObject on the sf::RendWindow*/
+    /*Draw the IObject on the sf::RendWindow.*/
     ///@param window
-    /*sf::RenderWindow*/
+    /*sf::RenderWindow&*/
     void draw(sf::RenderWindow & window) override;
 
     ///\brief
@@ -79,14 +69,14 @@ class GridCell : public IRectangle {
     ///\details
     /*Check if an IObject intersect with given IObject.*/
     ///@param objgetMyDrawable
-    /*IObject*/
+    /*IObject&*/
     ///@return bool
     bool intersect(IObject & obj) override;
 
     ///\brief
-    /// Jump IObject to given target
+    /// Set the position of the GridCell to the given position.
     ///\details
-    /*Jump IObject to given sf::Vector2f target.*/
+    /*The position to put the GridCell.*/
     ///@param position
     /*sf::Vector2f*/
     void setPosition(sf::Vector2f position) override;
@@ -101,7 +91,7 @@ class GridCell : public IRectangle {
     ///\details
     /*IObject collision.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&, the object to check collision with.*/
     void collision(IObject & obj) override;
 
     ///\brief
@@ -114,13 +104,15 @@ class GridCell : public IRectangle {
     ///\brief
     /// Sets the type of the GridCell.
     ///@param type
-    /*objectType*/
+    /*objectType, the type the GridCell will take on.*/
     void setCellType(objectType type);
 
     ///\brief
     /// Sets the type of the GridCell.
     ///@param type
-    /*objectType*/
+    /*objectType, the type the GridCell will take on.*/
+    ///@param texture
+    /*sf::Texture*, a pointer to the texture the GridCell should use.*/
     void setCellType(objectType type, sf::Texture * texture);
 
     ///\brief
@@ -135,24 +127,20 @@ class GridCell : public IRectangle {
     objectType getCellType();
 
     ///\brief
-    /// Function to check if cell is walkable
+    /// Function to check if cell is walkable.
     ///@return bool
     bool isWalkable();
 
-    ///\brief
-    /// Function to check if a gridcell contains an SFML object
-    ///@return bool
-    bool contains();
 	///\brief
-	///Function to return the pointer to the corresponding drawable on this gridcell
+	///Function that returns the myDrawable pointer.
 	///@return std::shared_ptr<IObject>
 	std::shared_ptr<IObject> getMyDrawable();
+
 	///\brief
-	///Function to set the myDrawable pointer
-	///@param iPointer, std::shared_ptr<IObject>
+	///Function to set the myDrawable pointer.
+	///@param iPointer
+    ///std::shared_ptr<IObject>
 	void setMyDrawable(std::shared_ptr<IObject> iPointer);
-
-
 
     ///\brief
     ///= operator.

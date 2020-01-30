@@ -13,7 +13,7 @@
 ///\brief
 /// Monster class.
 ///\details
-/*A Monster class, this is the monster who follows the player*/
+/*Monster class, this is the monster who follows the player.*/
 class Monster : public IRectangle {
   private:
     sf::Vector2f oldDirection = {1, 1};
@@ -21,19 +21,6 @@ class Monster : public IRectangle {
   public:
     ///\brief
     /// Monster object constructor.
-    ///\details
-    /// The Monster constructor parameters are used to create a IRectangle.
-    ///@param texture
-    /*a SFML sf::Texture, this is the texture for the object*/
-    ///@param position
-    /*a sf::Vector2f position, this is the position of the object*/
-    ///@param objects
-    /*a std::vector<IObject> vector array, this is a group of all IObjects
-     * within*/
-    ///@param color
-    /*a SFML sf::Color, this is the color of the texture.*/
-    ///@param speed
-    /*The walking speed of the monster*/
     Monster(sf::Vector2f position,
             std::vector<std::shared_ptr<IObject>> & objects,
             sf::Color color = sf::Color::Transparent, float speed = 2,
@@ -54,7 +41,7 @@ class Monster : public IRectangle {
     ///\details
     /*Draw the IRectangle on the sf::RendWindow*/
     ///@param window
-    /*sf::RenderWindow*/
+    /*sf::RenderWindow&*/
     void draw(sf::RenderWindow & window) override;
 
     ///\brief
@@ -63,13 +50,11 @@ class Monster : public IRectangle {
     /*Move IObject to given sf::Vector2f direction.*/
     ///@param direction
     /*sf::Vector2f*/
-    void move(sf::Vector2f possition) override;
+    void move(sf::Vector2f direction) override;
 
     
     ///\brief
-    ///moves the monster
-    ///\details
-    /*Moves the monster in the direction it was going*/
+    /// Moves the monster in the direction it was going.
     void moveOld();
 
     ///\brief
@@ -81,28 +66,28 @@ class Monster : public IRectangle {
     void moveIfPossible(sf::Vector2f direction) override;
 
     ///\brief
-    /// Check if Monster intersect.
+    /// Check if Monster intersects with IObject.
     ///\details
-    /*Check if an Monster intersect with given IObject.*/
+    /*Checks if an Monster intersects with given IObject.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&*/
     ///@return bool
     bool intersect(IObject & obj) override;
 
-    ///\brief
-    /// Jump Monster object to given target
+ ///\brief
+    /// Set the position of the IObject to the given position.
     ///\details
-    /*Jump Monster object to given sf::Vector2f target.*/
-    ///@param obj
+    /*The position to put the IObject.*/
+    ///@param position
     /*sf::Vector2f*/
-    void setPosition(sf::Vector2f target) override;
+    void setPosition(sf::Vector2f position) override;
 
-    ///\brief
-    /// Monster collision.
+     ///\brief
+    /// IObject collision.
     ///\details
-    /*Monster collision.*/
+    /*IObject collision.*/
     ///@param obj
-    /*IObject*/
+    /*IObject&, the object to check collision with.*/
     void collision(IObject & obj) override;
 
     ///\brief
@@ -111,8 +96,10 @@ class Monster : public IRectangle {
     /*Get the GlobalBounds of the Monster object.*/
     ///@return sf::FloatRect
     sf::FloatRect getBounds() override;
+
     ///\brief
     /// Function to get the position.
+    ///@return sf::Vector2f
     sf::Vector2f getPosition() override;
 };
 #endif

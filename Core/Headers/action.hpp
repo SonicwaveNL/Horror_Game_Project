@@ -7,7 +7,7 @@
 ///@file
 
 ///\brief
-/// Action class to assign a action (work) to a event (condition).
+/// Action class is used to assign a action (work) to a event (condition).
 ///\details
 /*The Action class is used to do work in case a condition is met.
 There are several constructors to facilitate different base cases.*/
@@ -18,13 +18,13 @@ class Action {
 
   public:
     ///\brief
-    /// Constructor that expects a conditiona and the work.
+    /// Constructor that expects a condition and the work.
     ///@param condition
     /*First parameter condition of type std::function<bool()>,
     store a lambda with return type bool or std::function<bool()>
-    which will be the condition for the work to happen.*/
+    which will be the condition for the "work" to happen.*/
     ///@param work
-    /*Second parameter work of type std::function<void()>,
+    /*std::function<void()>, Second parameter work,
     store a lambda with void return type or std::function<void()>
     when the condition is fullfilled the stored "work" will be done.*/
     Action(std::function<bool()> condition, std::function<void()> work)
@@ -32,8 +32,13 @@ class Action {
 
     ///\brief
     /// Constructor that expects a actionKeyword and the work
-    ///\details
-    /*This constructor expects the custom actionKeywords to do the work.*/
+    ///@param keyword
+    /*actionKeyword, the keyword that has to be "pressed" for the work to be
+     * done.*/
+    ///@param work
+    /*Second parameter work of type std::function<void()>,
+    store a lambda with void return type or std::function<void()>
+    when the condition is fullfilled the stored "work" will be done.*/
     Action(actionKeyword keyword, std::function<void()> work)
         : condition([keyword]() -> bool {
               InputHandler inputHandler;
