@@ -39,6 +39,26 @@ class Door : public IRectangle {
          objectType type = objectType::Door)
         : IRectangle(position, objects, color, speed, type){};
 
+    ///\brief
+    /// Door object constructor.
+    ///\details
+    /// The Door constructor parameters are used to create a IObject.
+    ///@param position
+    /* An sf::Vector2f, which is the coordinate of the top left position of he
+     * door.*/
+    ///@param objects
+    /* A vector of pointers to game objects.*/
+    ///@param texture
+    /* A pointer to the texture for the object*/
+    ///@param color
+    /* (Default=White) The color of the door object.*/
+    ///@param speed
+    /* (Default=0) Float of the speed of the door. The door can't move, so this
+     * doesn't affect anything.*/
+    ///@param type
+    /* (Default=Type::Door) This defines the object type for the system. *THIS
+     * HAS TO MATCH THE OBJECT*, if the type doesn't match the object,
+     * segmentation faults WILL occur.*/
     Door(sf::Vector2f position, std::vector<std::shared_ptr<IObject>> & objects,
          sf::Texture * texture, sf::Color color = sf::Color::White,
          float speed = 0, objectType type = objectType::Door)
@@ -52,11 +72,6 @@ class Door : public IRectangle {
     /*The direction the door should move in. Passing a 1 will move the door at
      * its default speed, passing a 2 will move it twice as fast etc.*/
     void move(sf::Vector2f direction) override;
-
-    ///\brief
-    /// Set the color of the door.
-    ///@param color
-    /*The color to change the door to.*/
 
     ///\brief
     /// Set if the door is open or not. True means it should open, false means
