@@ -44,7 +44,7 @@ class UIElement {
         }
         iRect.setPosition(position);
         iRect.setSize(size);
-        font.loadFromFile("Resources/Arial.ttf");
+        font.loadFromFile("Resources/winlose.ttf");
         label.setFont(font);
         label.setFillColor(fontColor);
         setText(labelText);
