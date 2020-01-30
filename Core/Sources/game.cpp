@@ -386,9 +386,9 @@ void Game::run() {
             }
 
             case gameState::Editor: {
-                if(!loaded){
-                  grid = createGrid(window.getSize());
-                  loaded = true;
+                if (!loaded) {
+                    grid = createGrid(window.getSize());
+                    loaded = true;
                 }
                 window.draw(bgSprite);
                 draw(grid);
@@ -402,7 +402,8 @@ void Game::run() {
                 window.draw(menuBgSprite);
                 int i = 0;
                 const std::string pow1 = "Player Speedup";
-                const std::string exPow1 = "Price: 1 coin - Speeds up the player";
+                const std::string exPow1 =
+                    "Price: 1 coin - Speeds up the player";
                 const std::string pow2 = "Monster Freezer";
                 const std::string exPow2 = "Price: 2 coins - Stops the monster";
                 for (auto & item : StoreUI) {
@@ -500,6 +501,28 @@ void Game::run() {
                 }
 
                 if (chosenMap == "tutorialMap.txt") {
+                    for (auto uiElement : TutorialUI) {
+                        uiElement->setTextSize(25);
+
+                        if (uiElement->getText() == "arrowKeys_to_move") {
+                            uiElement->setText("Use arrow keys to move");
+                        } else if (uiElement->getText() == "TAB_for_UI") {
+                            uiElement->setText("Hold tab to see the switch overlay");
+                        }else if (uiElement->getText() == "Flip_switches_with_H") {
+                            uiElement->setText("Flip a switch with 'H'");
+                        }else if (uiElement->getText() == "Flip_Four_Switches") {
+                            uiElement->setText("Flip all switches to open the door");
+                        }else if (uiElement->getText() == "J_For_speedbuff") {
+                            uiElement->setText("Press 'j' to activate your speedbuff");
+                        }else if (uiElement->getText() == "K_For_MonsterBuff") {
+                            uiElement->setText("Press 'k' to active your monster");
+                        }else if(uiElement->getText() == "Run_To_Win"){
+                            uiElement->setText("Run away from the monster!");
+                        }
+
+                        uiElement->setLabelPosition();
+                    }
+
                     draw(TutorialUI);
                 }
                 for (auto & action : playingActions) {
