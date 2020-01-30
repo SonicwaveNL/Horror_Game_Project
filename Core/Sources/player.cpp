@@ -38,18 +38,17 @@ sf::Vector2f Player ::getPosition() { return iRect.getPosition(); }
 
 void Player::fixMove(IObject & obj, sf::Vector2f oldDir) {
     if(obj.getType() == objectType::Wall){
-    auto oldSpeed = speed;
-    speed = 1.0;
-    while (intersect(obj)) {
+        auto oldSpeed = speed;
+        speed = 1.0;
+        while (intersect(obj)) {
+            move(-oldDir);
+        }
         move(-oldDir);
-    }
-    move(-oldDir);
-    speed = oldSpeed;
+        speed = oldSpeed;
     }
 }
 
 void Player::collision(IObject & obj) {
-
     switch (obj.getType()) {
         case objectType::Wall: {
             setPosition(prevPosition);
@@ -80,6 +79,7 @@ void Player::draw(sf::RenderWindow & window) {
 sf::FloatRect Player::getBounds() { return iRect.getGlobalBounds(); }
 
 bool Player::checkWin() { return win; }
+
 bool Player::checkLose() { return lose; }
 
 void Player::reset() {

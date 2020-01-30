@@ -32,7 +32,6 @@ void Monster::setPosition(sf::Vector2f position) {
 void Monster::collision(IObject & obj) {
     if (obj.getType() == objectType::Player) {
         obj.collision(*this);
-        return;
     }
 }
 
