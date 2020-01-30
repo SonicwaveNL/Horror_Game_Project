@@ -363,6 +363,8 @@ void Game::run() {
             }
 
             case gameState::SelectMap: {
+                window.draw(menuBgSprite);
+
                 draw(MapSelectionUI);
                 for (auto & ele : MapSelectionUI) {
                     if (ele->intersect(window.mapPixelToCoords(
@@ -396,6 +398,7 @@ void Game::run() {
             }
 
             case gameState::Store: {
+                window.draw(menuBgSprite);
                 int i = 0;
                 for (auto & item : StoreUI) {
                     if (i == 4) {
