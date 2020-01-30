@@ -432,7 +432,6 @@ void Game::run() {
                         ele->setText(pow2);
                         ele->setLabelPosition();
                     } else if (ele->getText() == "P1") {
-                        std::cout << "Setting text\n";
                         ele->setText(exPow1);
                         ele->setItalic();
 
