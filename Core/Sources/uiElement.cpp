@@ -51,3 +51,7 @@ void UIElement::setFont(sf::Font* _font){
     font = *_font;
     label.setFont(*_font);
 }
+
+    void UIElement::setItalic(){
+        label.setStyle(sf::Text::Italic);
+    }

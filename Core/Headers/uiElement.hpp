@@ -20,6 +20,7 @@ class UIElement {
     sf::Color borderColor;
     sf::Color fontColor;
     sf::Texture texture;
+
   public:
     ///\brief
     /// UIElement constructor.
@@ -32,15 +33,48 @@ class UIElement {
         : labelColor(labelColor), borderColor(borderColor),
           fontColor(fontColor) {
         if (size == sf::Vector2f(500.f, 120.f)) {
-          sf::Image buttonSource;
+            sf::Image buttonSource;
             buttonSource.loadFromFile("Resources/Textures/boohButton.png");
             texture.loadFromImage(
-                buttonSource, sf::IntRect{sf::Vector2i{0, 0},
-                                      sf::Vector2i{500,120} });
+                buttonSource,
+                sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{500, 120}});
             iRect.setTexture(&texture);
-        }else{
+        } else if (size == sf::Vector2f(16.f, 16.f)) {
+            if (labelText == "P") {
+                // use points texture
+                sf::Image buttonSource;
+                buttonSource.loadFromFile(
+                    "Resources/Textures/scoreDisplay.png");
+                texture.loadFromImage(
+                    buttonSource,
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                iRect.setTexture(&texture);
+                iRect.setScale(sf::Vector2f{2.f, 2.f});
+            } else if (labelText == "J") {
+                // use player speed
+                sf::Image buttonSource;
+                buttonSource.loadFromFile(
+                    "Resources/Textures/ppSpeedDisplay.png");
+                texture.loadFromImage(
+                    buttonSource,
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                iRect.setTexture(&texture);
+                iRect.setScale(sf::Vector2f{2.f, 2.f});
 
-        iRect.setFillColor(labelColor);
+            } else if (labelText == "K") {
+                // use enemy stop
+                sf::Image buttonSource;
+                buttonSource.loadFromFile(
+                    "Resources/Textures/peSpeedDisplay.png");
+                texture.loadFromImage(
+                    buttonSource,
+                    sf::IntRect{sf::Vector2i{0, 0}, sf::Vector2i{16, 16}});
+                iRect.setTexture(&texture);
+                iRect.setScale(sf::Vector2f{2.f, 2.f});
+            }
+            labelText = "";
+        } else {
+            iRect.setFillColor(labelColor);
         }
         iRect.setPosition(position);
         iRect.setSize(size);
@@ -120,6 +154,8 @@ class UIElement {
     ///@param _font
     /*the sf::Font the new font should be*/
     void setFont(sf::Font * _font);
+
+    void setItalic();
 };
 
 #endif

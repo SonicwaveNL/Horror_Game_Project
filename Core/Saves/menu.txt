@@ -2,5 +2,5 @@ UIELEMENT (1400,300) (0,0) yellow Play white
 UIELEMENT (1400,500) (0,0) yellow Editor white
 UIELEMENT (1400,700) (0,0) yellow Quit white
 UIELEMENT (1400,100) (0,0) yellow Store white
-UIELEMENT (10,10) (0,0) yellow Booh white
+UIELEMENT (10,10) (500,200) transparent Booh white
 END

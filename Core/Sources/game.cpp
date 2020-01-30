@@ -338,6 +338,10 @@ void Game::run() {
                 factory.writeInventoryToFile(points, ppAmount, peAmount);
                 draw(MenuUI);
                 for (auto & ele : MenuUI) {
+                    if (ele->getText() == "Booh") {
+                        ele->setTextSize(74);
+                        ele->setLabelPosition();
+                    }
                     int value = 0;
                     bool visited = false;
                     if (ele->intersect(window.mapPixelToCoords(
@@ -401,13 +405,21 @@ void Game::run() {
             case gameState::Store: {
                 window.draw(menuBgSprite);
                 int i = 0;
+                const std::string pow1 = "Player Speedup";
+                const std::string exPow1 = "Price: 1 coin - Speeds up the player";
+                const std::string pow2 = "Monster Freezer";
+                const std::string exPow2 = "Price: 2 coins - Stops the monster";
                 for (auto & item : StoreUI) {
-                    if (i == 4) {
+                    if (item->getText() != "Menu") {
+                        item->setTextSize(22);
+                        item->setLabelPosition();
+                    }
+                    if (i == 3) {
                         item->setText(std::to_string(points));
-                    } else if (i == 5) {
+                    } else if (i == 4) {
                         item->setText(std::to_string(
                             powerups[BuffType::PlayerSpeed]->getAmount()));
-                    } else if (i == 6) {
+                    } else if (i == 5) {
                         item->setText(std::to_string(
                             powerups[BuffType::EnemySpeed]->getAmount()));
                     }
@@ -417,11 +429,27 @@ void Game::run() {
                 for (auto & ele : StoreUI) {
                     int value = 0;
                     bool visited = false;
+                    if (ele->getText() == "PowerUp1_move_faster") {
+                        ele->setText(pow1);
+                        ele->setLabelPosition();
+                    } else if (ele->getText() == "PowerUp2_pause_enemy") {
+                        ele->setText(pow2);
+                        ele->setLabelPosition();
+                    } else if (ele->getText() == "P1") {
+                        std::cout << "Setting text\n";
+                        ele->setText(exPow1);
+                        ele->setItalic();
+
+                    } else if (ele->getText() == "P2") {
+                        ele->setText(exPow2);
+                        ele->setItalic();
+                    }
+
                     if (ele->intersect(window.mapPixelToCoords(
                             sf::Mouse::getPosition(window))) &&
                         sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         auto tmp = ele->getText();
-                        if (tmp == "PowerUp1_move_faster") {
+                        if (tmp == pow1) {
                             if (points >= 1) {
                                 int newVal = powerups[BuffType::PlayerSpeed]
                                                  ->getAmount() +
@@ -432,7 +460,7 @@ void Game::run() {
                                 currentState = gameState::Menu;
                             }
                             break;
-                        } else if (tmp == "PowerUp2_pause_enemy") {
+                        } else if (tmp == pow2) {
                             if (points >= 2) {
                                 int newVal = powerups[BuffType::EnemySpeed]
                                                  ->getAmount() +

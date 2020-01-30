@@ -2,8 +2,18 @@ UIELEMENT (50,50) (0,0) yellow Menu white
 UIELEMENT (50,250) (0,0) yellow PowerUp1_move_faster white
 UIELEMENT (50,450) (0,0) yellow PowerUp2_pause_enemy white
 
-UIELEMENT (1640,20) (260,60) white empty white
 UIELEMENT (1660,25) (50,50) black O white
 UIELEMENT (1720,25) (50,50) black O white
 UIELEMENT (1780,25) (50,50) black O white
+
+UIELEMENT (1670,80) (16,16) transparent P white
+UIELEMENT (1730,80) (16,16) transparent J white
+UIELEMENT (1790,80) (16,16) transparent K white
+
+UIELEMENT (10,290) (16,16) transparent J white
+UIELEMENT (10,490) (16,16) transparent K white
+
+UIELEMENT (950,290) (50,50) transparent P1 white
+UIELEMENT (920,490) (50,50) transparent P2 white
+
 END
