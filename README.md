@@ -1,7 +1,6 @@
 Horror Game Project
 ======
-###### By Team Booh
-###### January 2020
+###### By Team Booh, January 2020
 
 # Information
 ## About this game
